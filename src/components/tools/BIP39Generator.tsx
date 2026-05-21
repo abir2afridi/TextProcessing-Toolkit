@@ -5,8 +5,9 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { generateMnemonic, entropyToMnemonic, mnemonicToEntropy, wordlists, validateMnemonic } from "bip39";
+import banglaWordlist from "@/data/bangla-bip39.json";
 
-const languageMap: Record<string, string> = {
+const languageMap: Record<string, string | undefined> = {
   English: "english",
   "Chinese simplified": "chinese_simplified",
   "Chinese traditional": "chinese_traditional",
@@ -17,13 +18,15 @@ const languageMap: Record<string, string> = {
   Korean: "korean",
   Portuguese: "portuguese",
   Spanish: "spanish",
+  "Bengali (Bangla)": undefined,
 };
 
 const languageLabels = Object.keys(languageMap);
 type Language = keyof typeof languageMap;
 
-function getWordlist(lang: Language) {
-  return wordlists[languageMap[lang]];
+function getWordlist(lang: Language): string[] {
+  const key = languageMap[lang];
+  return key ? wordlists[key] : (banglaWordlist as string[]);
 }
 
 export default function BIP39Generator() {
@@ -44,12 +47,12 @@ export default function BIP39Generator() {
   const mnemonicError = useMemo(() => {
     if (!mnemonic) return "";
     try {
-      if (!validateMnemonic(mnemonic, wordlists.english)) {
+      if (!validateMnemonic(mnemonic, wordlist)) {
         return "Invalid mnemonic";
       }
       return "";
     } catch { return "Invalid mnemonic"; }
-  }, [mnemonic]);
+  }, [mnemonic, wordlist]);
 
   const validEntropy = !entropyError && entropy.length > 0;
 
