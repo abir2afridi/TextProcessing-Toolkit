@@ -1,34 +1,60 @@
 import { useState, useMemo } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { IOPanel, OptionRow } from "@/components/ToolShell";
+import { Copy, Download } from "lucide-react";
+import { toast } from "sonner";
+
+function textToBase64(str: string) {
+  try {
+    return btoa(unescape(encodeURIComponent(str)));
+  } catch {
+    return btoa(str);
+  }
+}
 
 export default function SVGPlaceholder() {
-  const [width, setWidth] = useState(400);
-  const [height, setHeight] = useState(300);
-  const [bgColor, setBgColor] = useState("#4ade80");
-  const [textColor, setTextColor] = useState("#ffffff");
-  const [text, setText] = useState("400x300");
+  const [width, setWidth] = useState(600);
+  const [height, setHeight] = useState(350);
+  const [fontSize, setFontSize] = useState(26);
+  const [bgColor, setBgColor] = useState("#cccccc");
+  const [fgColor, setFgColor] = useState("#333333");
   const [borderRadius, setBorderRadius] = useState(8);
+  const [useExactSize, setUseExactSize] = useState(true);
+  const [customText, setCustomText] = useState("");
 
-  const svgCode = useMemo(() => {
-    const safeText = text || `${width}x${height}`;
-    return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
-  <rect width="${width}" height="${height}" rx="${borderRadius}" ry="${borderRadius}" fill="${bgColor}" />
-  <rect x="1" y="1" width="${width - 2}" height="${height - 2}" rx="${Math.max(0, borderRadius - 1)}" ry="${Math.max(0, borderRadius - 1)}" fill="none" stroke="${bgColor}" stroke-opacity="0.3" />
-  <text x="${width / 2}" y="${height / 2}" text-anchor="middle" dominant-baseline="central" font-family="monospace" font-size="${Math.min(width, height) * 0.08}" fill="${textColor}">${safeText}</text>
+  const svgString = useMemo(() => {
+    const w = width;
+    const h = height;
+    const text = customText.length > 0 ? customText : `${w}x${h}`;
+    const size = useExactSize ? ` width="${w}" height="${h}"` : "";
+
+    const r = borderRadius;
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}"${size}>
+  <rect width="${w}" height="${h}" rx="${r}" ry="${r}" fill="${bgColor}"></rect>
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="monospace" font-size="${fontSize}px" fill="${fgColor}">${text}</text>
 </svg>`;
-  }, [width, height, bgColor, textColor, text, borderRadius]);
+  }, [width, height, fontSize, bgColor, fgColor, borderRadius, useExactSize, customText]);
 
-  const dataUrl = useMemo(() => {
-    try {
-      return `data:image/svg+xml,${encodeURIComponent(svgCode)}`;
-    } catch { return ""; }
-  }, [svgCode]);
+  const base64 = useMemo(
+    () => `data:image/svg+xml;base64,${textToBase64(svgString)}`,
+    [svgString],
+  );
 
-  const downloadSvg = () => {
-    const blob = new Blob([svgCode], { type: "image/svg+xml;charset=utf-8" });
+  const copySVG = () => {
+    navigator.clipboard.writeText(svgString);
+    toast.success("SVG copied to clipboard");
+  };
+
+  const copyBase64 = () => {
+    navigator.clipboard.writeText(base64);
+    toast.success("Base64 copied to clipboard");
+  };
+
+  const download = () => {
+    const blob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -41,12 +67,16 @@ export default function SVGPlaceholder() {
     <div className="space-y-4">
       <OptionRow>
         <div className="flex items-center gap-2">
-          <Label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">w</Label>
-          <Input type="number" min={10} max={2000} value={width} onChange={(e) => setWidth(Number(e.target.value) || 10)} className="h-7 w-20 rounded-sm font-mono text-xs" />
+          <Label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">width</Label>
+          <Input type="number" min={1} value={width} onChange={(e) => setWidth(Number(e.target.value) || 1)} className="h-7 w-20 rounded-sm font-mono text-xs" />
         </div>
         <div className="flex items-center gap-2">
-          <Label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">h</Label>
-          <Input type="number" min={10} max={2000} value={height} onChange={(e) => setHeight(Number(e.target.value) || 10)} className="h-7 w-20 rounded-sm font-mono text-xs" />
+          <Label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">height</Label>
+          <Input type="number" min={1} value={height} onChange={(e) => setHeight(Number(e.target.value) || 1)} className="h-7 w-20 rounded-sm font-mono text-xs" />
+        </div>
+        <div className="flex items-center gap-2">
+          <Label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">font size</Label>
+          <Input type="number" min={1} value={fontSize} onChange={(e) => setFontSize(Number(e.target.value) || 1)} className="h-7 w-16 rounded-sm font-mono text-xs" />
         </div>
         <div className="flex items-center gap-2">
           <Label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">radius</Label>
@@ -57,29 +87,43 @@ export default function SVGPlaceholder() {
           <input type="color" value={bgColor} onChange={(e) => setBgColor(e.target.value)} className="h-7 w-10 cursor-pointer rounded-sm border border-border bg-transparent" />
         </div>
         <div className="flex items-center gap-2">
-          <Label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">text</Label>
-          <input type="color" value={textColor} onChange={(e) => setTextColor(e.target.value)} className="h-7 w-10 cursor-pointer rounded-sm border border-border bg-transparent" />
+          <Label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">text color</Label>
+          <input type="color" value={fgColor} onChange={(e) => setFgColor(e.target.value)} className="h-7 w-10 cursor-pointer rounded-sm border border-border bg-transparent" />
         </div>
-        <Button size="sm" onClick={downloadSvg} className="h-7 rounded-sm font-mono text-[11px]">Download SVG</Button>
       </OptionRow>
-      <div className="flex items-center gap-2">
-        <Label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">text content</Label>
-        <Input value={text} onChange={(e) => setText(e.target.value)} placeholder={`${width}x${height}`} className="h-8 flex-1 rounded-sm font-mono text-xs" />
-      </div>
-      <div className="grid gap-4 lg:grid-cols-2">
-        <IOPanel label="SVG code" value={svgCode} readOnly rows={12} />
-        <div className="flex flex-col rounded-sm border border-border bg-surface">
-          <div className="border-b border-border px-3 py-2 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-            preview
-          </div>
-          <div className="flex flex-1 items-center justify-center p-4">
-            {dataUrl ? (
-              <img src={dataUrl} alt="SVG placeholder" className="max-w-full rounded-sm" style={{ maxHeight: 400 }} />
-            ) : (
-              <div className="font-mono text-xs text-muted-foreground">error generating preview</div>
-            )}
-          </div>
+
+      <OptionRow>
+        <div className="flex flex-1 items-center gap-2">
+          <Label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">custom text</Label>
+          <Input value={customText} onChange={(e) => setCustomText(e.target.value)} placeholder={`Default is ${width}x${height}`} className="h-8 flex-1 rounded-sm font-mono text-xs" />
         </div>
+        <div className="flex items-center gap-2">
+          <Switch checked={useExactSize} onCheckedChange={setUseExactSize} />
+          <Label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">use exact size</Label>
+        </div>
+      </OptionRow>
+
+      <IOPanel label="SVG HTML element" value={svgString} readOnly rows={6} />
+
+      <IOPanel label="SVG in Base64" value={base64} readOnly rows={3} />
+
+      <div className="flex flex-wrap justify-center gap-3">
+        <Button size="sm" onClick={copySVG} className="h-8 rounded-sm font-mono text-xs">
+          <Copy className="mr-1.5 h-3.5 w-3.5" />
+          Copy svg
+        </Button>
+        <Button size="sm" onClick={copyBase64} className="h-8 rounded-sm font-mono text-xs">
+          <Copy className="mr-1.5 h-3.5 w-3.5" />
+          Copy base64
+        </Button>
+        <Button size="sm" onClick={download} className="h-8 rounded-sm font-mono text-xs">
+          <Download className="mr-1.5 h-3.5 w-3.5" />
+          Download svg
+        </Button>
+      </div>
+
+      <div className="flex justify-center rounded-sm border border-border bg-surface p-4">
+        <img src={base64} alt="SVG placeholder preview" className="max-w-full" />
       </div>
     </div>
   );

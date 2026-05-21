@@ -10,7 +10,7 @@ import {
   Globe, Binary, Option as OptionIcon,
   Activity, QrCode, Wifi, Image, Code, Cpu, GitBranch,
   Timer, Thermometer, CreditCard, Smartphone, Router, Unlock,
-  Trophy, Ruler, BookOpen, Contact, ScanLine,
+  Trophy, Ruler, BookOpen, Contact, ScanLine, FileCheck, Code2, Mail, Camera, Container,
 } from "lucide-react";
 
 export type ToolCategory =
@@ -95,6 +95,11 @@ export const toolComponents: Record<string, ComponentType> = {
   "xml-to-json": lazyTool(() => import("@/components/tools/XmlToJson")),
   "json-to-csv": lazyTool(() => import("@/components/tools/JsonToCsv")),
   "toml-converter": lazyTool(() => import("@/components/tools/TomlConverter")),
+  "text-to-binary": lazyTool(() => import("@/components/tools/TextToBinary")),
+  "text-to-unicode": lazyTool(() => import("@/components/tools/TextToUnicode")),
+  "list-converter": lazyTool(() => import("@/components/tools/ListConverter")),
+  "yaml-toml": lazyTool(() => import("@/components/tools/YamlToml")),
+  "mime-types": lazyTool(() => import("@/components/tools/MimeTypes")),
 
   // Web
   "device-info": lazyTool(() => import("@/components/tools/DeviceInfo")),
@@ -103,6 +108,11 @@ export const toolComponents: Record<string, ComponentType> = {
   "user-agent-parser": lazyTool(() => import("@/components/tools/UserAgentParser")),
   "http-status-codes": lazyTool(() => import("@/components/tools/HttpStatusCodes")),
   "json-diff-viewer": lazyTool(() => import("@/components/tools/JsonDiffViewer")),
+  "html-wysiwyg-editor": lazyTool(() => import("@/components/tools/HtmlWysiwygEditor")),
+  "safelink-decoder": lazyTool(() => import("@/components/tools/SafelinkDecoder")),
+  "camera-recorder": lazyTool(() => import("@/components/tools/CameraRecorder")),
+  "json-minify": lazyTool(() => import("@/components/tools/JsonMinify")),
+  "docker-run-to-compose": lazyTool(() => import("@/components/tools/DockerRunToCompose")),
 
   // Images & Videos
   "qr-code-gen": lazyTool(() => import("@/components/tools/QRCodeGen")),
@@ -144,6 +154,7 @@ export const toolComponents: Record<string, ComponentType> = {
   "keyword-density": lazyTool(() => import("@/components/tools/KeywordDensity")),
   "base64-encode": lazyTool(() => import("@/components/tools/Base64Tool")),
   "hash-generator": lazyTool(() => import("@/components/tools/HashGenerator")),
+  "pdf-signature-checker": lazyTool(() => import("@/components/tools/PDFSignatureChecker")),
   "hex-binary": lazyTool(() => import("@/components/tools/HexBinary")),
   "html-entities": lazyTool(() => import("@/components/tools/HtmlEntities")),
   "jwt-decoder": lazyTool(() => import("@/components/tools/JwtDecoder")),
@@ -160,6 +171,7 @@ export const toolComponents: Record<string, ComponentType> = {
   "color-converter": lazyTool(() => import("@/components/tools/ColorConverter")),
   "csv-json": lazyTool(() => import("@/components/tools/CsvJson")),
   "xml-formatter": lazyTool(() => import("@/components/tools/XmlFormatter")),
+  "yaml-prettify": lazyTool(() => import("@/components/tools/YamlPrettify")),
   "yaml-json": lazyTool(() => import("@/components/tools/YamlJson")),
 
   // Advanced
@@ -202,6 +214,7 @@ export const tools: ToolMeta[] = [
   { slug: "string-obfuscator", name: "String Obfuscator", tagline: "Obfuscate/deobfuscate text with Base64, ROT13, XOR, and hex", category: "Text Utilities", icon: Unlock, keywords: ["obfuscate","encode","rot13","xor","base64"] },
   { slug: "numeronym-generator", name: "Numeronym Generator", tagline: "Generate numeronyms like i18n from long words", category: "Text Utilities", icon: Hash, keywords: ["numeronym","abbreviation","shorten","i18n"] },
   { slug: "regex-cheatsheet", name: "Regex Cheatsheet", tagline: "Quick reference for regular expression syntax and patterns", category: "Text Utilities", icon: BookOpen, keywords: ["regex","cheatsheet","reference","patterns"] },
+  { slug: "list-converter", name: "List Converter", tagline: "Transform lists with trimming, sorting, prefix/suffix, and more", category: "Text Utilities", icon: List, keywords: ["list","convert","trim","sort","duplicate","prefix","suffix","separator"] },
 
   // ===================== Extractors =====================
   { slug: "url-extractor", name: "URL Extractor", tagline: "Extract all URLs from a block of text", category: "Extractors", icon: Link2, keywords: ["url","link","extract"] },
@@ -221,6 +234,7 @@ export const tools: ToolMeta[] = [
   { slug: "bip39-generator", name: "BIP39 Passphrase", tagline: "Generate BIP39 mnemonic passphrases", category: "Crypto & Security", icon: Lock, keywords: ["bip39","mnemonic","passphrase","wallet","crypto"] },
   { slug: "otp-generator", name: "OTP Generator", tagline: "Generate one-time password codes", category: "Crypto & Security", icon: Shield, keywords: ["otp","one-time","password","code","2fa"] },
   { slug: "basic-auth", name: "Basic Auth Generator", tagline: "Generate Basic Authentication header strings", category: "Crypto & Security", icon: Lock, keywords: ["basic","auth","authorization","header","base64"] },
+  { slug: "pdf-signature-checker", name: "PDF Signature Checker", tagline: "Verify digital signatures in PDF files", category: "Crypto & Security", icon: FileCheck, keywords: ["pdf","signature","verify","digital","certificate"] },
 
   // ===================== Converters =====================
   { slug: "roman-numeral", name: "Roman Numeral", tagline: "Convert between numbers and Roman numerals", category: "Converters", icon: Sigma, keywords: ["roman","numeral","convert","number"] },
@@ -229,6 +243,10 @@ export const tools: ToolMeta[] = [
   { slug: "xml-to-json", name: "XML ↔ JSON", tagline: "Convert XML documents to JSON", category: "Converters", icon: FileCode2, keywords: ["xml","json","parse","convert"] },
   { slug: "json-to-csv", name: "JSON ↔ CSV", tagline: "Convert between JSON arrays and CSV spreadsheets", category: "Converters", icon: TableIcon, keywords: ["json","csv","convert","spreadsheet"] },
   { slug: "toml-converter", name: "TOML Converter", tagline: "Convert between TOML and JSON formats", category: "Converters", icon: FileCode2, keywords: ["toml","json","convert","config"] },
+  { slug: "text-to-binary", name: "Text to ASCII Binary", tagline: "Convert text to ASCII binary and binary back to text", category: "Converters", icon: Binary, keywords: ["binary","ascii","text","convert","encode","decode"] },
+  { slug: "text-to-unicode", name: "Text to Unicode", tagline: "Convert text to Unicode numeric entities and back", category: "Converters", icon: FileText, keywords: ["unicode","text","convert","entity","numeric"] },
+  { slug: "yaml-toml", name: "YAML ↔ TOML", tagline: "Convert between YAML and TOML formats", category: "Converters", icon: FileCode2, keywords: ["yaml","toml","convert","transform"] },
+  { slug: "yaml-json", name: "YAML ↔ JSON", tagline: "Convert between YAML and JSON formats", category: "Converters", icon: FileJson, keywords: ["yaml","json","convert","config"] },
 
   // ===================== Web =====================
   { slug: "device-info", name: "Device Info", tagline: "Display browser and device information", category: "Web", icon: Smartphone, keywords: ["device","browser","user-agent","screen","platform"] },
@@ -237,6 +255,12 @@ export const tools: ToolMeta[] = [
   { slug: "user-agent-parser", name: "User-Agent Parser", tagline: "Parse and identify browser/OS from user-agent strings", category: "Web", icon: Globe, keywords: ["user-agent","browser","os","parse","detect"] },
   { slug: "http-status-codes", name: "HTTP Status Codes", tagline: "Reference for all HTTP status codes with descriptions", category: "Web", icon: Activity, keywords: ["http","status","code","response","api"] },
   { slug: "json-diff-viewer", name: "JSON Diff Viewer", tagline: "Compare two JSON objects and highlight differences", category: "Web", icon: Diff, keywords: ["json","diff","compare","difference","object"] },
+  { slug: "mime-types", name: "MIME Types", tagline: "Lookup MIME types by file extension and vice versa", category: "Web", icon: Globe, keywords: ["mime","types","extension","content","type"] },
+  { slug: "html-wysiwyg-editor", name: "HTML WYSIWYG Editor", tagline: "Edit HTML content with a rich text editor", category: "Web", icon: Code2, keywords: ["html","wysiwyg","editor","rich","text","format"] },
+  { slug: "safelink-decoder", name: "Outlook Safelink decoder", tagline: "Decode Outlook SafeLink links", category: "Web", icon: Mail, keywords: ["outlook","safelink","decoder","link","protection"] },
+  { slug: "camera-recorder", name: "Camera Recorder", tagline: "Record videos and take screenshots using your camera", category: "Web", icon: Camera, keywords: ["camera","recorder","webcam","screenshot","video"] },
+  { slug: "json-minify", name: "JSON Minify", tagline: "Minify JSON by removing whitespace", category: "Dev Tools", icon: FileJson, keywords: ["json","minify","compress","format","compact"] },
+  { slug: "docker-run-to-compose", name: "Docker Run to Compose", tagline: "Convert a docker run command to docker-compose.yml", category: "Dev Tools", icon: Container, keywords: ["docker","run","compose","yaml","convert","yml"] },
 
   // ===================== Images & Videos =====================
   { slug: "qr-code-gen", name: "QR Code Generator", tagline: "Generate QR codes from text or URLs", category: "Images & Videos", icon: QrCode, keywords: ["qr","code","generate","scan","barcode"] },
@@ -294,7 +318,7 @@ export const tools: ToolMeta[] = [
   { slug: "color-converter", name: "Color Converter", tagline: "Convert between hex, RGB, RGBA, HSL, HSLA color formats", category: "Dev Tools", icon: Palette, keywords: ["color","hex","rgb","hsl","convert"] },
   { slug: "csv-json", name: "CSV ↔ JSON", tagline: "Convert between CSV and JSON formats", category: "Dev Tools", icon: TableIcon, keywords: ["csv","json","convert","spreadsheet"] },
   { slug: "xml-formatter", name: "XML Formatter", tagline: "Pretty-print and format XML documents", category: "Dev Tools", icon: FileCode2, keywords: ["xml","format","pretty","indent"] },
-  { slug: "yaml-json", name: "YAML ↔ JSON", tagline: "Convert between YAML and JSON formats", category: "Dev Tools", icon: FileJson, keywords: ["yaml","json","convert","config"] },
+  { slug: "yaml-prettify", name: "YAML Prettify", tagline: "Pretty-print and format YAML documents", category: "Dev Tools", icon: FileCode2, keywords: ["yaml","prettify","format","viewer"] },
 
   // ===================== Advanced =====================
   { slug: "invisible-char-detector", name: "Invisible Character Detector", tagline: "Detect and remove zero-width and hidden characters", category: "Advanced", icon: ShieldAlert, keywords: ["invisible","zero-width","hidden","zwsp","bom"] },

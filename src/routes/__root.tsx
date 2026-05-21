@@ -116,10 +116,12 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-  const [theme, setTheme] = useState<"dark" | "light">(() => {
-    if (typeof window === "undefined") return "dark";
-    return (localStorage.getItem("tpt-theme") as "dark" | "light") || "dark";
-  });
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
+
+  useEffect(() => {
+    const saved = localStorage.getItem("tpt-theme") as "dark" | "light" | null;
+    if (saved) setTheme(saved);
+  }, []);
 
   useEffect(() => {
     document.documentElement.className = theme;
@@ -130,7 +132,7 @@ function RootComponent() {
 
   const toggleTheme = () => setTheme((t) => (t === "dark" ? "light" : "dark"));
 
-  const [now, setNow] = useState(new Date());
+  const [now, setNow] = useState(new Date(0));
   useEffect(() => {
     const id = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(id);

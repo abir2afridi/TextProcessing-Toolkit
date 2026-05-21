@@ -4,7 +4,8 @@ import { Input } from "@/components/ui/input";
 interface Item {
   pattern: string;
   desc: string;
-  example: string;
+  example?: string;
+  note?: string;
 }
 interface Section {
   title: string;
@@ -13,62 +14,105 @@ interface Section {
 
 const sections: Section[] = [
   {
-    title: "Anchors",
+    title: "Normal characters",
     items: [
-      { pattern: "^", desc: "Start of string", example: "^hello matches hello..." },
-      { pattern: "$", desc: "End of string", example: "...world$ matches ...world" },
-      { pattern: "\\b", desc: "Word boundary", example: "\\bword\\b matches word" },
-      { pattern: "\\B", desc: "Non-word boundary", example: "\\Bword\\B" },
+      { pattern: ".", desc: "Any character excluding a newline or carriage return" },
+      { pattern: "[A-Za-z]", desc: "Alphabet" },
+      { pattern: "[a-z]", desc: "Lowercase alphabet" },
+      { pattern: "[A-Z]", desc: "Uppercase alphabet" },
+      { pattern: "\\d", desc: "Digit [0-9]" },
+      { pattern: "\\D", desc: "Non-digit [^0-9]" },
+      { pattern: "_", desc: "Underscore" },
+      { pattern: "\\w", desc: "Alphabet, digit or underscore [A-Za-z0-9_]" },
+      { pattern: "\\W", desc: "Inverse of \\w [^A-Za-z0-9_]" },
+      { pattern: "\\S", desc: "Inverse of \\s" },
     ],
   },
   {
-    title: "Character Classes",
+    title: "Whitespace characters",
     items: [
-      { pattern: ".", desc: "Any char except newline", example: "h.t matches hat, h*t" },
-      { pattern: "\\d", desc: "Digit [0-9]", example: "\\d{3} matches 123" },
-      { pattern: "\\w", desc: "Word char [a-zA-Z0-9_]", example: "\\w+ matches hello" },
-      { pattern: "\\s", desc: "Whitespace", example: "\\s matches space/tab" },
-      { pattern: "\\D", desc: "Non-digit", example: "\\D+ matches abc" },
-      { pattern: "\\W", desc: "Non-word char", example: "\\W matches @, #" },
-      { pattern: "\\S", desc: "Non-whitespace", example: "\\S+ matches hello" },
-      { pattern: "[abc]", desc: "Set: a, b, or c", example: "[aeiou] matches vowel" },
-      { pattern: "[^abc]", desc: "Negated set", example: "[^0-9] matches non-digit" },
-      { pattern: "[a-z]", desc: "Range a to z", example: "[a-f] matches a-f" },
+      { pattern: " ", desc: "Space" },
+      { pattern: "\\t", desc: "Tab" },
+      { pattern: "\\n", desc: "Newline" },
+      { pattern: "\\r", desc: "Carriage return" },
+      { pattern: "\\s", desc: "Space, tab, newline or carriage return" },
+    ],
+  },
+  {
+    title: "Character set",
+    items: [
+      { pattern: "[xyz]", desc: "Either x, y or z" },
+      { pattern: "[^xyz]", desc: "Neither x, y nor z" },
+      { pattern: "[1-3]", desc: "Either 1, 2 or 3" },
+      { pattern: "[^1-3]", desc: "Neither 1, 2 nor 3" },
+    ],
+  },
+  {
+    title: "Characters that require escaping",
+    items: [
+      { pattern: "\\.", desc: "Period (outside character set)", example: "matches literal dot" },
+      { pattern: "\\^", desc: "Caret (outside character set)", example: "escaped ^" },
+      { pattern: "\\$", desc: "Dollar sign", example: "\\$ matches literal $" },
+      { pattern: "\\|", desc: "Pipe", example: "\\| matches literal |" },
+      { pattern: "\\\\", desc: "Back slash", example: "\\\\\\\\ matches \\" },
+      { pattern: "\\/", desc: "Forward slash", example: "\\/literal\\/" },
+      { pattern: "\\(", desc: "Opening bracket", example: "\\\\(" },
+      { pattern: "\\)", desc: "Closing bracket", example: "\\\\)" },
+      { pattern: "\\[", desc: "Opening square bracket", example: "\\\\[" },
+      { pattern: "\\]", desc: "Closing square bracket", example: "\\\\]" },
+      { pattern: "\\{", desc: "Opening curly bracket", example: "\\\\{" },
+      { pattern: "\\}", desc: "Closing curly bracket", example: "\\\\}" },
+    ],
+  },
+  {
+    title: "Character set escaping rules",
+    items: [
+      { pattern: "\\\\", desc: "Back slash (inside character set)" },
+      { pattern: "\\]", desc: "Closing square bracket (inside character set)" },
+      { pattern: "^", desc: "Must be escaped only if immediately after [", note: "e.g. [^abc] negates, [abc^] is literal" },
+      { pattern: "-", desc: "Must be escaped if between two letters/digits", note: "e.g. [a-z] is range, [a\\-z] is literal -, a, z" },
     ],
   },
   {
     title: "Quantifiers",
     items: [
-      { pattern: "*", desc: "0 or more", example: "ab*c matches ac, abc, abbc" },
-      { pattern: "+", desc: "1 or more", example: "ab+c matches abc, abbc" },
-      { pattern: "?", desc: "0 or 1", example: "colou?r matches color/colour" },
       { pattern: "{n}", desc: "Exactly n", example: "\\d{3} matches 123" },
       { pattern: "{n,}", desc: "n or more", example: "\\d{2,} matches 12, 123" },
       { pattern: "{n,m}", desc: "Between n and m", example: "\\d{2,4} matches 12-1234" },
+      { pattern: "*", desc: "0 or more", example: "ab*c matches ac, abc, abbc" },
+      { pattern: "+", desc: "1 or more", example: "ab+c matches abc, abbc" },
+      { pattern: "?", desc: "Exactly 0 or 1", example: "colou?r matches color/colour" },
       { pattern: "*?", desc: "Lazy *", example: "<.*?> matches <a> not <a>b</a>" },
       { pattern: "+?", desc: "Lazy +", example: "\\w+? matches minimal word" },
     ],
   },
   {
-    title: "Groups",
+    title: "Anchors",
     items: [
-      { pattern: "(abc)", desc: "Capturing group", example: "(\\w+) captures word" },
-      { pattern: "(?:abc)", desc: "Non-capturing group", example: "(?:abc) no capture" },
-      { pattern: "\\1", desc: "Backreference", example: "(\\w)\\1 matches aa, bb" },
-      { pattern: "(?<name>...)", desc: "Named group", example: "(?<year>\\d{4})" },
-      { pattern: "\\k<name>", desc: "Named backref", example: "\\k<year> references year" },
-      { pattern: "|", desc: "Alternation (OR)", example: "cat|dog matches cat or dog" },
+      { pattern: "^", desc: "Start of string", example: "^hello matches hello..." },
+      { pattern: "$", desc: "End of string", example: "...world$ matches ...world" },
+      { pattern: "\\b", desc: "Word boundary", example: "\\bword\\b matches word", note: "Matches at start/end of string if char is \\w, or between \\w and \\W" },
+      { pattern: "\\B", desc: "Non-word boundary", example: "\\Bword\\B" },
     ],
   },
   {
-    title: "Escapes",
+    title: "Alternation & lookaround",
     items: [
-      { pattern: "\\.", desc: "Escape meta char", example: "\\. matches literal dot" },
-      { pattern: "\\n", desc: "Newline", example: "line1\\nline2" },
-      { pattern: "\\r", desc: "Carriage return", example: "\\r\\n in Windows" },
-      { pattern: "\\t", desc: "Tab", example: "col1\\tcol2" },
-      { pattern: "\\0", desc: "Null character", example: "\\0" },
-      { pattern: "\\\\", desc: "Literal backslash", example: "\\\\\\\\ matches \\" },
+      { pattern: "foo|bar", desc: "Match either foo or bar" },
+      { pattern: "foo(?=bar)", desc: "Match foo if it's before bar" },
+      { pattern: "foo(?!bar)", desc: "Match foo if it's not before bar" },
+      { pattern: "(?<=bar)foo", desc: "Match foo if it's after bar" },
+      { pattern: "(?<!bar)foo", desc: "Match foo if it's not after bar" },
+    ],
+  },
+  {
+    title: "Groups",
+    items: [
+      { pattern: "(abc)", desc: "Capturing group; match and capture abc" },
+      { pattern: "(?:abc)", desc: "Non-capturing group; match abc without capturing" },
+      { pattern: "\\1", desc: "Backreference to 1st capturing group", example: "(\\w)\\1 matches aa, bb" },
+      { pattern: "(?<name>...)", desc: "Named capturing group", example: "(?<year>\\d{4})" },
+      { pattern: "\\k<name>", desc: "Named backreference", example: "\\k<year> references year" },
     ],
   },
   {
@@ -80,15 +124,6 @@ const sections: Section[] = [
       { pattern: "s", desc: "Dotall (. matches newline)", example: "/.+/s" },
       { pattern: "u", desc: "Unicode", example: "/\\p{L}/u" },
       { pattern: "y", desc: "Sticky (lastIndex)", example: "/abc/y" },
-    ],
-  },
-  {
-    title: "Lookahead / Lookbehind",
-    items: [
-      { pattern: "(?=abc)", desc: "Positive lookahead", example: "x(?=y) matches x if followed by y" },
-      { pattern: "(?!abc)", desc: "Negative lookahead", example: "x(?!y) matches x if not followed by y" },
-      { pattern: "(?<=abc)", desc: "Positive lookbehind", example: "(?<=y)x matches x if preceded by y" },
-      { pattern: "(?<!abc)", desc: "Negative lookbehind", example: "(?<!y)x matches x if not preceded by y" },
     ],
   },
 ];
@@ -104,7 +139,7 @@ export default function RegexCheatsheet() {
         items: s.items.filter((i) =>
           i.pattern.toLowerCase().includes(q) ||
           i.desc.toLowerCase().includes(q) ||
-          i.example.toLowerCase().includes(q)
+          (i.example ?? "").toLowerCase().includes(q)
         ),
       }))
       .filter((s) => s.items.length > 0);
@@ -131,7 +166,12 @@ export default function RegexCheatsheet() {
                 <div key={item.pattern + item.desc} className="px-3 py-2">
                   <code className="rounded bg-background/60 px-1.5 py-0.5 font-mono text-xs text-primary">{item.pattern}</code>
                   <p className="mt-0.5 font-mono text-[11px] text-muted-foreground">{item.desc}</p>
-                  <p className="font-mono text-[10px] text-muted-foreground/60">{item.example}</p>
+                  {item.example && (
+                    <p className="font-mono text-[10px] text-muted-foreground/60">{item.example}</p>
+                  )}
+                  {item.note && (
+                    <p className="mt-0.5 font-mono text-[10px] italic text-muted-foreground/50">{item.note}</p>
+                  )}
                 </div>
               ))}
             </div>

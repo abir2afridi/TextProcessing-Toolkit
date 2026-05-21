@@ -1,32 +1,23 @@
-import { useState, useMemo } from "react";
-import { IOPanel, OptionRow } from "@/components/ToolShell";
+import { useState, useMemo, useEffect } from "react";
+import { OptionRow } from "@/components/ToolShell";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { generateMnemonic, entropyToMnemonic, mnemonicToEntropy, wordlists, validateMnemonic } from "bip39";
-import banglaWordlist from "@/data/bangla-bip39.json";
+import { generateMnemonic, entropyToMnemonic, mnemonicToEntropy, validateMnemonic } from "@scure/bip39";
+import { languageMap as languageMapRaw, languageLabels, type Language } from "@/lib/bip39-wordlists";
 
-const languageMap: Record<string, string | undefined> = {
-  English: "english",
-  "Chinese simplified": "chinese_simplified",
-  "Chinese traditional": "chinese_traditional",
-  Czech: "czech",
-  French: "french",
-  Italian: "italian",
-  Japanese: "japanese",
-  Korean: "korean",
-  Portuguese: "portuguese",
-  Spanish: "spanish",
-  "Bengali (Bangla)": undefined,
-};
+const languageMap = languageMapRaw as Record<string, string[]>;
 
-const languageLabels = Object.keys(languageMap);
-type Language = keyof typeof languageMap;
+function hexToBytes(hex: string): Uint8Array {
+  const bytes = new Uint8Array(hex.length / 2);
+  for (let i = 0; i < hex.length; i += 2)
+    bytes[i / 2] = Number.parseInt(hex.substring(i, i + 2), 16);
+  return bytes;
+}
 
-function getWordlist(lang: Language): string[] {
-  const key = languageMap[lang];
-  return key ? wordlists[key] : (banglaWordlist as string[]);
+function bytesToHex(bytes: Uint8Array): string {
+  return Array.from(bytes).map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
 export default function BIP39Generator() {
@@ -34,7 +25,13 @@ export default function BIP39Generator() {
   const [entropy, setEntropy] = useState("");
   const [mnemonic, setMnemonic] = useState("");
 
-  const wordlist = getWordlist(language);
+  const wordlist = languageMap[language];
+
+  useEffect(() => {
+    const m = generateMnemonic(wordlist, 128);
+    setMnemonic(m);
+    setEntropy(bytesToHex(mnemonicToEntropy(m, wordlist)));
+  }, [wordlist]);
 
   const entropyError = useMemo(() => {
     if (!entropy) return "";
@@ -47,30 +44,23 @@ export default function BIP39Generator() {
   const mnemonicError = useMemo(() => {
     if (!mnemonic) return "";
     try {
-      if (!validateMnemonic(mnemonic, wordlist)) {
-        return "Invalid mnemonic";
-      }
+      if (!validateMnemonic(mnemonic, wordlist)) return "Invalid mnemonic";
       return "";
     } catch { return "Invalid mnemonic"; }
   }, [mnemonic, wordlist]);
 
-  const validEntropy = !entropyError && entropy.length > 0;
-
   function refreshEntropy() {
-    const strength = 128;
-    const newMnemonic = generateMnemonic(strength, undefined, wordlist);
-    setMnemonic(newMnemonic);
-    try {
-      setEntropy(mnemonicToEntropy(newMnemonic, wordlist));
-    } catch { setEntropy(""); }
+    const m = generateMnemonic(wordlist, 128);
+    setMnemonic(m);
+    setEntropy(bytesToHex(mnemonicToEntropy(m, wordlist)));
   }
 
   function onEntropyChange(value: string) {
     setEntropy(value);
     const h = value.trim();
-    if (!h) { setMnemonic(""); return; }
+    if (!h || !/^[a-fA-F0-9]*$/.test(h)) { setMnemonic(""); return; }
     try {
-      setMnemonic(entropyToMnemonic(h, wordlist));
+      setMnemonic(entropyToMnemonic(hexToBytes(h), wordlist));
     } catch { setMnemonic(""); }
   }
 
@@ -79,7 +69,7 @@ export default function BIP39Generator() {
     const m = value.trim();
     if (!m) { setEntropy(""); return; }
     try {
-      setEntropy(mnemonicToEntropy(m, wordlist));
+      setEntropy(bytesToHex(mnemonicToEntropy(m, wordlist)));
     } catch { setEntropy(""); }
   }
 

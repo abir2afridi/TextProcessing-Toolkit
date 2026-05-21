@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import {
   toUpper, toLower, toTitle, toSentence, toCamel, toPascal,
   toSnake, toKebab, toConstant, toDot, alternateCase, inverseCase,
+  toHeader, toNo, toPath, toMocking,
 } from "@/lib/text-utils";
 
 const ops: { label: string; fn: (s: string) => string }[] = [
@@ -19,6 +20,10 @@ const ops: { label: string; fn: (s: string) => string }[] = [
   { label: "dot.case", fn: toDot },
   { label: "aLtErNaTe", fn: alternateCase },
   { label: "iNVERSE", fn: inverseCase },
+  { label: "Header-Case", fn: toHeader },
+  { label: "no case", fn: toNo },
+  { label: "path/case", fn: toPath },
+  { label: "MoCkInGcAsE", fn: toMocking },
 ];
 
 export default function CaseConverter() {

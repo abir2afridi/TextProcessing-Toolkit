@@ -231,3 +231,17 @@
   animation: marquee 20s linear infinite;
 }
 .cyber-profile .grid-cols-52 { grid-template-columns: repeat(52, minmax(0, 1fr)); }
+
+.scrollbar-premium {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--sidebar-foreground) / 0.15) transparent;
+}
+.scrollbar-premium::-webkit-scrollbar { width: 4px; }
+.scrollbar-premium::-webkit-scrollbar-track { background: transparent; }
+.scrollbar-premium::-webkit-scrollbar-thumb {
+  background: hsl(var(--sidebar-foreground) / 0.08);
+  border-radius: 20px;
+  border: 1px solid transparent;
+  transition: all 0.4s ease;
+}
+.scrollbar-premium:hover::-webkit-scrollbar-thumb { background: hsl(var(--sidebar-foreground) / 0.2); }

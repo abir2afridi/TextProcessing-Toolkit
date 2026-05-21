@@ -68,6 +68,18 @@ export function alternateCase(s: string) {
 export function inverseCase(s: string) {
   return Array.from(s).map((c) => (c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase())).join("");
 }
+export function toHeader(s: string) {
+  return splitWords(s).map((x) => x[0].toUpperCase() + x.slice(1).toLowerCase()).join("-");
+}
+export function toNo(s: string) {
+  return splitWords(s).map((x) => x.toLowerCase()).join(" ");
+}
+export function toPath(s: string) {
+  return splitWords(s).map((x) => x.toLowerCase()).join("/");
+}
+export function toMocking(s: string) {
+  return Array.from(s).map((c, i) => (i % 2 === 0 ? c.toUpperCase() : c.toLowerCase())).join("");
+}
 
 // --- Whitespace ---
 export interface WhitespaceOpts {
@@ -846,7 +858,7 @@ const NATO: Record<string, string> = {
   "4": "Four", "5": "Five", "6": "Six", "7": "Seven", "8": "Eight", "9": "Niner",
 };
 export function toNATO(text: string): string {
-  return text.toUpperCase().split("").map((c) => NATO[c] ?? (c === " " ? "(space)" : c)).join(" ");
+  return text.toUpperCase().split("").map((c) => NATO[c] ?? c).join(" ");
 }
 
 // --- Random picker ---

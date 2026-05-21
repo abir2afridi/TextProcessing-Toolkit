@@ -95,7 +95,7 @@ interface FormatRow {
 export default function TimestampConverter() {
   const [input, setInput] = useState("");
   const [formatIndex, setFormatIndex] = useState(6);
-  const [now, setNow] = useState(Date.now());
+  const [now, setNow] = useState(0);
   const [filter, setFilter] = useState("");
 
   useEffect(() => {

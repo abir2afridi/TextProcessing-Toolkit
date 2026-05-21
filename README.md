@@ -1,6 +1,6 @@
 # Text Processing Toolkit (tpt)
 
-A free, open-source collection of **95+ high-performance text utilities** that run entirely in your browser. Nothing is uploaded — every operation happens locally on your machine.
+A free, open-source collection of **115+ high-performance text utilities** that run entirely in your browser. Nothing is uploaded — every operation happens locally on your machine.
 
 [![Built with React](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript)](https://www.typescriptlang.org)
@@ -12,7 +12,7 @@ A free, open-source collection of **95+ high-performance text utilities** that r
 ## Features
 
 - **100% client-side** — all processing happens in your browser, zero server uploads
-- **95+ tools** across 14 categories (Text Utilities, Converters, Crypto, Web, Math, Dev Tools, Networks, Advanced, etc.)
+- **115+ tools** across 14 categories (Text Utilities, Converters, Crypto, Web, Math, Dev Tools, Networks, Advanced, etc.)
 - **Works offline** — once loaded, most tools require no network connection
 - **Unicode-safe** — full support for multi-byte characters, emoji, and special scripts
 - **Consistent UI** — every tool follows the same interaction pattern with input/output panels and action buttons
@@ -27,19 +27,19 @@ A free, open-source collection of **95+ high-performance text utilities** that r
 
 | Category | Tools |
 |---|---|
-| **Core Tools** | Text Tracker & Remover, Text Repeater, Symbol Tracker & Multiplier, Symbol Filter & Bulk Remove, Global Text Formatter |
-| **Text Utilities** (19) | Case Converter, Smart Replace, Whitespace Cleaner, Duplicate Remover, Line Tools, Text Compare, Find & Replace, Reverse Text, Sort Lines, Text Statistics, Word Frequency, Word Wrap, Line Numbering, Indent Tool, Prefix/Suffix, String Obfuscator, Numeronym Generator, Regex Cheatsheet, Remove Duplicate Lines |
+| **Core Tools** (5) | Text Tracker & Remover, Text Repeater, Symbol Tracker & Multiplier, Symbol Filter & Bulk Remove, Global Text Formatter |
+| **Text Utilities** (20) | Case Converter, Smart Replace, Whitespace Cleaner, Duplicate Remover, Line Tools, Text Compare, Find & Replace, Remove Duplicate Lines, Reverse Text, Sort Lines, Text Statistics, Word Frequency, Word Wrap, Line Numbering, Indent Tool, Prefix/Suffix, String Obfuscator, Numeronym Generator, Regex Cheatsheet, List Converter |
 | **Extractors** (5) | URL Extractor, Email Extractor, Phone Extractor, Hashtag Extractor, Pattern Extractor |
-| **Crypto & Security** (10) | Bcrypt Hash, Encrypt/Decrypt, Password Strength, HMAC Generator, RSA Key Generator, Token Generator, ULID Generator, BIP39 Passphrase, OTP Generator, Basic Auth Generator |
-| **Converters** (6) | Roman Numeral, Base64 File, JSON XML, XML JSON, JSON CSV, TOML Converter |
-| **Web** (6) | Device Info, OG Meta Generator, Keycode Info, User-Agent Parser, HTTP Status Codes, JSON Diff Viewer |
+| **Crypto & Security** (11) | Bcrypt Hash, Encrypt/Decrypt, Password Strength, HMAC Generator, RSA Key Generator, Token Generator, ULID Generator, BIP39 Passphrase, OTP Generator, Basic Auth Generator, PDF Signature Checker |
+| **Converters** (10) | Roman Numeral, Base64 File, JSON ↔ XML, XML ↔ JSON, JSON ↔ CSV, TOML Converter, Text to ASCII Binary, Text to Unicode, YAML ↔ TOML, YAML ↔ JSON |
+| **Web** (10) | Device Info, OG Meta Generator, Keycode Info, User-Agent Parser, HTTP Status Codes, JSON Diff Viewer, MIME Types, HTML WYSIWYG Editor, Outlook Safelink Decoder, Camera Recorder |
 | **Images & Videos** (3) | QR Code Generator, WiFi QR Code, SVG Placeholder |
 | **Development** (5) | Git Cheatsheet, Port Generator, Crontab Generator, Chmod Calculator, Email Normalizer |
 | **Network** (4) | IPv4 Subnet Calculator, IPv4 Converter, IPv6 ULA Generator, MAC Generator |
 | **Math** (3) | Math Evaluator, Percentage Calculator, ETA Calculator |
 | **Measurement** (2) | Chronometer, Temperature Converter |
 | **Data** (2) | IBAN Validator, Phone Formatter |
-| **Dev Tools** (25) | Regex Playground, JSON Formatter, HTML Cleaner, Markdown Formatter, Slug Generator, Keyword Density, Base64 Encode/Decode, Hash Generator, Hex/Binary, HTML Entities, JWT Decoder, Morse Code, NATO Phonetic, Number Base, Password Generator, SQL Formatter, String Escape, Timestamp Converter, URL Encoder/Decoder, URL Parser, UUID Generator, Color Converter, CSV JSON, XML Formatter, YAML JSON |
+| **Dev Tools** (27) | JSON Minify, Docker Run to Compose, Regex Playground, JSON Formatter, HTML Cleaner, Markdown Formatter, Slug Generator, Keyword Density, Base64 Encode/Decode, Hash Generator, Hex/Binary, HTML Entities, JWT Decoder, Morse Code, NATO Phonetic, Number Base, Password Generator, SQL Formatter, String Escape, Timestamp Converter, URL Encoder/Decoder, URL Parser, UUID Generator, Color Converter, CSV ↔ JSON, XML Formatter, YAML Prettify |
 | **Advanced** (9) | Invisible Character Detector, Unicode Cleaner, Emoji Manager, ASCII Banner, Character Frequency, Cipher, Lorem Ipsum Generator, Random Picker, Unicode Inspector |
 
 ---
