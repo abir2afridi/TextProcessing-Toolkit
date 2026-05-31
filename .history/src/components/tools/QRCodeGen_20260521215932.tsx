@@ -15,7 +15,7 @@ const levels = [
 ];
 
 export default function QRCodeGen() {
-  const [text, setText] = useState("https://tpt-tools.tech");
+  const [text, setText] = useState("https://it-tools.tech");
   const [foreground, setForeground] = useState("#000000ff");
   const [background, setBackground] = useState("#ffffffff");
   const [errorLevel, setErrorLevel] = useState("medium");
