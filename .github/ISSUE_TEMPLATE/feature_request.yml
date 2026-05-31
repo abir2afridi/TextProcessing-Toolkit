@@ -1,0 +1,92 @@
+name: 💡 Feature Request
+description: Suggest a new tool, enhancement, or improvement
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting an idea! Please describe what you need and why it would be useful for the Text Processing Toolkit.
+
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      options:
+        - label: I have searched the [existing issues](https://github.com/anomalyco/TextProcessing-Toolkit/issues) to make sure this has not been requested before
+          required: true
+        - label: I have checked the [existing tools](https://github.com/anomalyco/TextProcessing-Toolkit) to confirm this functionality is not already available
+          required: true
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Request Type
+      description: What kind of feature are you requesting?
+      options:
+        - New tool — a completely new text utility
+        - Enhancement — improvement to an existing tool
+        - UI/UX — user interface or experience improvement
+        - i18n — translation or language support
+        - Performance — speed or optimization improvement
+        - Accessibility — screen reader, keyboard, or a11y improvement
+        - Integration — third-party integration or export
+        - Infrastructure — build, CI/CD, deployment improvement
+    validations:
+      required: true
+
+  - type: input
+    id: tool
+    attributes:
+      label: Related Tool (if applicable)
+      description: If this is an enhancement to an existing tool, which one?
+      placeholder: e.g., Case Converter
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: What gap or limitation are you encountering? What can you not do currently?
+      placeholder: I often need to transform text, but I cannot currently...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the feature or tool you would like to see. Be as specific as possible.
+      placeholder: |
+        A new tool that allows users to...
+        It should accept input in format X and produce output in format Y.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Have you considered workarounds using existing tools or external solutions?
+      placeholder: I currently use a terminal command / external website, but...
+
+  - type: textarea
+    id: mockups
+    attributes:
+      label: Mockups or Examples
+      description: If applicable, provide sketches, screenshots, or links to similar implementations in other tools
+      placeholder: Paste screenshots or describe the expected interface
+
+  - type: textarea
+    id: value
+    attributes:
+      label: Who Would Benefit
+      description: Describe the target users who would find this feature valuable
+      placeholder: Developers who work with... / Writers who need to... / Anyone who...
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Any other information, links, or references

@@ -1,0 +1,41 @@
+name: Stale Issue Management
+on:
+  schedule:
+    - cron: "0 6 * * 1"  # Every Monday at 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v9
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+          # Issue settings
+          stale-issue-message: >
+            This issue has been inactive for 60 days. If the issue is still relevant, please comment
+            to keep it open. Otherwise it will be closed automatically in 14 days.
+          close-issue-message: >
+            This issue has been closed due to inactivity. Feel free to reopen if the issue persists
+            or if you have additional information.
+          stale-issue-label: stale
+          exempt-issue-labels: triage,confirmed,critical,security
+          days-before-issue-stale: 60
+          days-before-issue-close: 14
+
+          # PR settings
+          stale-pr-message: >
+            This pull request has been inactive for 30 days. Please address the feedback or comment
+            to keep it moving. It will be closed automatically in 14 days.
+          close-pr-message: >
+            This pull request has been closed due to inactivity. Feel free to reopen when you are
+            ready to continue.
+          stale-pr-label: stale
+          exempt-pr-labels: draft,work-in-progress
+          days-before-pr-stale: 30
+          days-before-pr-close: 14
