@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
-    "postbuild": "node scripts/generate-index-html.js",
+    "build:vercel": "npx vite build --config vite.config.vercel.ts",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "deploy": "vite build && wrangler deploy",

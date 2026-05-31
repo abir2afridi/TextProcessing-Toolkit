@@ -1,8 +1,17 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "bash scripts/vercel-build.sh",
+  "buildCommand": "npx vite build --config vite.config.vercel.ts",
   "outputDirectory": "dist/client",
   "installCommand": "npm install",
+  "functions": {
+    "api/index.ts": {
+      "runtime": "nodejs@20.x",
+      "maxDuration": 30
+    }
+  },
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/api/index" }
+  ],
   "github": {
     "silent": true
   }

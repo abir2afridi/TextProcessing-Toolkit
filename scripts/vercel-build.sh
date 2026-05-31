@@ -1,6 +1,5 @@
 #!/bin/bash
 set -e
 
-npm run build
-
-node scripts/generate-index-html.js
+# Build with Vercel-specific config (no Cloudflare plugin)
+npx vite build --config vite.config.vercel.ts

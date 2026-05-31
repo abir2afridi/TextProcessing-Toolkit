@@ -42,8 +42,8 @@ function Dashboard() {
   return (
     <div className="min-h-full">
       <section className="relative overflow-hidden border-b border-border">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
-        <div className="relative mx-auto max-w-[1400px] px-6 py-16 sm:py-20">
+        <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-background" />
+        <div className="relative mx-auto max-w-350 px-6 py-16 sm:py-20">
           <Badge variant="outline" className="rounded-sm border-primary/40 bg-primary/10 font-mono text-[10px] uppercase tracking-widest text-primary">
             <Terminal className="mr-1.5 h-3 w-3" />
             v1.0 · client-side
@@ -52,7 +52,7 @@ function Dashboard() {
             text processing<br />
             <span className="text-primary">toolkit</span>
           </h1>
-          <p className="mt-4 max-w-xl text-sm text-muted-foreground sm:text-base sm:text-lg">
+          <p className="mt-4 max-w-xl text-sm text-muted-foreground sm:text-lg">
             {tools.length} high-performance utilities for tracking, cleaning, formatting and extracting text.
             Unicode-safe. No uploads. No tracking.
           </p>
@@ -73,7 +73,7 @@ function Dashboard() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-[1400px] space-y-12 px-6 py-12">
+      <div className="mx-auto max-w-350 space-y-12 px-6 py-12">
         {recentTools.length > 0 && !q && (
           <Section icon={Clock} title="recent">
             <Grid items={recentTools} isFavorite={isFavorite} onToggleFav={toggle} />

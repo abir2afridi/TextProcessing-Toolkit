@@ -148,7 +148,7 @@ function AboutPage() {
     <div className="min-h-full">
       {/* ============ Hero ============ */}
       <section className="border-b border-border">
-        <div className="mx-auto max-w-[1400px] px-6 py-16 sm:py-20">
+        <div className="mx-auto max-w-350 px-6 py-16 sm:py-20">
           <Badge
             variant="outline"
             className="rounded-sm border-primary/40 bg-primary/10 font-mono text-[10px] uppercase tracking-widest text-primary"
@@ -190,7 +190,7 @@ function AboutPage() {
 
       {/* ============ Stats ============ */}
       <section className="border-b border-border">
-        <div className="mx-auto max-w-[1400px] px-6 py-12">
+        <div className="mx-auto max-w-350 px-6 py-12">
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             <StatCard value={String(tools.length)} label="Utilities" />
             <StatCard value={String(categories.length)} label="Categories" />
@@ -202,7 +202,7 @@ function AboutPage() {
 
       {/* ============ What it is ============ */}
       <section className="border-b border-border">
-        <div className="mx-auto max-w-[1400px] px-6 py-12">
+        <div className="mx-auto max-w-350 px-6 py-12">
           <h2 className="font-mono text-sm font-semibold tracking-tight">
             <span className="text-primary">#</span> What is Text Processing Toolkit?
           </h2>
@@ -253,7 +253,7 @@ function AboutPage() {
 
       {/* ============ Why ============ */}
       <section className="border-b border-border">
-        <div className="mx-auto max-w-[1400px] px-6 py-12">
+        <div className="mx-auto max-w-350 px-6 py-12">
           <h2 className="font-mono text-sm font-semibold tracking-tight">
             <span className="text-primary">#</span> Why this exists
           </h2>
@@ -269,7 +269,7 @@ function AboutPage() {
 
       {/* ============ Use Cases ============ */}
       <section className="border-b border-border">
-        <div className="mx-auto max-w-[1400px] px-6 py-12">
+        <div className="mx-auto max-w-350 px-6 py-12">
           <h2 className="font-mono text-sm font-semibold tracking-tight">
             <span className="text-primary">#</span> Who this is for
           </h2>
@@ -320,7 +320,7 @@ function AboutPage() {
 
       {/* ============ Features ============ */}
       <section id="features" className="border-b border-border">
-        <div className="mx-auto max-w-[1400px] px-6 py-12">
+        <div className="mx-auto max-w-350 px-6 py-12">
           <h2 className="font-mono text-sm font-semibold tracking-tight">
             <span className="text-primary">#</span> Key features
           </h2>
@@ -361,7 +361,7 @@ function AboutPage() {
 
       {/* ============ How it works ============ */}
       <section className="border-b border-border">
-        <div className="mx-auto max-w-[1400px] px-6 py-12">
+        <div className="mx-auto max-w-350 px-6 py-12">
           <h2 className="font-mono text-sm font-semibold tracking-tight">
             <span className="text-primary">#</span> How it works
           </h2>
@@ -397,7 +397,7 @@ function AboutPage() {
 
       {/* ============ Capabilities showcase ============ */}
       <section className="border-b border-border">
-        <div className="mx-auto max-w-[1400px] px-6 py-12">
+        <div className="mx-auto max-w-350 px-6 py-12">
           <h2 className="font-mono text-sm font-semibold tracking-tight">
             <span className="text-primary">#</span> What you can do
           </h2>
@@ -429,7 +429,7 @@ function AboutPage() {
 
       {/* ============ Tech stack ============ */}
       <section className="border-b border-border">
-        <div className="mx-auto max-w-[1400px] px-6 py-12">
+        <div className="mx-auto max-w-350 px-6 py-12">
           <h2 className="font-mono text-sm font-semibold tracking-tight">
             <span className="text-primary">#</span> Technology
           </h2>
@@ -474,7 +474,7 @@ function AboutPage() {
 
       {/* ============ Privacy & Security ============ */}
       <section className="border-b border-border">
-        <div className="mx-auto max-w-[1400px] px-6 py-12">
+        <div className="mx-auto max-w-350 px-6 py-12">
           <h2 className="font-mono text-sm font-semibold tracking-tight">
             <span className="text-primary">#</span> Privacy & security
           </h2>
@@ -525,7 +525,7 @@ function AboutPage() {
 
       {/* ============ FAQ ============ */}
       <section className="border-b border-border">
-        <div className="mx-auto max-w-[1400px] px-6 py-12">
+        <div className="mx-auto max-w-350 px-6 py-12">
           <h2 className="font-mono text-sm font-semibold tracking-tight">
             <span className="text-primary">#</span> Frequently asked questions
           </h2>
@@ -577,7 +577,7 @@ function AboutPage() {
 
       {/* ============ Contribute ============ */}
       <section className="border-b border-border">
-        <div className="mx-auto max-w-[1400px] px-6 py-12">
+        <div className="mx-auto max-w-350 px-6 py-12">
           <h2 className="font-mono text-sm font-semibold tracking-tight">
             <span className="text-primary">#</span> Found a bug or missing a tool?
           </h2>
@@ -604,7 +604,7 @@ function AboutPage() {
 
       {/* ============ Roadmap ============ */}
       <section className="border-b border-border">
-        <div className="mx-auto max-w-[1400px] px-6 py-12">
+        <div className="mx-auto max-w-350 px-6 py-12">
           <h2 className="font-mono text-sm font-semibold tracking-tight">
             <span className="text-primary">#</span> Roadmap
           </h2>
@@ -655,7 +655,7 @@ function AboutPage() {
 
       {/* ============ CTA ============ */}
       <section>
-        <div className="mx-auto max-w-[1400px] px-6 py-16 text-center sm:py-20">
+        <div className="mx-auto max-w-350 px-6 py-16 text-center sm:py-20">
           <h2 className="font-mono text-2xl font-bold tracking-tight sm:text-3xl">
             Ready to get started?
           </h2>

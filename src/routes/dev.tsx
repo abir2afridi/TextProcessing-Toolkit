@@ -179,7 +179,7 @@ function DevProfile() {
     <div className="cyber-profile min-h-full overflow-x-hidden bg-background text-foreground selection:bg-primary/30">
       {/* ===== HERO ===== */}
       <section className="relative min-h-[50vh] overflow-hidden border-b border-border pt-8 pb-10 sm:pt-10 sm:pb-12">
-        <div className="mx-auto flex w-full max-w-[1400px] flex-col items-center justify-center px-6 text-center lg:flex-row lg:items-center lg:text-left">
+        <div className="mx-auto flex w-full max-w-350 flex-col items-center justify-center px-6 text-center lg:flex-row lg:items-center lg:text-left">
           <div className="relative z-10 flex-1">
             <div className="mb-3 inline-flex items-center gap-2 rounded-sm border border-primary/30 bg-primary/5 px-3 py-1 font-['JetBrains_Mono'] text-[10px] uppercase tracking-[0.2em] text-primary">
               <Terminal className="h-3 w-3" />
@@ -210,8 +210,8 @@ function DevProfile() {
                 alt={user?.name}
                 className="h-full w-full object-cover"
               />
-              <div className="scanline absolute inset-0 bg-[linear-gradient(transparent_50%,color-mix(in_oklab,var(--color-primary)_3%,transparent)_50%)] bg-[length:100%_4px] animate-scan" />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+              <div className="scanline absolute inset-0 bg-[linear-gradient(transparent_50%,color-mix(in_oklab,var(--color-primary)_3%,transparent)_50%)] bg-size-[100%_4px] animate-scan" />
+              <div className="absolute inset-0 bg-linear-to-t from-background via-transparent to-transparent" />
             </div>
           </div>
         </div>
@@ -220,7 +220,7 @@ function DevProfile() {
       {/* ===== BIO ===== */}
       {user?.bio && (
         <section className="border-b border-border">
-          <div className="mx-auto max-w-[1400px] px-6 py-6 sm:py-8">
+          <div className="mx-auto max-w-350 px-6 py-6 sm:py-8">
             <div className="flex items-start gap-2 sm:gap-4">
               <span className="mt-0.5 shrink-0 font-['JetBrains_Mono'] text-[10px] text-primary">/* 01 */</span>
               <p className="font-['JetBrains_Mono'] text-xs leading-relaxed text-muted-foreground sm:text-sm md:text-base">
@@ -233,10 +233,10 @@ function DevProfile() {
 
       {/* ===== PERFORMANCE HUB (Stats) ===== */}
       <section className="border-b border-border">
-        <div className="mx-auto max-w-[1400px] px-6 py-6 sm:py-8">
+        <div className="mx-auto max-w-350 px-6 py-6 sm:py-8">
           <div className="mb-4 flex items-center gap-2 sm:gap-3 sm:mb-5">
             <span className="shrink-0 font-['JetBrains_Mono'] text-[10px] text-primary">/* 02 */</span>
-            <h2 className="font-['Syne'] text-lg font-black uppercase tracking-[0.1em] sm:text-xl">Performance_Hub</h2>
+            <h2 className="font-['Syne'] text-lg font-black uppercase tracking-widest sm:text-xl">Performance_Hub</h2>
             <div className="ml-2 h-px flex-1 bg-border sm:ml-4" />
           </div>
           <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
@@ -253,7 +253,7 @@ function DevProfile() {
               >
                 <div className="absolute -right-4 -top-4 h-20 w-20 rounded-full opacity-5 transition-all duration-500 group-hover:opacity-20" style={{ backgroundColor: accent }} />
                 <Icon className="mb-2 h-4 w-4 sm:mb-3 sm:h-5 sm:w-5" style={{ color: accent }} />
-                <div className="font-['Syne'] text-xl font-black tracking-tight sm:text-2xl sm:text-3xl">{value}</div>
+                <div className="font-['Syne'] text-xl font-black tracking-tight sm:text-3xl">{value}</div>
                 <div className="mt-1 font-['JetBrains_Mono'] text-[9px] uppercase tracking-[0.15em] text-muted-foreground/60 sm:text-[10px]">{label}</div>
               </div>
             ))}
@@ -263,10 +263,10 @@ function DevProfile() {
 
       {/* ===== VISUAL INTELLIGENCE + REPO GRID ===== */}
       <section className="border-b border-border">
-        <div className="mx-auto max-w-[1400px] px-6 py-6 sm:py-8">
+        <div className="mx-auto max-w-350 px-6 py-6 sm:py-8">
           <div className="mb-4 flex items-center gap-2 sm:gap-3 sm:mb-5">
             <span className="shrink-0 font-['JetBrains_Mono'] text-[10px] text-primary">/* 03 */</span>
-            <h2 className="font-['Syne'] text-lg font-black uppercase tracking-[0.1em] sm:text-xl">Visual_Intelligence</h2>
+            <h2 className="font-['Syne'] text-lg font-black uppercase tracking-widest sm:text-xl">Visual_Intelligence</h2>
             <div className="ml-2 h-px flex-1 bg-border sm:ml-4" />
           </div>
           <div className="grid gap-4 sm:gap-6 lg:grid-cols-12">
@@ -339,14 +339,14 @@ function DevProfile() {
 
       {/* ===== CONTRIBUTION PULSE ===== */}
       <section className="border-b border-border">
-        <div className="mx-auto max-w-[1400px] px-6 py-6 sm:py-8">
+        <div className="mx-auto max-w-350 px-6 py-6 sm:py-8">
           <div className="mb-4 flex items-center gap-2 sm:gap-3 sm:mb-5">
             <span className="shrink-0 font-['JetBrains_Mono'] text-[10px] text-primary">/* 04 */</span>
-            <h2 className="font-['Syne'] text-lg font-black uppercase tracking-[0.1em] sm:text-xl">Contribution_Pulse</h2>
+            <h2 className="font-['Syne'] text-lg font-black uppercase tracking-widest sm:text-xl">Contribution_Pulse</h2>
             <div className="ml-2 h-px flex-1 bg-border sm:ml-4" />
           </div>
           <div className="overflow-x-auto pb-2">
-            <div className="grid grid-cols-52 gap-[2px] sm:gap-[3px]" style={{ gridTemplateColumns: "repeat(52, minmax(0, 1fr))", minWidth: 500 }}>
+            <div className="grid grid-cols-52 gap-0.5 sm:gap-0.75" style={{ gridTemplateColumns: "repeat(52, minmax(0, 1fr))", minWidth: 500 }}>
               {Array.from({ length: 364 }, (_, i) => {
                 const intensity = Math.random();
                 let bg = "bg-muted/20";
@@ -370,10 +370,10 @@ function DevProfile() {
 
       {/* ===== LIVE SIGNAL FEED ===== */}
       <section className="border-b border-border">
-        <div className="mx-auto max-w-[1400px] px-6 py-6 sm:py-8">
+        <div className="mx-auto max-w-350 px-6 py-6 sm:py-8">
           <div className="mb-4 flex items-center gap-2 sm:gap-3 sm:mb-5">
             <span className="shrink-0 font-['JetBrains_Mono'] text-[10px] text-primary">/* 05 */</span>
-            <h2 className="font-['Syne'] text-lg font-black uppercase tracking-[0.1em] sm:text-xl">Live_Signal_Feed</h2>
+            <h2 className="font-['Syne'] text-lg font-black uppercase tracking-widest sm:text-xl">Live_Signal_Feed</h2>
             <div className="ml-2 h-px flex-1 bg-border sm:ml-4" />
           </div>
           <div className="border border-border bg-surface p-4 font-['JetBrains_Mono'] text-[11px] leading-relaxed">
@@ -398,7 +398,7 @@ function DevProfile() {
 
       {/* ===== NETWORK_SYNC_READY ===== */}
       <section className="relative w-full overflow-hidden border-y border-border bg-primary/5 py-10">
-        <div className="relative mx-auto flex max-w-[1400px] flex-col items-center justify-center gap-5 px-6 text-center">
+        <div className="relative mx-auto flex max-w-350 flex-col items-center justify-center gap-5 px-6 text-center">
           <img
             src="https://img.icons8.com/?size=160&id=AzMgOdauUCkR&format=png"
             alt="network"
@@ -435,7 +435,7 @@ function DevProfile() {
 
       {/* ===== FOOTER ===== */}
       <footer className="border-t border-border">
-        <div className="mx-auto max-w-[1400px] px-6 py-6 sm:py-8">
+        <div className="mx-auto max-w-350 px-6 py-6 sm:py-8">
           <div className="flex flex-col items-center justify-between gap-3 sm:gap-4 md:flex-row">
             <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 font-['JetBrains_Mono'] text-[9px] text-muted-foreground/40 sm:text-[10px]">
               <Terminal className="h-3 w-3 text-primary sm:h-3.5 sm:w-3.5" />
