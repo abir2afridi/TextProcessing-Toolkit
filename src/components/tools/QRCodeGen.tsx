@@ -23,7 +23,10 @@ export default function QRCodeGen() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    if (!text.trim()) { setDataUrl(""); return; }
+    if (!text.trim()) {
+      setDataUrl("");
+      return;
+    }
     QRCode.toDataURL(text.trim(), {
       width: 1024,
       color: { dark: foreground, light: background },
@@ -46,26 +49,53 @@ export default function QRCodeGen() {
     <div className="space-y-4">
       <OptionRow>
         <div className="flex flex-1 items-center gap-2">
-          <Label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">text / url</Label>
-          <Input value={text} onChange={(e) => setText(e.target.value)} placeholder="Your link or text..." className="h-8 flex-1 rounded-sm font-mono text-xs" />
+          <Label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+            text / url
+          </Label>
+          <Input
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="Your link or text..."
+            className="h-8 flex-1 rounded-sm font-mono text-xs"
+          />
         </div>
       </OptionRow>
       <OptionRow>
         <div className="flex items-center gap-2">
-          <Label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">foreground</Label>
-          <input type="color" value={foreground.slice(0, 7)} onChange={(e) => setForeground(e.target.value + "ff")} className="h-7 w-10 cursor-pointer rounded-sm border border-border bg-transparent" />
+          <Label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+            foreground
+          </Label>
+          <input
+            type="color"
+            value={foreground.slice(0, 7)}
+            onChange={(e) => setForeground(e.target.value + "ff")}
+            className="h-7 w-10 cursor-pointer rounded-sm border border-border bg-transparent"
+          />
         </div>
         <div className="flex items-center gap-2">
-          <Label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">background</Label>
-          <input type="color" value={background.slice(0, 7)} onChange={(e) => setBackground(e.target.value + "ff")} className="h-7 w-10 cursor-pointer rounded-sm border border-border bg-transparent" />
+          <Label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+            background
+          </Label>
+          <input
+            type="color"
+            value={background.slice(0, 7)}
+            onChange={(e) => setBackground(e.target.value + "ff")}
+            className="h-7 w-10 cursor-pointer rounded-sm border border-border bg-transparent"
+          />
         </div>
         <div className="flex items-center gap-2">
-          <Label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">ecc</Label>
-          <select value={errorLevel} onChange={(e) => setErrorLevel(e.target.value)}
+          <Label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+            ecc
+          </Label>
+          <select
+            value={errorLevel}
+            onChange={(e) => setErrorLevel(e.target.value)}
             className="h-7 rounded-sm border border-border bg-background px-2 font-mono text-xs text-foreground outline-none focus:border-primary/50"
           >
             {levels.map((l) => (
-              <option key={l.value} value={l.value}>{l.label}</option>
+              <option key={l.value} value={l.value}>
+                {l.label}
+              </option>
             ))}
           </select>
         </div>
@@ -76,11 +106,16 @@ export default function QRCodeGen() {
             <img src={dataUrl} alt="QR Code" width={200} />
           </div>
         ) : (
-          <div className="grid h-[200px] w-[200px] place-items-center rounded-sm border border-dashed border-border font-mono text-xs text-muted-foreground">
+          <div className="grid h-50 w-50 place-items-center rounded-sm border border-dashed border-border font-mono text-xs text-muted-foreground">
             {text.trim() ? "error generating" : "enter text to generate"}
           </div>
         )}
-        <Button size="sm" disabled={!dataUrl} onClick={handleDownload} className="h-8 rounded-sm font-mono text-xs">
+        <Button
+          size="sm"
+          disabled={!dataUrl}
+          onClick={handleDownload}
+          className="h-8 rounded-sm font-mono text-xs"
+        >
           <Download className="mr-1.5 h-3.5 w-3.5" />
           Download qr-code
         </Button>

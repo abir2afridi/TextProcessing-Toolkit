@@ -48,9 +48,17 @@ export const Route = createFileRoute("/about")({
           "116 text processing utilities across 14 categories. 100% client-side. No uploads. No tracking. Built for developers, writers, and data professionals.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: "https://raw.githubusercontent.com/anomalyco/TextProcessing-Toolkit/main/public/BannerTPT.png" },
+      {
+        property: "og:image",
+        content:
+          "https://raw.githubusercontent.com/anomalyco/TextProcessing-Toolkit/main/public/BannerTPT.png",
+      },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: "https://raw.githubusercontent.com/anomalyco/TextProcessing-Toolkit/main/public/BannerTPT.png" },
+      {
+        name: "twitter:image",
+        content:
+          "https://raw.githubusercontent.com/anomalyco/TextProcessing-Toolkit/main/public/BannerTPT.png",
+      },
     ],
   }),
   component: AboutPage,
@@ -157,7 +165,8 @@ function AboutPage() {
             about the project
           </Badge>
           <h1 className="mt-4 font-mono text-4xl font-bold tracking-tight sm:text-5xl">
-            Built for text.<br />
+            Built for text.
+            <br />
             <span className="text-primary">Powered by the browser.</span>
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
@@ -209,10 +218,11 @@ function AboutPage() {
           <div className="mt-4 grid gap-6 lg:grid-cols-2">
             <div className="space-y-4 text-sm leading-relaxed text-muted-foreground">
               <p>
-                Text Processing Toolkit (tpt) is a unified workspace for working with text. It brings
-                together <span className="font-mono text-foreground">{tools.length}</span> utilities
-                across <span className="font-mono text-foreground">{categories.length}</span> categories
-                — from everyday conversions to specialized transformations — in a single, consistent
+                Text Processing Toolkit (tpt) is a unified workspace for working with text. It
+                brings together <span className="font-mono text-foreground">{tools.length}</span>{" "}
+                utilities across{" "}
+                <span className="font-mono text-foreground">{categories.length}</span> categories —
+                from everyday conversions to specialized transformations — in a single, consistent
                 interface designed for speed and clarity.
               </p>
               <p>
@@ -224,7 +234,8 @@ function AboutPage() {
               <p>
                 Built entirely with modern web technologies, tpt runs 100% client-side. There is no
                 backend server, no database, no API calls. Your data never leaves your browser. This
-                means instant results, complete privacy, and offline capability after the first load.
+                means instant results, complete privacy, and offline capability after the first
+                load.
               </p>
             </div>
             <div className="rounded-sm border border-border bg-surface p-5">
@@ -236,7 +247,10 @@ function AboutPage() {
                   const count = tools.filter((t) => t.category === cat).length;
                   const Icon = categoryIcons[cat] || Terminal;
                   return (
-                    <li key={cat} className="flex items-center gap-2 font-mono text-xs text-muted-foreground">
+                    <li
+                      key={cat}
+                      className="flex items-center gap-2 font-mono text-xs text-muted-foreground"
+                    >
                       <Icon className="h-3 w-3 shrink-0 text-primary/70" />
                       <span>{cat}</span>
                       <span className="ml-auto text-[10px] text-muted-foreground/60">
@@ -383,7 +397,10 @@ function AboutPage() {
                 desc: "The transformed output appears in the result panel. Copy, download as a text file, or use it directly in your workflow.",
               },
             ].map(({ step, title, desc }) => (
-              <div key={step} className="rounded-sm border border-border bg-surface p-5 transition-colors hover:border-primary/30">
+              <div
+                key={step}
+                className="rounded-sm border border-border bg-surface p-5 transition-colors hover:border-primary/30"
+              >
                 <div className="font-mono text-[10px] uppercase tracking-widest text-primary">
                   step {step}
                 </div>
@@ -403,17 +420,56 @@ function AboutPage() {
           </h2>
           <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {[
-              { icon: Terminal, title: "Format & beautify", desc: "Prettify JSON, XML, SQL, YAML, TOML, and HTML with a single click. Minify or expand as needed." },
-              { icon: Search, title: "Extract & find", desc: "Pull out URLs, emails, phone numbers, hashtags, or custom patterns from any text block instantly." },
-              { icon: Lock, title: "Encode & encrypt", desc: "Base64, URL, HTML entities, hex, binary, JWT decode, bcrypt, AES encryption, and more crypto tools." },
-              { icon: ArrowRight, title: "Convert between formats", desc: "JSON to CSV, XML to JSON, YAML to TOML, Markdown to HTML, and many other format converters." },
-              { icon: BookOpen, title: "Analyze & measure", desc: "Word frequency, character distribution, keyword density, reading time, text statistics, and diff comparison." },
-              { icon: Database, title: "Clean & normalize", desc: "Remove duplicates, trim whitespace, fix line endings, normalize Unicode, strip HTML tags, clean invisible characters." },
-              { icon: Smartphone, title: "Generate & create", desc: "QR codes, WiFi QR, passwords, tokens, UUIDs, ULIDs, lorem ipsum, ASCII banners, SVG placeholders." },
-              { icon: Cpu, title: "Network & dev tools", desc: "IPv4 subnet calculator, MAC lookup, port generator, crontab builder, chmod calculator, git cheatsheet." },
-              { icon: Shield, title: "Check & validate", desc: "Password strength, IBAN validation, phone formatting, email normalization, MIME type lookup, HTTP status codes." },
+              {
+                icon: Terminal,
+                title: "Format & beautify",
+                desc: "Prettify JSON, XML, SQL, YAML, TOML, and HTML with a single click. Minify or expand as needed.",
+              },
+              {
+                icon: Search,
+                title: "Extract & find",
+                desc: "Pull out URLs, emails, phone numbers, hashtags, or custom patterns from any text block instantly.",
+              },
+              {
+                icon: Lock,
+                title: "Encode & encrypt",
+                desc: "Base64, URL, HTML entities, hex, binary, JWT decode, bcrypt, AES encryption, and more crypto tools.",
+              },
+              {
+                icon: ArrowRight,
+                title: "Convert between formats",
+                desc: "JSON to CSV, XML to JSON, YAML to TOML, Markdown to HTML, and many other format converters.",
+              },
+              {
+                icon: BookOpen,
+                title: "Analyze & measure",
+                desc: "Word frequency, character distribution, keyword density, reading time, text statistics, and diff comparison.",
+              },
+              {
+                icon: Database,
+                title: "Clean & normalize",
+                desc: "Remove duplicates, trim whitespace, fix line endings, normalize Unicode, strip HTML tags, clean invisible characters.",
+              },
+              {
+                icon: Smartphone,
+                title: "Generate & create",
+                desc: "QR codes, WiFi QR, passwords, tokens, UUIDs, ULIDs, lorem ipsum, ASCII banners, SVG placeholders.",
+              },
+              {
+                icon: Cpu,
+                title: "Network & dev tools",
+                desc: "IPv4 subnet calculator, MAC lookup, port generator, crontab builder, chmod calculator, git cheatsheet.",
+              },
+              {
+                icon: Shield,
+                title: "Check & validate",
+                desc: "Password strength, IBAN validation, phone formatting, email normalization, MIME type lookup, HTTP status codes.",
+              },
             ].map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="flex gap-3 rounded-sm border border-border bg-surface p-4 transition-colors hover:border-primary/30">
+              <div
+                key={title}
+                className="flex gap-3 rounded-sm border border-border bg-surface p-4 transition-colors hover:border-primary/30"
+              >
                 <div className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-sm border border-border bg-background">
                   <Icon className="h-3.5 w-3.5 text-primary" />
                 </div>
@@ -440,7 +496,9 @@ function AboutPage() {
           </p>
           <div className="mt-4 grid gap-6 lg:grid-cols-2">
             <div>
-              <h3 className="font-mono text-[11px] font-semibold uppercase tracking-widest text-primary">Frontend</h3>
+              <h3 className="font-mono text-[11px] font-semibold uppercase tracking-widest text-primary">
+                Frontend
+              </h3>
               <div className="mt-2 flex flex-wrap gap-2">
                 <TechBadge>React 19</TechBadge>
                 <TechBadge>TypeScript</TechBadge>
@@ -455,7 +513,9 @@ function AboutPage() {
               </div>
             </div>
             <div>
-              <h3 className="font-mono text-[11px] font-semibold uppercase tracking-widest text-primary">Infrastructure</h3>
+              <h3 className="font-mono text-[11px] font-semibold uppercase tracking-widest text-primary">
+                Infrastructure
+              </h3>
               <div className="mt-2 flex flex-wrap gap-2">
                 <TechBadge>i18next</TechBadge>
                 <TechBadge>react-hook-form</TechBadge>
@@ -482,7 +542,9 @@ function AboutPage() {
             <div className="space-y-3 rounded-sm border border-border bg-surface p-5 transition-colors hover:border-primary/30">
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="h-4 w-4 text-primary" />
-                <h3 className="font-mono text-xs font-semibold tracking-tight">Zero data uploads</h3>
+                <h3 className="font-mono text-xs font-semibold tracking-tight">
+                  Zero data uploads
+                </h3>
               </div>
               <p className="text-xs leading-relaxed text-muted-foreground">
                 Your text never leaves your browser. There are no servers to send data to, no APIs
@@ -505,14 +567,16 @@ function AboutPage() {
                 <h3 className="font-mono text-xs font-semibold tracking-tight">Open source</h3>
               </div>
               <p className="text-xs leading-relaxed text-muted-foreground">
-                The entire codebase is transparent and auditable on GitHub. Anyone can inspect, fork,
-                or contribute to the project under the MIT license.
+                The entire codebase is transparent and auditable on GitHub. Anyone can inspect,
+                fork, or contribute to the project under the MIT license.
               </p>
             </div>
             <div className="space-y-3 rounded-sm border border-border bg-surface p-5 transition-colors hover:border-primary/30">
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="h-4 w-4 text-primary" />
-                <h3 className="font-mono text-xs font-semibold tracking-tight">No sign-up needed</h3>
+                <h3 className="font-mono text-xs font-semibold tracking-tight">
+                  No sign-up needed
+                </h3>
               </div>
               <p className="text-xs leading-relaxed text-muted-foreground">
                 Start using the tools immediately with zero friction. No account creation, no email,
@@ -566,7 +630,9 @@ function AboutPage() {
                     {q}
                   </AccordionTrigger>
                   <AccordionContent className="text-xs leading-relaxed text-muted-foreground">
-                    {a.replace(/\{tools\.length\}/g, String(tools.length)).replace(/\{categories\.length\}/g, String(categories.length))}
+                    {a
+                      .replace(/\{tools\.length\}/g, String(tools.length))
+                      .replace(/\{categories\.length\}/g, String(categories.length))}
                   </AccordionContent>
                 </AccordionItem>
               ))}
@@ -582,13 +648,18 @@ function AboutPage() {
             <span className="text-primary">#</span> Found a bug or missing a tool?
           </h2>
           <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground">
-            If you need a tool that is currently not present here, and you think can be useful,
-            you are welcome to submit a feature request in the issues section in the GitHub repository.
+            If you need a tool that is currently not present here, and you think can be useful, you
+            are welcome to submit a feature request in the issues section in the GitHub repository.
             And if you found a bug, or something does not work as expected, please file a bug report
             in the issues section in the GitHub repository.
           </p>
           <div className="mt-4">
-            <Button asChild size="sm" variant="outline" className="h-8 rounded-sm border-border font-mono text-xs">
+            <Button
+              asChild
+              size="sm"
+              variant="outline"
+              className="h-8 rounded-sm border-border font-mono text-xs"
+            >
               <a
                 href="https://github.com/anomalyco/TextProcessing-Toolkit/issues"
                 target="_blank"
@@ -641,7 +712,10 @@ function AboutPage() {
                 desc: "A command-line interface for users who prefer working in the terminal for scripting and automation.",
               },
             ].map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="rounded-sm border border-border bg-surface p-5 transition-colors hover:border-primary/30">
+              <div
+                key={title}
+                className="rounded-sm border border-border bg-surface p-5 transition-colors hover:border-primary/30"
+              >
                 <div className="grid h-7 w-7 place-items-center rounded-sm border border-border bg-background">
                   <Icon className="h-3.5 w-3.5 text-primary" />
                 </div>

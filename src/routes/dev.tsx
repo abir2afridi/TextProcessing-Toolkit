@@ -14,55 +14,145 @@ import {
   Radio,
   ArrowUpRight,
 } from "lucide-react";
-import {
-  PieChart,
-  Pie,
-  Cell,
-  ResponsiveContainer,
-  Tooltip,
-} from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 
 interface GHUser {
-  login: string; avatar_url: string; html_url: string; name: string;
-  bio: string; public_repos: number; followers: number; following: number;
-  location: string; blog: string; twitter_username: string; company: string;
+  login: string;
+  avatar_url: string;
+  html_url: string;
+  name: string;
+  bio: string;
+  public_repos: number;
+  followers: number;
+  following: number;
+  location: string;
+  blog: string;
+  twitter_username: string;
+  company: string;
 }
 
 interface GHRepo {
-  id: number; name: string; description: string; html_url: string;
-  stargazers_count: number; forks_count: number; language: string;
-  updated_at: string; fork: boolean;
+  id: number;
+  name: string;
+  description: string;
+  html_url: string;
+  stargazers_count: number;
+  forks_count: number;
+  language: string;
+  updated_at: string;
+  fork: boolean;
 }
 
 interface GHEvent {
-  id: string; type: string; repo: { name: string };
-  created_at: string; payload: { action?: string; ref_type?: string };
+  id: string;
+  type: string;
+  repo: { name: string };
+  created_at: string;
+  payload: { action?: string; ref_type?: string };
 }
 
-interface LangEntry { name: string; value: number; color: string }
+interface LangEntry {
+  name: string;
+  value: number;
+  color: string;
+}
 
 const FALLBACK_USER: GHUser = {
-  login: "abir2afridi", avatar_url: "https://avatars.githubusercontent.com/u/0?v=4",
-  html_url: "https://github.com/abir2afridi", name: "Abir Hasan Siam",
+  login: "abir2afridi",
+  avatar_url: "https://avatars.githubusercontent.com/u/0?v=4",
+  html_url: "https://github.com/abir2afridi",
+  name: "Abir Hasan Siam",
   bio: "Full-stack architect building high-performance text-processing tools & cyber-brutalist interfaces. TypeScript native.",
-  public_repos: 28, followers: 47, following: 32,
-  location: "Dhaka, Bangladesh", blog: "https://github.com/abir2afridi",
-  twitter_username: "", company: "@anomalyco",
+  public_repos: 28,
+  followers: 47,
+  following: 32,
+  location: "Dhaka, Bangladesh",
+  blog: "https://github.com/abir2afridi",
+  twitter_username: "",
+  company: "@anomalyco",
 };
 
 const FALLBACK_REPOS: GHRepo[] = [
-  { id: 1, name: "TextProcessing-Toolkit", description: "95+ text utilities. 100% client-side. Zero uploads.", html_url: "https://github.com/anomalyco/TextProcessing-Toolkit", stargazers_count: 128, forks_count: 34, language: "TypeScript", updated_at: "2026-05-20T10:00:00Z", fork: false },
-  { id: 2, name: "cyber-brutalist-ui", description: "A React component library for cyber-brutalist design systems.", html_url: "https://github.com/abir2afridi/cyber-brutalist-ui", stargazers_count: 89, forks_count: 12, language: "TypeScript", updated_at: "2026-05-19T08:00:00Z", fork: false },
-  { id: 3, name: "neon-cli", description: "Terminal toolkit for AI-powered code generation.", html_url: "https://github.com/abir2afridi/neon-cli", stargazers_count: 64, forks_count: 8, language: "Rust", updated_at: "2026-05-18T14:00:00Z", fork: false },
-  { id: 4, name: "signal-db", description: "Edge-native embedded database for real-time signals.", html_url: "https://github.com/abir2afridi/signal-db", stargazers_count: 42, forks_count: 5, language: "Go", updated_at: "2026-05-17T12:00:00Z", fork: false },
-  { id: 5, name: "vite-plugin-brutal", description: "Vite plugin that adds brutalist hot-module-replacement visuals.", html_url: "https://github.com/abir2afridi/vite-plugin-brutal", stargazers_count: 31, forks_count: 3, language: "TypeScript", updated_at: "2026-05-16T09:00:00Z", fork: false },
-  { id: 6, name: "dotmatrix-canvas", description: "Canvas-based dot-matrix display engine for web.", html_url: "https://github.com/abir2afridi/dotmatrix-canvas", stargazers_count: 27, forks_count: 6, language: "JavaScript", updated_at: "2026-05-15T16:00:00Z", fork: false },
+  {
+    id: 1,
+    name: "TextProcessing-Toolkit",
+    description: "95+ text utilities. 100% client-side. Zero uploads.",
+    html_url: "https://github.com/anomalyco/TextProcessing-Toolkit",
+    stargazers_count: 128,
+    forks_count: 34,
+    language: "TypeScript",
+    updated_at: "2026-05-20T10:00:00Z",
+    fork: false,
+  },
+  {
+    id: 2,
+    name: "cyber-brutalist-ui",
+    description: "A React component library for cyber-brutalist design systems.",
+    html_url: "https://github.com/abir2afridi/cyber-brutalist-ui",
+    stargazers_count: 89,
+    forks_count: 12,
+    language: "TypeScript",
+    updated_at: "2026-05-19T08:00:00Z",
+    fork: false,
+  },
+  {
+    id: 3,
+    name: "neon-cli",
+    description: "Terminal toolkit for AI-powered code generation.",
+    html_url: "https://github.com/abir2afridi/neon-cli",
+    stargazers_count: 64,
+    forks_count: 8,
+    language: "Rust",
+    updated_at: "2026-05-18T14:00:00Z",
+    fork: false,
+  },
+  {
+    id: 4,
+    name: "signal-db",
+    description: "Edge-native embedded database for real-time signals.",
+    html_url: "https://github.com/abir2afridi/signal-db",
+    stargazers_count: 42,
+    forks_count: 5,
+    language: "Go",
+    updated_at: "2026-05-17T12:00:00Z",
+    fork: false,
+  },
+  {
+    id: 5,
+    name: "vite-plugin-brutal",
+    description: "Vite plugin that adds brutalist hot-module-replacement visuals.",
+    html_url: "https://github.com/abir2afridi/vite-plugin-brutal",
+    stargazers_count: 31,
+    forks_count: 3,
+    language: "TypeScript",
+    updated_at: "2026-05-16T09:00:00Z",
+    fork: false,
+  },
+  {
+    id: 6,
+    name: "dotmatrix-canvas",
+    description: "Canvas-based dot-matrix display engine for web.",
+    html_url: "https://github.com/abir2afridi/dotmatrix-canvas",
+    stargazers_count: 27,
+    forks_count: 6,
+    language: "JavaScript",
+    updated_at: "2026-05-15T16:00:00Z",
+    fork: false,
+  },
 ];
 
 const FALLBACK_EVENTS: GHEvent[] = Array.from({ length: 12 }, (_, i) => ({
   id: String(i),
-  type: ["PushEvent", "CreateEvent", "PullRequestEvent", "IssuesEvent", "WatchEvent", "ForkEvent"][i % 6],
-  repo: { name: ["anomalyco/TextProcessing-Toolkit", "abir2afridi/cyber-brutalist-ui", "abir2afridi/neon-cli"][i % 3] },
+  type: ["PushEvent", "CreateEvent", "PullRequestEvent", "IssuesEvent", "WatchEvent", "ForkEvent"][
+    i % 6
+  ],
+  repo: {
+    name: [
+      "anomalyco/TextProcessing-Toolkit",
+      "abir2afridi/cyber-brutalist-ui",
+      "abir2afridi/neon-cli",
+    ][i % 3],
+  },
   created_at: new Date(Date.now() - i * 3600000).toISOString(),
   payload: { action: "opened", ref_type: "branch" },
 }));
@@ -80,24 +170,51 @@ export const Route = createFileRoute("/dev")({
   head: () => ({
     meta: [
       { title: "abir2afridi - Developer Profile" },
-      { name: "description", content: "Full-stack architect. Cyber-brutalist design. TypeScript native." },
+      {
+        name: "description",
+        content: "Full-stack architect. Cyber-brutalist design. TypeScript native.",
+      },
       { property: "og:title", content: "abir2afridi - Developer Profile" },
-      { property: "og:description", content: "Full-stack architect building high-performance tools." },
-      { property: "og:image", content: "https://raw.githubusercontent.com/anomalyco/TextProcessing-Toolkit/main/public/BannerTPT.png" },
+      {
+        property: "og:description",
+        content: "Full-stack architect building high-performance tools.",
+      },
+      {
+        property: "og:image",
+        content:
+          "https://raw.githubusercontent.com/anomalyco/TextProcessing-Toolkit/main/public/BannerTPT.png",
+      },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: "https://raw.githubusercontent.com/anomalyco/TextProcessing-Toolkit/main/public/BannerTPT.png" },
+      {
+        name: "twitter:image",
+        content:
+          "https://raw.githubusercontent.com/anomalyco/TextProcessing-Toolkit/main/public/BannerTPT.png",
+      },
     ],
   }),
   component: DevProfile,
 });
 
-function fmt(n: number) { return n >= 1000 ? `${(n / 1000).toFixed(1)}k` : String(n); }
+function fmt(n: number) {
+  return n >= 1000 ? `${(n / 1000).toFixed(1)}k` : String(n);
+}
 
 const LANG_COLORS: Record<string, string> = {
-  TypeScript: "#3178C6", JavaScript: "#F7DF1E", Rust: "#DEA584",
-  Go: "#00ADD8", Python: "#3776AB", Java: "#B07219", C: "#555555",
-  "C++": "#F34B7D", Ruby: "#701516", Shell: "#89E051", HTML: "#E34F26",
-  CSS: "#563D7C", Dart: "#00B4AB", Swift: "#FFAC45", Kotlin: "#A97BFF",
+  TypeScript: "#3178C6",
+  JavaScript: "#F7DF1E",
+  Rust: "#DEA584",
+  Go: "#00ADD8",
+  Python: "#3776AB",
+  Java: "#B07219",
+  C: "#555555",
+  "C++": "#F34B7D",
+  Ruby: "#701516",
+  Shell: "#89E051",
+  HTML: "#E34F26",
+  CSS: "#563D7C",
+  Dart: "#00B4AB",
+  Swift: "#FFAC45",
+  Kotlin: "#A97BFF",
 };
 
 function DevProfile() {
@@ -130,9 +247,7 @@ function DevProfile() {
         for (const repo of a) {
           if (repo.language) langMap.set(repo.language, (langMap.get(repo.language) || 0) + 1);
         }
-        const sorted = [...langMap.entries()]
-          .sort((a, b) => b[1] - a[1])
-          .slice(0, 6);
+        const sorted = [...langMap.entries()].sort((a, b) => b[1] - a[1]).slice(0, 6);
         const total = sorted.reduce((s, [, v]) => s + v, 0);
         setLangData(
           sorted.map(([name, value]) => ({
@@ -193,23 +308,44 @@ function DevProfile() {
               <span className="text-foreground">SIAM</span>
             </h1>
             <div className="mt-4 flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 font-['JetBrains_Mono'] text-xs text-muted-foreground lg:justify-start">
-              {user?.location && <span className="flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5 text-primary" />{user.location}</span>}
-              {user?.company && <span className="flex items-center gap-1.5"><Cpu className="h-3.5 w-3.5 text-primary" />{user.company}</span>}
-              <span className="flex items-center gap-1.5"><Github className="h-3.5 w-3.5 text-primary" />abir2afridi</span>
-              <a href={user?.html_url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-primary transition-opacity hover:opacity-70">
-                <ExternalLink className="h-3.5 w-3.5" />profile
+              {user?.location && (
+                <span className="flex items-center gap-1.5">
+                  <MapPin className="h-3.5 w-3.5 text-primary" />
+                  {user.location}
+                </span>
+              )}
+              {user?.company && (
+                <span className="flex items-center gap-1.5">
+                  <Cpu className="h-3.5 w-3.5 text-primary" />
+                  {user.company}
+                </span>
+              )}
+              <span className="flex items-center gap-1.5">
+                <Github className="h-3.5 w-3.5 text-primary" />
+                abir2afridi
+              </span>
+              <a
+                href={user?.html_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-primary transition-opacity hover:opacity-70"
+              >
+                <ExternalLink className="h-3.5 w-3.5" />
+                profile
               </a>
             </div>
           </div>
 
           {/* Avatar with scanline */}
           <div className="relative z-10 mt-6 sm:mt-8 lg:mt-0 lg:ml-8 shrink-0 max-w-full">
-            <div className="relative mx-auto h-40 w-40 overflow-hidden border-2 border-primary/30 sm:h-48 sm:w-48 md:h-56 md:w-56 lg:h-64 lg:w-64" style={{ boxShadow: "6px 6px 0px 0px color-mix(in oklab, var(--color-primary) 30%, transparent)" }}>
-              <img
-                src={user?.avatar_url}
-                alt={user?.name}
-                className="h-full w-full object-cover"
-              />
+            <div
+              className="relative mx-auto h-40 w-40 overflow-hidden border-2 border-primary/30 sm:h-48 sm:w-48 md:h-56 md:w-56 lg:h-64 lg:w-64"
+              style={{
+                boxShadow:
+                  "6px 6px 0px 0px color-mix(in oklab, var(--color-primary) 30%, transparent)",
+              }}
+            >
+              <img src={user?.avatar_url} alt={user?.name} className="h-full w-full object-cover" />
               <div className="scanline absolute inset-0 bg-[linear-gradient(transparent_50%,color-mix(in_oklab,var(--color-primary)_3%,transparent)_50%)] bg-size-[100%_4px] animate-scan" />
               <div className="absolute inset-0 bg-linear-to-t from-background via-transparent to-transparent" />
             </div>
@@ -222,7 +358,9 @@ function DevProfile() {
         <section className="border-b border-border">
           <div className="mx-auto max-w-350 px-6 py-6 sm:py-8">
             <div className="flex items-start gap-2 sm:gap-4">
-              <span className="mt-0.5 shrink-0 font-['JetBrains_Mono'] text-[10px] text-primary">/* 01 */</span>
+              <span className="mt-0.5 shrink-0 font-['JetBrains_Mono'] text-[10px] text-primary">
+                /* 01 */
+              </span>
               <p className="font-['JetBrains_Mono'] text-xs leading-relaxed text-muted-foreground sm:text-sm md:text-base">
                 {user.bio}
               </p>
@@ -235,26 +373,57 @@ function DevProfile() {
       <section className="border-b border-border">
         <div className="mx-auto max-w-350 px-6 py-6 sm:py-8">
           <div className="mb-4 flex items-center gap-2 sm:gap-3 sm:mb-5">
-            <span className="shrink-0 font-['JetBrains_Mono'] text-[10px] text-primary">/* 02 */</span>
-            <h2 className="font-['Syne'] text-lg font-black uppercase tracking-widest sm:text-xl">Performance_Hub</h2>
+            <span className="shrink-0 font-['JetBrains_Mono'] text-[10px] text-primary">
+              /* 02 */
+            </span>
+            <h2 className="font-['Syne'] text-lg font-black uppercase tracking-widest sm:text-xl">
+              Performance_Hub
+            </h2>
             <div className="ml-2 h-px flex-1 bg-border sm:ml-4" />
           </div>
           <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
             {[
-              { icon: Star, label: "Star Impact", value: fmt(totalStars), accent: accentColors.star },
-              { icon: GitFork, label: "Fork Density", value: fmt(totalForks), accent: accentColors.fork },
-              { icon: BookOpen, label: "Repos Node", value: fmt(user?.public_repos ?? 0), accent: accentColors.repos },
-              { icon: Users, label: "Followers", value: fmt(followerCount), accent: accentColors.followers },
+              {
+                icon: Star,
+                label: "Star Impact",
+                value: fmt(totalStars),
+                accent: accentColors.star,
+              },
+              {
+                icon: GitFork,
+                label: "Fork Density",
+                value: fmt(totalForks),
+                accent: accentColors.fork,
+              },
+              {
+                icon: BookOpen,
+                label: "Repos Node",
+                value: fmt(user?.public_repos ?? 0),
+                accent: accentColors.repos,
+              },
+              {
+                icon: Users,
+                label: "Followers",
+                value: fmt(followerCount),
+                accent: accentColors.followers,
+              },
             ].map(({ icon: Icon, label, value, accent }) => (
               <div
                 key={label}
                 className="group relative overflow-hidden border border-border bg-surface p-3 transition-all duration-300 hover:scale-[1.04] hover:shadow-[0_0_30px_var(--color-primary)/15] sm:p-6"
                 style={{ boxShadow: `0 0 0 0 ${accent}15` }}
               >
-                <div className="absolute -right-4 -top-4 h-20 w-20 rounded-full opacity-5 transition-all duration-500 group-hover:opacity-20" style={{ backgroundColor: accent }} />
+                <div
+                  className="absolute -right-4 -top-4 h-20 w-20 rounded-full opacity-5 transition-all duration-500 group-hover:opacity-20"
+                  style={{ backgroundColor: accent }}
+                />
                 <Icon className="mb-2 h-4 w-4 sm:mb-3 sm:h-5 sm:w-5" style={{ color: accent }} />
-                <div className="font-['Syne'] text-xl font-black tracking-tight sm:text-3xl">{value}</div>
-                <div className="mt-1 font-['JetBrains_Mono'] text-[9px] uppercase tracking-[0.15em] text-muted-foreground/60 sm:text-[10px]">{label}</div>
+                <div className="font-['Syne'] text-xl font-black tracking-tight sm:text-3xl">
+                  {value}
+                </div>
+                <div className="mt-1 font-['JetBrains_Mono'] text-[9px] uppercase tracking-[0.15em] text-muted-foreground/60 sm:text-[10px]">
+                  {label}
+                </div>
               </div>
             ))}
           </div>
@@ -265,22 +434,44 @@ function DevProfile() {
       <section className="border-b border-border">
         <div className="mx-auto max-w-350 px-6 py-6 sm:py-8">
           <div className="mb-4 flex items-center gap-2 sm:gap-3 sm:mb-5">
-            <span className="shrink-0 font-['JetBrains_Mono'] text-[10px] text-primary">/* 03 */</span>
-            <h2 className="font-['Syne'] text-lg font-black uppercase tracking-widest sm:text-xl">Visual_Intelligence</h2>
+            <span className="shrink-0 font-['JetBrains_Mono'] text-[10px] text-primary">
+              /* 03 */
+            </span>
+            <h2 className="font-['Syne'] text-lg font-black uppercase tracking-widest sm:text-xl">
+              Visual_Intelligence
+            </h2>
             <div className="ml-2 h-px flex-1 bg-border sm:ml-4" />
           </div>
           <div className="grid gap-4 sm:gap-6 lg:grid-cols-12">
             <div className="lg:col-span-5">
               <div className="border border-border bg-surface p-4 sm:p-6">
-                <h3 className="mb-3 font-['JetBrains_Mono'] text-[10px] uppercase tracking-[0.2em] text-muted-foreground/60 sm:mb-4">Language Distribution</h3>
+                <h3 className="mb-3 font-['JetBrains_Mono'] text-[10px] uppercase tracking-[0.2em] text-muted-foreground/60 sm:mb-4">
+                  Language Distribution
+                </h3>
                 <div className="flex w-full items-center justify-center">
                   <ResponsiveContainer width="100%" height={240}>
                     <PieChart>
-                      <Pie data={langData} cx="50%" cy="50%" innerRadius={60} outerRadius={100} dataKey="value" stroke="none">
-                        {langData.map((e, i) => <Cell key={i} fill={e.color} />)}
+                      <Pie
+                        data={langData}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={60}
+                        outerRadius={100}
+                        dataKey="value"
+                        stroke="none"
+                      >
+                        {langData.map((e, i) => (
+                          <Cell key={i} fill={e.color} />
+                        ))}
                       </Pie>
                       <Tooltip
-                        contentStyle={{ background: "var(--color-surface)", border: "1px solid var(--color-border)", borderRadius: 0, fontSize: 12, fontFamily: "JetBrains Mono" }}
+                        contentStyle={{
+                          background: "var(--color-surface)",
+                          border: "1px solid var(--color-border)",
+                          borderRadius: 0,
+                          fontSize: 12,
+                          fontFamily: "JetBrains Mono",
+                        }}
                         itemStyle={{ color: "var(--color-foreground)" }}
                       />
                     </PieChart>
@@ -288,7 +479,10 @@ function DevProfile() {
                 </div>
                 <div className="mt-4 grid grid-cols-2 gap-2">
                   {langData.map((l) => (
-                    <div key={l.name} className="flex items-center gap-2 font-['JetBrains_Mono'] text-[10px] text-muted-foreground/60">
+                    <div
+                      key={l.name}
+                      className="flex items-center gap-2 font-['JetBrains_Mono'] text-[10px] text-muted-foreground/60"
+                    >
                       <span className="h-2 w-2" style={{ backgroundColor: l.color }} />
                       {l.name}
                       <span className="ml-auto text-muted-foreground/40">{l.value}%</span>
@@ -299,7 +493,9 @@ function DevProfile() {
             </div>
 
             <div className="lg:col-span-7">
-              <h3 className="mb-4 font-['JetBrains_Mono'] text-[10px] uppercase tracking-[0.2em] text-muted-foreground/60">Latest Modules</h3>
+              <h3 className="mb-4 font-['JetBrains_Mono'] text-[10px] uppercase tracking-[0.2em] text-muted-foreground/60">
+                Latest Modules
+              </h3>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
                 {repos.map((repo, i) => (
                   <a
@@ -315,19 +511,30 @@ function DevProfile() {
                       </div>
                       <ArrowUpRight className="h-3.5 w-3.5 text-muted-foreground/30 transition-all group-hover:text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </div>
-                    <div className="mt-2 font-['Syne'] text-base font-bold tracking-tight">{repo.name}</div>
+                    <div className="mt-2 font-['Syne'] text-base font-bold tracking-tight">
+                      {repo.name}
+                    </div>
                     <p className="mt-1.5 line-clamp-2 font-['JetBrains_Mono'] text-[10px] leading-relaxed text-muted-foreground/50">
                       {repo.description || "No description"}
                     </p>
                     <div className="mt-4 flex items-center gap-4 font-['JetBrains_Mono'] text-[9px] text-muted-foreground/40">
                       {repo.language && (
                         <span className="flex items-center gap-1">
-                          <span className="h-2 w-2 rounded-full" style={{ backgroundColor: LANG_COLORS[repo.language] || "#6B7280" }} />
+                          <span
+                            className="h-2 w-2 rounded-full"
+                            style={{ backgroundColor: LANG_COLORS[repo.language] || "#6B7280" }}
+                          />
                           {repo.language}
                         </span>
                       )}
-                      <span className="flex items-center gap-1"><Star className="h-3 w-3" />{repo.stargazers_count}</span>
-                      <span className="flex items-center gap-1"><GitFork className="h-3 w-3" />{repo.forks_count}</span>
+                      <span className="flex items-center gap-1">
+                        <Star className="h-3 w-3" />
+                        {repo.stargazers_count}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <GitFork className="h-3 w-3" />
+                        {repo.forks_count}
+                      </span>
                     </div>
                   </a>
                 ))}
@@ -341,12 +548,19 @@ function DevProfile() {
       <section className="border-b border-border">
         <div className="mx-auto max-w-350 px-6 py-6 sm:py-8">
           <div className="mb-4 flex items-center gap-2 sm:gap-3 sm:mb-5">
-            <span className="shrink-0 font-['JetBrains_Mono'] text-[10px] text-primary">/* 04 */</span>
-            <h2 className="font-['Syne'] text-lg font-black uppercase tracking-widest sm:text-xl">Contribution_Pulse</h2>
+            <span className="shrink-0 font-['JetBrains_Mono'] text-[10px] text-primary">
+              /* 04 */
+            </span>
+            <h2 className="font-['Syne'] text-lg font-black uppercase tracking-widest sm:text-xl">
+              Contribution_Pulse
+            </h2>
             <div className="ml-2 h-px flex-1 bg-border sm:ml-4" />
           </div>
           <div className="overflow-x-auto pb-2">
-            <div className="grid grid-cols-52 gap-0.5 sm:gap-0.75" style={{ gridTemplateColumns: "repeat(52, minmax(0, 1fr))", minWidth: 500 }}>
+            <div
+              className="grid grid-cols-52 gap-0.5 sm:gap-0.75"
+              style={{ gridTemplateColumns: "repeat(52, minmax(0, 1fr))", minWidth: 500 }}
+            >
               {Array.from({ length: 364 }, (_, i) => {
                 const intensity = Math.random();
                 let bg = "bg-muted/20";
@@ -354,15 +568,22 @@ function DevProfile() {
                 else if (intensity > 0.65) bg = "bg-primary/35";
                 else if (intensity > 0.4) bg = "bg-primary/15";
                 else if (intensity > 0.2) bg = "bg-primary/6";
-                return <div key={i} className={`aspect-square ${bg} transition-all hover:scale-125 hover:shadow-[0_0_8px_var(--color-primary)/50]`} />;
+                return (
+                  <div
+                    key={i}
+                    className={`aspect-square ${bg} transition-all hover:scale-125 hover:shadow-[0_0_8px_var(--color-primary)/50]`}
+                  />
+                );
               })}
             </div>
           </div>
           <div className="mt-3 flex items-center gap-2 font-['JetBrains_Mono'] text-[9px] text-muted-foreground/40">
             <span>Less</span>
-            {["bg-muted/20", "bg-primary/6", "bg-primary/15", "bg-primary/35", "bg-primary/60"].map((c) => (
-              <span key={c} className={`h-3 w-3 ${c}`} />
-            ))}
+            {["bg-muted/20", "bg-primary/6", "bg-primary/15", "bg-primary/35", "bg-primary/60"].map(
+              (c) => (
+                <span key={c} className={`h-3 w-3 ${c}`} />
+              ),
+            )}
             <span>More</span>
           </div>
         </div>
@@ -372,8 +593,12 @@ function DevProfile() {
       <section className="border-b border-border">
         <div className="mx-auto max-w-350 px-6 py-6 sm:py-8">
           <div className="mb-4 flex items-center gap-2 sm:gap-3 sm:mb-5">
-            <span className="shrink-0 font-['JetBrains_Mono'] text-[10px] text-primary">/* 05 */</span>
-            <h2 className="font-['Syne'] text-lg font-black uppercase tracking-widest sm:text-xl">Live_Signal_Feed</h2>
+            <span className="shrink-0 font-['JetBrains_Mono'] text-[10px] text-primary">
+              /* 05 */
+            </span>
+            <h2 className="font-['Syne'] text-lg font-black uppercase tracking-widest sm:text-xl">
+              Live_Signal_Feed
+            </h2>
             <div className="ml-2 h-px flex-1 bg-border sm:ml-4" />
           </div>
           <div className="border border-border bg-surface p-4 font-['JetBrains_Mono'] text-[11px] leading-relaxed">
@@ -383,12 +608,23 @@ function DevProfile() {
             </div>
             <div className="space-y-0.5">
               {events.map((ev) => (
-                <div key={ev.id} className="flex items-start gap-3 py-1 transition-colors hover:bg-muted/20">
+                <div
+                  key={ev.id}
+                  className="flex items-start gap-3 py-1 transition-colors hover:bg-muted/20"
+                >
                   <span className="mt-0.5 shrink-0 font-['JetBrains_Mono'] text-[9px] text-muted-foreground/30">
-                    {new Date(ev.created_at).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", hour12: false })}
+                    {new Date(ev.created_at).toLocaleTimeString("en-GB", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: false,
+                    })}
                   </span>
-                  <span className="shrink-0 font-['JetBrains_Mono'] text-[9px] text-primary">{ev.type.replace("Event", "").toUpperCase()}</span>
-                  <span className="min-w-0 truncate font-['JetBrains_Mono'] text-[9px] text-muted-foreground/60">{ev.repo.name}</span>
+                  <span className="shrink-0 font-['JetBrains_Mono'] text-[9px] text-primary">
+                    {ev.type.replace("Event", "").toUpperCase()}
+                  </span>
+                  <span className="min-w-0 truncate font-['JetBrains_Mono'] text-[9px] text-muted-foreground/60">
+                    {ev.repo.name}
+                  </span>
                 </div>
               ))}
             </div>
@@ -405,12 +641,13 @@ function DevProfile() {
             className="h-10 w-10"
           />
           <h2 className="font-['Syne'] text-2xl font-black uppercase tracking-[0.06em] md:text-4xl">
-            Network_Sync<br />
+            Network_Sync
+            <br />
             <span className="text-primary">_Ready</span>
           </h2>
           <p className="max-w-md font-['JetBrains_Mono'] text-[11px] leading-relaxed text-muted-foreground/60">
-            Full-stack architecture - Cyber-brutalist design - Open-source engineering.
-            Available for collaboration and high-impact projects.
+            Full-stack architecture - Cyber-brutalist design - Open-source engineering. Available
+            for collaboration and high-impact projects.
           </p>
           <div className="flex w-full flex-col justify-center gap-3 sm:flex-row sm:flex-wrap">
             <a
@@ -449,7 +686,12 @@ function DevProfile() {
               </span>
             </div>
             <div className="flex items-center gap-3 font-['JetBrains_Mono'] text-[8px] text-muted-foreground/30 sm:text-[9px]">
-              <a href={user?.html_url} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-primary">
+              <a
+                href={user?.html_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-colors hover:text-primary"
+              >
                 <Github className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
               </a>
               <span className="text-center">BUILT WITH BLOOD, SWEAT & NEON</span>
