@@ -34,13 +34,13 @@ A free, open-source collection of **115+ high-performance text utilities** that 
 | **Converters** (10) | Roman Numeral, Base64 File, JSON ↔ XML, XML ↔ JSON, JSON ↔ CSV, TOML Converter, Text to ASCII Binary, Text to Unicode, YAML ↔ TOML, YAML ↔ JSON |
 | **Web** (10) | Device Info, OG Meta Generator, Keycode Info, User-Agent Parser, HTTP Status Codes, JSON Diff Viewer, MIME Types, HTML WYSIWYG Editor, Outlook Safelink Decoder, Camera Recorder |
 | **Images & Videos** (3) | QR Code Generator, WiFi QR Code, SVG Placeholder |
-| **Development** (5) | Git Cheatsheet, Port Generator, Crontab Generator, Chmod Calculator, Email Normalizer |
-| **Network** (4) | IPv4 Subnet Calculator, IPv4 Converter, IPv6 ULA Generator, MAC Generator |
+| **Development** (6) | Benchmark Builder, Git Cheatsheet, Port Generator, Crontab Generator, Chmod Calculator, Email Normalizer |
+| **Network** (6) | IPv4 Range Expander, IPv4 Subnet Calculator, IPv4 Converter, IPv6 ULA Generator, MAC Address Lookup, MAC Generator |
 | **Math** (3) | Math Evaluator, Percentage Calculator, ETA Calculator |
 | **Measurement** (2) | Chronometer, Temperature Converter |
 | **Data** (2) | IBAN Validator, Phone Formatter |
 | **Dev Tools** (27) | JSON Minify, Docker Run to Compose, Regex Playground, JSON Formatter, HTML Cleaner, Markdown Formatter, Slug Generator, Keyword Density, Base64 Encode/Decode, Hash Generator, Hex/Binary, HTML Entities, JWT Decoder, Morse Code, NATO Phonetic, Number Base, Password Generator, SQL Formatter, String Escape, Timestamp Converter, URL Encoder/Decoder, URL Parser, UUID Generator, Color Converter, CSV ↔ JSON, XML Formatter, YAML Prettify |
-| **Advanced** (9) | Invisible Character Detector, Unicode Cleaner, Emoji Manager, ASCII Banner, Character Frequency, Cipher, Lorem Ipsum Generator, Random Picker, Unicode Inspector |
+| **Advanced** (10) | Emoji Picker, Invisible Character Detector, Unicode Cleaner, Emoji Manager, ASCII Banner, Character Frequency, Cipher, Lorem Ipsum Generator, Random Picker, Unicode Inspector |
 
 ---
 

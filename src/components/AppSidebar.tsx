@@ -1,6 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Search, Star, Terminal } from "lucide-react";
 import { useState, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Sidebar,
   SidebarContent,
@@ -20,6 +21,7 @@ import { cn } from "@/lib/utils";
 
 export function AppSidebar() {
   const { state } = useSidebar();
+  const { t } = useTranslation();
   const collapsed = state === "collapsed";
   const pathname = useRouterState({ select: (r) => r.location.pathname });
   const { favorites, isFavorite } = useFavorites();
@@ -66,7 +68,7 @@ export function AppSidebar() {
             <Input
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              placeholder="Search tools…"
+              placeholder={t("sidebar.search")}
               className="h-8 rounded-sm border-sidebar-border bg-sidebar-accent pl-7 font-mono text-xs placeholder:text-muted-foreground/60"
             />
           </div>
@@ -85,16 +87,16 @@ export function AppSidebar() {
         {!collapsed && favTools.length > 0 && (
           <SidebarGroup>
             <SidebarGroupLabel className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-              Favorites
+              {t("sidebar.favorites")}
             </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {favTools.map((t) => (
-                  <SidebarMenuItem key={t.slug}>
-                    <SidebarMenuButton asChild isActive={isActive(t.slug)} className="font-mono text-xs">
-                      <Link to="/tools/$slug" params={{ slug: t.slug }} className="flex items-center gap-2">
+                {favTools.map((fav) => (
+                  <SidebarMenuItem key={fav.slug}>
+                    <SidebarMenuButton asChild isActive={isActive(fav.slug)} className="font-mono text-xs">
+                      <Link to="/tools/$slug" params={{ slug: fav.slug }} className="flex items-center gap-2">
                         <Star className="h-3.5 w-3.5 fill-primary text-primary" />
-                        <span className="truncate">{t.name}</span>
+                        <span className="truncate">{t(`tools.${fav.slug}.name`)}</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -111,25 +113,25 @@ export function AppSidebar() {
             <SidebarGroup key={cat}>
               {!collapsed && (
                 <SidebarGroupLabel className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                  {cat}
+                  {t(`categories.${cat}`)}
                 </SidebarGroupLabel>
               )}
               <SidebarGroupContent>
                 <SidebarMenu>
-                  {items.map((t) => {
-                    const Icon = t.icon;
-                    const fav = isFavorite(t.slug);
+                  {items.map((tool) => {
+                    const Icon = tool.icon;
+                    const fav = isFavorite(tool.slug);
                     return (
-                      <SidebarMenuItem key={t.slug}>
+                      <SidebarMenuItem key={tool.slug}>
                         <SidebarMenuButton
                           asChild
-                          isActive={isActive(t.slug)}
-                          tooltip={t.name}
-                          className={cn("font-mono text-xs", isActive(t.slug) && "bg-sidebar-accent text-primary")}
+                          isActive={isActive(tool.slug)}
+                          tooltip={t(`tools.${tool.slug}.name`)}
+                          className={cn("font-mono text-xs", isActive(tool.slug) && "bg-sidebar-accent text-primary")}
                         >
-                          <Link to="/tools/$slug" params={{ slug: t.slug }} className="flex items-center gap-2">
+                          <Link to="/tools/$slug" params={{ slug: tool.slug }} className="flex items-center gap-2">
                             <Icon className="h-3.5 w-3.5 shrink-0" />
-                            {!collapsed && <span className="truncate">{t.name}</span>}
+                            {!collapsed && <span className="truncate">{t(`tools.${tool.slug}.name`)}</span>}
                             {!collapsed && fav && <Star className="ml-auto h-3 w-3 fill-primary text-primary" />}
                           </Link>
                         </SidebarMenuButton>
@@ -145,10 +147,10 @@ export function AppSidebar() {
       {!collapsed && (
         <Link to="/dev" className="block border-t border-sidebar-border p-3 text-center transition-colors hover:bg-sidebar-accent/30">
           <div className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground/50">
-            IT-Tools v2025.11.17
+            {t("sidebar.footer")}
           </div>
           <div className="font-mono text-[8px] text-muted-foreground/40">
-            &copy; 2025 Abir Hasan Siam
+            {t("sidebar.copyright")}
           </div>
         </Link>
       )}

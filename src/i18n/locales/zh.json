@@ -1,0 +1,543 @@
+{
+  "header": {
+    "tagline": "<primary>$</primary> tpt --version 1.0",
+    "tagline_small": "tpt",
+    "about": "关于",
+    "online": "在线",
+    "description": "在线 · 客户端 · 零遥测"
+  },
+  "sidebar": {
+    "search": "搜索工具…",
+    "favorites": "收藏",
+    "footer": "IT-Tools v2025.11.17",
+    "copyright": "© 2025 Abir Hasan Siam"
+  },
+  "categories": {
+    "Core Tools": "核心工具",
+    "Text Utilities": "文本工具",
+    "Extractors": "提取器",
+    "Crypto & Security": "加密与安全",
+    "Converters": "转换器",
+    "Web": "网页",
+    "Images & Videos": "图片与视频",
+    "Development": "开发",
+    "Network": "网络",
+    "Math": "数学",
+    "Measurement": "测量",
+    "Data": "数据",
+    "Dev Tools": "开发者工具",
+    "Advanced": "高级"
+  },
+  "common": {
+    "no_results": "未找到工具",
+    "copy": "复制",
+    "copied": "已复制",
+    "input": "输入",
+    "output": "输出",
+    "encode": "编码",
+    "decode": "解码",
+    "refresh": "刷新",
+    "reset": "重置",
+    "clear": "清除"
+  },
+  "error": {
+    "title": "404",
+    "subtitle": "页面未找到",
+    "description": "您寻找的路径不存在。",
+    "back": "← 返回仪表板"
+  },
+  "error_boundary": {
+    "title": "出现问题",
+    "retry": "重试"
+  },
+  "theme": {
+    "switch_to_light": "切换到浅色模式",
+    "switch_to_dark": "切换到深色模式"
+  },
+  "page": {
+    "title": "Text Processing Toolkit",
+    "description": "一站式文本处理工具包：转换、清理、格式化、分析、编码和生成文本 — 完全在浏览器中。"
+  },
+  "tools": {
+    "text-tracker-remover": {
+      "name": "文本追踪与移除",
+      "tagline": "搜索并移除特定的单词、句子或模式"
+    },
+    "text-repeater": {
+      "name": "文本重复器",
+      "tagline": "使用自定义分隔符和输出模式重复任意文本"
+    },
+    "symbol-tracker-multiplier": {
+      "name": "符号追踪与倍增器",
+      "tagline": "分析符号频率并倍增出现次数"
+    },
+    "symbol-filter-remove": {
+      "name": "符号过滤与批量移除",
+      "tagline": "按符号过滤行并选择性移除"
+    },
+    "global-text-formatter": {
+      "name": "全局文本格式化",
+      "tagline": "全局应用加粗、斜体、大小写和其他格式"
+    },
+    "case-converter": {
+      "name": "大小写转换器",
+      "tagline": "在13种大小写风格间转换，包括camelCase、snake_case、kebab-case"
+    },
+    "smart-replace": {
+      "name": "智能替换",
+      "tagline": "高级多对查找替换，支持正则表达式"
+    },
+    "whitespace-cleaner": {
+      "name": "空白字符清理",
+      "tagline": "修剪、折叠和规范化空白字符及行尾"
+    },
+    "duplicate-remover": {
+      "name": "重复内容移除",
+      "tagline": "从文本中移除重复行或重复单词"
+    },
+    "line-tools": {
+      "name": "行工具",
+      "tagline": "使用多种策略对行进行排序、合并和拆分"
+    },
+    "text-compare": {
+      "name": "文本比较",
+      "tagline": "在行级别或单词级别并排比较两个文本"
+    },
+    "find-replace": {
+      "name": "查找与替换",
+      "tagline": "快速单对查找替换，支持正则表达式"
+    },
+    "remove-duplicate-lines": {
+      "name": "移除重复行",
+      "tagline": "使用大小写和修剪选项移除重复行"
+    },
+    "reverse-text": {
+      "name": "文本反转",
+      "tagline": "按字符、单词或整行反转文本"
+    },
+    "sort-lines": {
+      "name": "行排序",
+      "tagline": "按字母、数字、长度排序行，或随机打乱"
+    },
+    "text-statistics": {
+      "name": "文本统计",
+      "tagline": "全面统计：字符数、单词数、句子数、阅读时间"
+    },
+    "word-frequency": {
+      "name": "词频统计",
+      "tagline": "统计单词出现次数并查看频率分布"
+    },
+    "word-wrap": {
+      "name": "自动换行",
+      "tagline": "将文本换行到指定的行宽"
+    },
+    "line-numbering": {
+      "name": "行号添加",
+      "tagline": "添加带填充和自定义分隔符的行号"
+    },
+    "indent-tool": {
+      "name": "缩进工具",
+      "tagline": "为行添加或移除缩进"
+    },
+    "prefix-suffix": {
+      "name": "前缀 / 后缀",
+      "tagline": "为每行添加或移除前缀和后缀"
+    },
+    "string-obfuscator": {
+      "name": "字符串混淆器",
+      "tagline": "使用Base64、ROT13、XOR和Hex混淆/反混淆文本"
+    },
+    "numeronym-generator": {
+      "name": "数字缩写生成器",
+      "tagline": "从长单词生成类似i18n的数字缩写"
+    },
+    "regex-cheatsheet": {
+      "name": "正则表达式速查表",
+      "tagline": "正则表达式语法和模式的快速参考"
+    },
+    "list-converter": {
+      "name": "列表转换器",
+      "tagline": "通过修剪、排序、添加前缀/后缀等方式转换列表"
+    },
+    "url-extractor": {
+      "name": "URL提取器",
+      "tagline": "从文本块中提取所有URL"
+    },
+    "email-extractor": {
+      "name": "邮箱提取器",
+      "tagline": "从文本中提取所有电子邮件地址"
+    },
+    "phone-extractor": {
+      "name": "电话提取器",
+      "tagline": "提取常见格式的电话号码"
+    },
+    "hashtag-extractor": {
+      "name": "话题标签提取器",
+      "tagline": "从社交媒体文本中提取所有话题标签"
+    },
+    "pattern-extractor": {
+      "name": "模式提取器",
+      "tagline": "提取邮箱、URL、IP、数字、日期等"
+    },
+    "bcrypt": {
+      "name": "Bcrypt哈希",
+      "tagline": "生成和验证bcrypt密码哈希"
+    },
+    "encrypt-decrypt": {
+      "name": "加密/解密",
+      "tagline": "使用AES和密码加密和解密文本"
+    },
+    "password-strength": {
+      "name": "密码强度",
+      "tagline": "通过熵值和反馈分析密码强度"
+    },
+    "hmac-generator": {
+      "name": "HMAC生成器",
+      "tagline": "使用SHA算法生成HMAC签名"
+    },
+    "rsa-generator": {
+      "name": "RSA密钥生成器",
+      "tagline": "生成RSA公钥/私钥对"
+    },
+    "token-generator": {
+      "name": "令牌生成器",
+      "tagline": "生成安全的随机API令牌和密钥"
+    },
+    "ulid-generator": {
+      "name": "ULID生成器",
+      "tagline": "生成通用唯一且按字典序可排序的ID"
+    },
+    "bip39-generator": {
+      "name": "BIP39助记词",
+      "tagline": "生成BIP39助记词密码短语"
+    },
+    "otp-generator": {
+      "name": "OTP生成器",
+      "tagline": "生成一次性密码代码"
+    },
+    "basic-auth": {
+      "name": "基本认证生成器",
+      "tagline": "生成基本认证头部字符串"
+    },
+    "pdf-signature-checker": {
+      "name": "PDF签名检查器",
+      "tagline": "验证PDF文件中的数字签名"
+    },
+    "roman-numeral": {
+      "name": "罗马数字",
+      "tagline": "在数字和罗马数字之间转换"
+    },
+    "base64-file": {
+      "name": "Base64文件",
+      "tagline": "将文件编码为Base64或将Base64解码为文件"
+    },
+    "json-to-xml": {
+      "name": "JSON ↔ XML",
+      "tagline": "在JSON和XML格式之间转换"
+    },
+    "xml-to-json": {
+      "name": "XML ↔ JSON",
+      "tagline": "将XML文档转换为JSON"
+    },
+    "json-to-csv": {
+      "name": "JSON ↔ CSV",
+      "tagline": "在JSON数组和CSV电子表格之间转换"
+    },
+    "toml-converter": {
+      "name": "TOML转换器",
+      "tagline": "在TOML和JSON格式之间转换"
+    },
+    "text-to-binary": {
+      "name": "文本转ASCII二进制",
+      "tagline": "将文本转换为ASCII二进制，以及将二进制还原为文本"
+    },
+    "text-to-unicode": {
+      "name": "文本转Unicode",
+      "tagline": "将文本转换为Unicode数字实体，以及反向转换"
+    },
+    "yaml-toml": {
+      "name": "YAML ↔ TOML",
+      "tagline": "在YAML和TOML格式之间转换"
+    },
+    "yaml-json": {
+      "name": "YAML ↔ JSON",
+      "tagline": "在YAML和JSON格式之间转换"
+    },
+    "device-info": {
+      "name": "设备信息",
+      "tagline": "显示浏览器和设备信息"
+    },
+    "open-graph-gen": {
+      "name": "OG元标签生成器",
+      "tagline": "生成用于社交分享的Open Graph元标签"
+    },
+    "keycode-info": {
+      "name": "按键代码信息",
+      "tagline": "检测并显示键盘按键代码信息"
+    },
+    "user-agent-parser": {
+      "name": "User-Agent解析器",
+      "tagline": "从User-Agent字符串解析并识别浏览器/操作系统"
+    },
+    "http-status-codes": {
+      "name": "HTTP状态码",
+      "tagline": "所有HTTP状态码的参考及说明"
+    },
+    "json-diff-viewer": {
+      "name": "JSON差异查看器",
+      "tagline": "比较两个JSON对象并高亮显示差异"
+    },
+    "mime-types": {
+      "name": "MIME类型",
+      "tagline": "按文件扩展名查找MIME类型，反之亦然"
+    },
+    "html-wysiwyg-editor": {
+      "name": "HTML所见即所得编辑器",
+      "tagline": "使用富文本编辑器编辑HTML内容"
+    },
+    "safelink-decoder": {
+      "name": "Outlook SafeLink解码器",
+      "tagline": "解码Outlook SafeLink链接"
+    },
+    "camera-recorder": {
+      "name": "摄像头录制器",
+      "tagline": "使用摄像头录制视频和截屏"
+    },
+    "json-minify": {
+      "name": "JSON压缩",
+      "tagline": "通过移除空白字符压缩JSON"
+    },
+    "docker-run-to-compose": {
+      "name": "Docker Run转Compose",
+      "tagline": "将docker run命令转换为docker-compose.yml"
+    },
+    "qr-code-gen": {
+      "name": "QR码生成器",
+      "tagline": "从文本或URL生成QR码"
+    },
+    "wifi-qr-gen": {
+      "name": "WiFi QR码",
+      "tagline": "生成用于WiFi网络访问的QR码"
+    },
+    "svg-placeholder": {
+      "name": "SVG占位图",
+      "tagline": "生成可自定义的SVG占位图像"
+    },
+    "benchmark-builder": {
+      "name": "性能基准测试",
+      "tagline": "测量和比较代码套件的执行时间"
+    },
+    "git-cheatsheet": {
+      "name": "Git速查表",
+      "tagline": "常用Git命令的快速参考"
+    },
+    "port-generator": {
+      "name": "端口生成器",
+      "tagline": "生成随机端口号并附带常用端口参考"
+    },
+    "crontab-gen": {
+      "name": "Crontab生成器",
+      "tagline": "生成和解析cron调度表达式"
+    },
+    "chmod-calc": {
+      "name": "Chmod计算器",
+      "tagline": "计算Unix文件权限的数字和符号值"
+    },
+    "email-normalizer": {
+      "name": "邮箱规范化",
+      "tagline": "规范化和验证电子邮件地址"
+    },
+    "ipv4-range-expander": {
+      "name": "IPv4范围扩展器",
+      "tagline": "将IPv4范围扩展为最小的CIDR块"
+    },
+    "ipv4-subnet-calc": {
+      "name": "IPv4子网计算器",
+      "tagline": "计算子网掩码、网络/广播地址和主机数"
+    },
+    "ipv4-converter": {
+      "name": "IPv4转换器",
+      "tagline": "在十进制、十六进制、二进制和整数之间转换IPv4地址"
+    },
+    "ipv6-generator": {
+      "name": "IPv6 ULA生成器",
+      "tagline": "生成随机的IPv6唯一本地地址"
+    },
+    "mac-lookup": {
+      "name": "MAC地址查询",
+      "tagline": "通过MAC地址查询供应商和制造商信息"
+    },
+    "mac-generator": {
+      "name": "MAC地址生成器",
+      "tagline": "以多种格式生成随机MAC地址"
+    },
+    "math-evaluator": {
+      "name": "数学计算器",
+      "tagline": "使用高级函数计算数学表达式"
+    },
+    "percentage-calc": {
+      "name": "百分比计算器",
+      "tagline": "计算百分比、增长和减少"
+    },
+    "eta-calculator": {
+      "name": "ETA计算器",
+      "tagline": "根据距离和速度计算预计到达时间"
+    },
+    "chronometer": {
+      "name": "计时器",
+      "tagline": "带分圈计时功能的高精度秒表"
+    },
+    "temp-converter": {
+      "name": "温度转换器",
+      "tagline": "在摄氏度、华氏度和开尔文之间转换"
+    },
+    "iban-validator": {
+      "name": "IBAN验证器",
+      "tagline": "验证和解析国际银行账号"
+    },
+    "phone-formatter": {
+      "name": "电话号码格式化",
+      "tagline": "以多种样式解析和格式化电话号码"
+    },
+    "regex-playground": {
+      "name": "正则表达式测试场",
+      "tagline": "实时构建、测试和调试正则表达式"
+    },
+    "json-formatter": {
+      "name": "JSON格式化器",
+      "tagline": "美化、压缩和验证JSON，并显示错误位置"
+    },
+    "html-cleaner": {
+      "name": "HTML清理器",
+      "tagline": "去除标签、解码实体和净化HTML"
+    },
+    "markdown-formatter": {
+      "name": "Markdown格式化器",
+      "tagline": "格式化Markdown并预览渲染后的输出"
+    },
+    "slug-generator": {
+      "name": "Slug生成器",
+      "tagline": "从标题和短语生成干净的URL别名"
+    },
+    "keyword-density": {
+      "name": "关键词密度",
+      "tagline": "分析关键词频率和密度百分比"
+    },
+    "base64-encode": {
+      "name": "Base64编码/解码",
+      "tagline": "编码和解码Base64文本"
+    },
+    "hash-generator": {
+      "name": "哈希生成器",
+      "tagline": "生成SHA-1、SHA-256、SHA-384、SHA-512哈希"
+    },
+    "hex-binary": {
+      "name": "十六进制 / 二进制",
+      "tagline": "在文本、十六进制和二进制表示之间转换"
+    },
+    "html-entities": {
+      "name": "HTML实体",
+      "tagline": "编码和解码HTML实体"
+    },
+    "jwt-decoder": {
+      "name": "JWT解码器",
+      "tagline": "解码JWT令牌并检查头部/载荷/签名"
+    },
+    "morse-code": {
+      "name": "摩斯电码",
+      "tagline": "将文本转换为摩斯电码，以及反向转换"
+    },
+    "nato-phonetic": {
+      "name": "NATO音标字母",
+      "tagline": "将文本转换为北约音标字母"
+    },
+    "number-base": {
+      "name": "数字进制转换",
+      "tagline": "在二进制、八进制、十进制和十六进制之间转换数字"
+    },
+    "password-generator": {
+      "name": "密码生成器",
+      "tagline": "生成安全的随机密码"
+    },
+    "sql-formatter": {
+      "name": "SQL格式化器",
+      "tagline": "格式化SQL查询以提高可读性"
+    },
+    "string-escape": {
+      "name": "字符串转义",
+      "tagline": "转义和反转义JSON、JS、SQL和Unicode字符串"
+    },
+    "timestamp-converter": {
+      "name": "时间戳转换器",
+      "tagline": "在Unix时间戳和人类可读日期之间转换"
+    },
+    "url-encoder": {
+      "name": "URL编码器/解码器",
+      "tagline": "编码和解码URL组件"
+    },
+    "url-parser": {
+      "name": "URL解析器",
+      "tagline": "将URL解析为协议、主机、路径、查询参数"
+    },
+    "uuid-generator": {
+      "name": "UUID生成器",
+      "tagline": "生成UUID v4标识符"
+    },
+    "color-converter": {
+      "name": "颜色转换器",
+      "tagline": "在hex、RGB、RGBA、HSL、HSLA颜色格式之间转换"
+    },
+    "csv-json": {
+      "name": "CSV ↔ JSON",
+      "tagline": "在CSV和JSON格式之间转换"
+    },
+    "xml-formatter": {
+      "name": "XML格式化器",
+      "tagline": "漂亮打印和格式化XML文档"
+    },
+    "yaml-prettify": {
+      "name": "YAML美化",
+      "tagline": "漂亮打印和格式化YAML文档"
+    },
+    "invisible-char-detector": {
+      "name": "不可见字符检测器",
+      "tagline": "检测并移除零宽字符和隐藏字符"
+    },
+    "unicode-cleaner": {
+      "name": "Unicode清理器",
+      "tagline": "规范化、音译和清理Unicode文本"
+    },
+    "emoji-picker": {
+      "name": "Emoji选择器",
+      "tagline": "浏览和搜索emoji，复制到剪贴板"
+    },
+    "emoji-manager": {
+      "name": "Emoji管理器",
+      "tagline": "检测、移除、替换和提取文本中的emoji"
+    },
+    "ascii-banner": {
+      "name": "ASCII横幅",
+      "tagline": "从文本生成ASCII艺术横幅"
+    },
+    "char-frequency": {
+      "name": "字符频率",
+      "tagline": "使用柱状图分析字符频率分布"
+    },
+    "cipher": {
+      "name": "密码",
+      "tagline": "编码和解码凯撒、ROT13和Atbash密码"
+    },
+    "lorem-ipsum": {
+      "name": "Lorem Ipsum生成器",
+      "tagline": "生成Lorem Ipsum占位文本"
+    },
+    "random-picker": {
+      "name": "随机选择器",
+      "tagline": "从列表中随机选择项目"
+    },
+    "unicode-inspector": {
+      "name": "Unicode检查器",
+      "tagline": "检查Unicode码点、字素簇和属性"
+    }
+  }
+}

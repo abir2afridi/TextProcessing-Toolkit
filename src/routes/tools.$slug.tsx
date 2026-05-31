@@ -1,8 +1,10 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { Suspense, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { ToolShell } from "@/components/ToolShell";
 import { getTool, toolComponents } from "@/lib/tools-registry";
 import { useRecent } from "@/lib/storage";
+import i18n from "@/i18n/config";
 
 export const Route = createFileRoute("/tools/$slug")({
   component: ToolPage,
@@ -15,13 +17,15 @@ export const Route = createFileRoute("/tools/$slug")({
   ),
   head: ({ params }) => {
     const t = getTool(params.slug);
+    const name = t ? i18n.t(`tools.${t.slug}.name`) : "";
+    const tagline = t ? i18n.t(`tools.${t.slug}.tagline`) : "";
     return {
       meta: t
         ? [
-            { title: `${t.name} — Text Processing Toolkit` },
-            { name: "description", content: t.tagline },
-            { property: "og:title", content: `${t.name} — Text Processing Toolkit` },
-            { property: "og:description", content: t.tagline },
+            { title: `${name} — Text Processing Toolkit` },
+            { name: "description", content: tagline },
+            { property: "og:title", content: `${name} — Text Processing Toolkit` },
+            { property: "og:description", content: tagline },
           ]
         : [{ title: "Tool — Text Processing Toolkit" }],
     };

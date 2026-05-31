@@ -1,74 +1,90 @@
-import { useState, useMemo } from "react";
+import { useState, useCallback } from "react";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { OptionRow } from "@/components/ToolShell";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 
-type Unit = "C" | "F" | "K";
+type Scale = "kelvin" | "celsius" | "fahrenheit" | "rankine" | "delisle" | "newton" | "reaumur" | "romer";
 
-function convert(value: number, from: Unit) {
-  switch (from) {
-    case "C": return { C: value, F: value * 9 / 5 + 32, K: value + 273.15 };
-    case "F": return { C: (value - 32) * 5 / 9, F: value, K: (value - 32) * 5 / 9 + 273.15 };
-    case "K": return { C: value - 273.15, F: (value - 273.15) * 9 / 5 + 32, K: value };
-  }
-}
+const scales: { key: Scale; title: string; unit: string }[] = [
+  { key: "kelvin", title: "Kelvin", unit: "K" },
+  { key: "celsius", title: "Celsius", unit: "°C" },
+  { key: "fahrenheit", title: "Fahrenheit", unit: "°F" },
+  { key: "rankine", title: "Rankine", unit: "°R" },
+  { key: "delisle", title: "Delisle", unit: "°De" },
+  { key: "newton", title: "Newton", unit: "°N" },
+  { key: "reaumur", title: "Réaumur", unit: "°Ré" },
+  { key: "romer", title: "Rømer", unit: "°Rø" },
+];
 
-function Card({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-sm border border-border bg-surface p-4">
-      <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">{label}</div>
-      <div className="mt-1 font-mono text-2xl text-primary">{value}</div>
-    </div>
-  );
-}
+const toKelvin: Record<Scale, (v: number) => number> = {
+  kelvin: (v) => v,
+  celsius: (v) => v + 273.15,
+  fahrenheit: (v) => (v + 459.67) * (5 / 9),
+  rankine: (v) => v * (5 / 9),
+  delisle: (v) => 373.15 - (2 / 3) * v,
+  newton: (v) => v * (100 / 33) + 273.15,
+  reaumur: (v) => v * (5 / 4) + 273.15,
+  romer: (v) => (v - 7.5) * (40 / 21) + 273.15,
+};
+
+const fromKelvin: Record<Scale, (v: number) => number> = {
+  kelvin: (v) => v,
+  celsius: (v) => v - 273.15,
+  fahrenheit: (v) => v * (9 / 5) - 459.67,
+  rankine: (v) => v * (9 / 5),
+  delisle: (v) => (3 / 2) * (373.15 - v),
+  newton: (v) => (v - 273.15) * (33 / 100),
+  reaumur: (v) => (v - 273.15) * (4 / 5),
+  romer: (v) => (v - 273.15) * (21 / 40) + 7.5,
+};
+
+function round(v: number) { return Math.floor(v * 100 + 0.00001) / 100; }
 
 export default function TempConverter() {
-  const [value, setValue] = useState("100");
-  const [unit, setUnit] = useState<Unit>("C");
+  const [values, setValues] = useState<Record<Scale, string>>(() => {
+    const init: Record<string, string> = {};
+    for (const { key } of scales) init[key] = "";
+    init.kelvin = "300";
+    return init as Record<Scale, string>;
+  });
 
-  const result = useMemo(() => {
-    const n = parseFloat(value);
-    if (isNaN(n)) return null;
-    if (unit === "K" && n < 0) return null;
-    const converted = convert(n, unit);
-    return {
-      C: converted.C.toFixed(2),
-      F: converted.F.toFixed(2),
-      K: converted.K.toFixed(2),
-    };
-  }, [value, unit]);
+  const update = useCallback((changedKey: Scale, raw: string) => {
+    const n = parseFloat(raw);
+    if (isNaN(n)) {
+      setValues((prev) => ({ ...prev, [changedKey]: raw }));
+      return;
+    }
+    const kelvins = toKelvin[changedKey](n);
+    setValues((prev) => {
+      const next = { ...prev, [changedKey]: raw };
+      for (const { key } of scales) {
+        if (key !== changedKey) {
+          next[key] = round(fromKelvin[key](kelvins)).toString();
+        }
+      }
+      return next;
+    });
+  }, []);
 
   return (
-    <div className="space-y-4">
-      <OptionRow>
-        <div className="flex items-center gap-2">
-          <Label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">Value</Label>
-          <Input type="number" value={value} onChange={(e) => setValue(e.target.value)} className="h-8 w-28 rounded-sm font-mono text-xs" />
+    <div className="space-y-3">
+      {scales.map(({ key, title, unit }) => (
+        <div key={key} className="flex items-center gap-0">
+          <div className="flex h-8 w-[100px] items-center rounded-sm rounded-r-none border border-border bg-muted/40 px-3 font-mono text-[11px] text-muted-foreground">
+            {title}
+          </div>
+          <Button size="sm" variant="ghost" className="h-8 w-6 rounded-none border border-border border-r-0 font-mono text-xs" onClick={() => update(key, String((parseFloat(values[key]) || 0) - 1))}>−</Button>
+          <Input
+            type="number"
+            value={values[key]}
+            onChange={(e) => update(key, e.target.value)}
+            className="h-8 flex-1 rounded-none font-mono text-xs"
+          />
+          <Button size="sm" variant="ghost" className="h-8 w-6 rounded-none border border-border border-l-0 font-mono text-xs" onClick={() => update(key, String((parseFloat(values[key]) || 0) + 1))}>+</Button>
+          <div className="flex h-8 w-[50px] items-center rounded-sm rounded-l-none border border-border bg-muted/40 px-3 font-mono text-[11px] text-muted-foreground">
+            {unit}
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          <Label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">From</Label>
-          <Select value={unit} onValueChange={(v) => setUnit(v as Unit)}>
-            <SelectTrigger className="h-7 w-24 rounded-sm font-mono text-xs">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="C" className="font-mono text-xs">Celsius (°C)</SelectItem>
-              <SelectItem value="F" className="font-mono text-xs">Fahrenheit (°F)</SelectItem>
-              <SelectItem value="K" className="font-mono text-xs">Kelvin (K)</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </OptionRow>
-      {result === null ? (
-        <div className="rounded-sm border border-destructive/40 bg-destructive/10 px-3 py-2 font-mono text-xs text-destructive">Invalid input</div>
-      ) : (
-        <div className="grid gap-4 sm:grid-cols-3">
-          <Card label="Celsius (°C)" value={result.C + " °C"} />
-          <Card label="Fahrenheit (°F)" value={result.F + " °F"} />
-          <Card label="Kelvin (K)" value={result.K + " K"} />
-        </div>
-      )}
+      ))}
     </div>
   );
 }

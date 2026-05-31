@@ -4,6 +4,7 @@ import {
   WrapText, Maximize2, Minimize2, Share2, Check, FileText, Printer,
 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useFavorites } from "@/lib/storage";
@@ -17,6 +18,7 @@ interface Props {
 }
 
 export function ToolShell({ tool, children }: Props) {
+  const { t } = useTranslation();
   const { isFavorite, toggle } = useFavorites();
   const Icon = tool.icon;
   const fav = isFavorite(tool.slug);
@@ -57,12 +59,12 @@ export function ToolShell({ tool, children }: Props) {
           <div>
             <div className="flex items-center gap-2">
               <Badge variant="outline" className="rounded-sm border-border bg-transparent font-mono text-[9px] uppercase tracking-widest text-muted-foreground">
-                {tool.category}
+                {t(`categories.${tool.category}`)}
               </Badge>
               <code className="font-mono text-[10px] text-muted-foreground/70">/{tool.slug}</code>
             </div>
-            <h1 className="mt-1 font-mono text-xl font-bold tracking-tight">{tool.name}</h1>
-            <p className="mt-0.5 text-sm text-muted-foreground">{tool.tagline}</p>
+            <h1 className="mt-1 font-mono text-xl font-bold tracking-tight">{t(`tools.${tool.slug}.name`)}</h1>
+            <p className="mt-0.5 text-sm text-muted-foreground">{t(`tools.${tool.slug}.tagline`)}</p>
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-1.5">

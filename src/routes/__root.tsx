@@ -1,6 +1,9 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import { Sun, Moon } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { I18nextProvider } from "react-i18next";
+import i18n from "@/i18n/config";
 import { Button } from "@/components/ui/button";
 import {
   Outlet,
@@ -15,22 +18,24 @@ import appCss from "../styles.css?url";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { Toaster } from "@/components/ui/sonner";
+import { LanguageSwitcher } from "@/i18n/LanguageSwitcher";
 
 function NotFoundComponent() {
+  const { t } = useTranslation();
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <h1 className="font-mono text-7xl font-bold text-primary text-glow">404</h1>
-        <h2 className="mt-4 font-mono text-xl font-semibold text-foreground">page not found</h2>
+        <h1 className="font-mono text-7xl font-bold text-primary text-glow">{t("error.title")}</h1>
+        <h2 className="mt-4 font-mono text-xl font-semibold text-foreground">{t("error.subtitle")}</h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          The route you're looking for doesn't exist.
+          {t("error.description")}
         </p>
         <div className="mt-6">
           <Link
             to="/"
             className="inline-flex items-center justify-center rounded-sm bg-primary px-4 py-2 font-mono text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            ← back to dashboard
+            {t("error.back")}
           </Link>
         </div>
       </div>
@@ -39,13 +44,14 @@ function NotFoundComponent() {
 }
 
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+  const { t } = useTranslation();
   console.error(error);
   const router = useRouter();
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="font-mono text-xl font-semibold tracking-tight text-foreground">
-          something went wrong
+          {t("error_boundary.title")}
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">{error.message}</p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
@@ -56,7 +62,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
             }}
             className="inline-flex items-center justify-center rounded-sm bg-primary px-4 py-2 font-mono text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            try again
+            {t("error_boundary.retry")}
           </button>
         </div>
       </div>
@@ -101,7 +107,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem("tpt-theme");if(t==="light"||t==="dark")document.documentElement.className=t}catch(e){}})()`,
+            __html: `(function(){try{var t=localStorage.getItem("tpt-theme");if(t==="light"||t==="dark")document.documentElement.className=t;var l=localStorage.getItem("tpt-locale");if(l)document.documentElement.lang=l}catch(e){}})()`,
           }}
         />
         <HeadContent />
@@ -117,6 +123,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const { t } = useTranslation();
 
   useEffect(() => {
     const saved = localStorage.getItem("tpt-theme") as "dark" | "light" | null;
@@ -139,7 +146,8 @@ function RootComponent() {
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <I18nextProvider i18n={i18n}>
+      <QueryClientProvider client={queryClient}>
       <SidebarProvider>
         <div className="flex min-h-screen w-full overflow-x-hidden bg-background">
           <AppSidebar />
@@ -156,16 +164,16 @@ function RootComponent() {
                 to="/about"
                 className="font-mono text-[10px] text-muted-foreground transition-colors hover:text-primary"
               >
-                About
+                {t("header.about")}
               </Link>
               <div className="ml-auto" />
               <div className="flex items-center gap-1.5 font-mono text-[10px] text-muted-foreground max-sm:hidden">
                 <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-                online
+                {t("header.online")}
               </div>
               <div className="hidden items-center gap-2 font-mono text-[10px] text-muted-foreground md:flex">
                 <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-                online · client-side · zero telemetry
+                {t("header.description")}
               </div>
               <div className="font-mono text-[10px] text-muted-foreground max-sm:hidden">
                 {now.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })}{" "}
@@ -175,12 +183,13 @@ function RootComponent() {
                 {String(now.getMinutes()).padStart(2, "0")}:
                 <span className="text-primary">{String(now.getSeconds()).padStart(2, "0")}</span>
               </div>
+              <LanguageSwitcher />
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={toggleTheme}
                 className="h-8 w-8 rounded-sm p-0"
-                title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+                title={t(theme === "dark" ? "theme.switch_to_light" : "theme.switch_to_dark")}
               >
                 {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
               </Button>
@@ -192,6 +201,7 @@ function RootComponent() {
         </div>
         <Toaster />
       </SidebarProvider>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </I18nextProvider>
   );
 }

@@ -14,6 +14,15 @@ function fmtIPv4(n: number) {
   return [(n >>> 24) & 0xff, (n >>> 16) & 0xff, (n >>> 8) & 0xff, n & 0xff].join(".");
 }
 
+function ipv4ToIpv6(n: number) {
+  const high = ((n >>> 16) & 0xffff).toString(16).padStart(4, "0");
+  const low = (n & 0xffff).toString(16).padStart(4, "0");
+  return {
+    full: `0000:0000:0000:0000:0000:ffff:${high}:${low}`,
+    short: `::ffff:${high}:${low}`,
+  };
+}
+
 function Card({ label, value, mono }: { label: string; value: string; mono?: boolean }) {
   return (
     <div className="rounded-sm border border-border bg-surface p-3">
@@ -30,12 +39,15 @@ export default function IPv4Converter() {
     if (mode === "ipv4") {
       const n = validateIPv4(input);
       if (n === null) return { error: "Invalid IPv4 address" };
+      const ipv6 = ipv4ToIpv6(n);
       return {
         decimal: String(n),
         hex: "0x" + n.toString(16).toUpperCase(),
         binary: n.toString(2).padStart(32, "0"),
         octal: "0o" + n.toString(8),
         integer: String(n),
+        ipv6Full: ipv6.full,
+        ipv6Short: ipv6.short,
       };
     } else {
       const n = parseInt(input.trim(), 10);
@@ -74,6 +86,8 @@ export default function IPv4Converter() {
               <Card label="Binary" value={(result as any).binary} />
               <Card label="Octal" value={(result as any).octal} />
               <Card label="Integer" value={(result as any).integer} />
+              <Card label="IPv6" value={(result as any).ipv6Full} />
+              <Card label="IPv6 (short)" value={(result as any).ipv6Short} />
             </>
           ) : (
             <>

@@ -120,6 +120,7 @@ export const toolComponents: Record<string, ComponentType> = {
   "svg-placeholder": lazyTool(() => import("@/components/tools/SVGPlaceholder")),
 
   // Development
+  "benchmark-builder": lazyTool(() => import("@/components/tools/BenchmarkBuilder")),
   "git-cheatsheet": lazyTool(() => import("@/components/tools/GitCheatsheet")),
   "port-generator": lazyTool(() => import("@/components/tools/PortGenerator")),
   "crontab-gen": lazyTool(() => import("@/components/tools/CrontabGen")),
@@ -127,9 +128,11 @@ export const toolComponents: Record<string, ComponentType> = {
   "email-normalizer": lazyTool(() => import("@/components/tools/EmailNormalizer")),
 
   // Network
+  "ipv4-range-expander": lazyTool(() => import("@/components/tools/IPv4RangeExpander")),
   "ipv4-subnet-calc": lazyTool(() => import("@/components/tools/IPv4SubnetCalc")),
   "ipv4-converter": lazyTool(() => import("@/components/tools/IPv4Converter")),
   "ipv6-generator": lazyTool(() => import("@/components/tools/IPv6Generator")),
+  "mac-lookup": lazyTool(() => import("@/components/tools/MacAddressLookup")),
   "mac-generator": lazyTool(() => import("@/components/tools/MACGenerator")),
 
   // Math
@@ -177,6 +180,7 @@ export const toolComponents: Record<string, ComponentType> = {
   // Advanced
   "invisible-char-detector": lazyTool(() => import("@/components/tools/InvisibleCharDetector")),
   "unicode-cleaner": lazyTool(() => import("@/components/tools/UnicodeCleaner")),
+  "emoji-picker": lazyTool(() => import("@/components/tools/EmojiPicker")),
   "emoji-manager": lazyTool(() => import("@/components/tools/EmojiManager")),
   "ascii-banner": lazyTool(() => import("@/components/tools/AsciiBanner")),
   "char-frequency": lazyTool(() => import("@/components/tools/CharFrequency")),
@@ -268,6 +272,7 @@ export const tools: ToolMeta[] = [
   { slug: "svg-placeholder", name: "SVG Placeholder", tagline: "Generate customizable SVG placeholder images", category: "Images & Videos", icon: Image, keywords: ["svg","placeholder","image","generate","placeholder"] },
 
   // ===================== Development =====================
+  { slug: "benchmark-builder", name: "Benchmark Builder", tagline: "Measure and compare execution time of code suites", category: "Development", icon: GitBranch, keywords: ["benchmark","builder","execution","duration","mean","variance"] },
   { slug: "git-cheatsheet", name: "Git Cheatsheet", tagline: "Quick reference for common Git commands", category: "Development", icon: GitBranch, keywords: ["git","cheatsheet","reference","commands","version control"] },
   { slug: "port-generator", name: "Port Generator", tagline: "Generate random port numbers with common ports reference", category: "Development", icon: Router, keywords: ["port","network","generate","random","tcp"] },
   { slug: "crontab-gen", name: "Crontab Generator", tagline: "Generate and parse cron schedule expressions", category: "Development", icon: Clock, keywords: ["cron","crontab","schedule","timer","automation"] },
@@ -275,9 +280,11 @@ export const tools: ToolMeta[] = [
   { slug: "email-normalizer", name: "Email Normalizer", tagline: "Normalize and validate email addresses", category: "Development", icon: AtSign, keywords: ["email","normalize","validate","gmail","clean"] },
 
   // ===================== Network =====================
+  { slug: "ipv4-range-expander", name: "IPv4 Range Expander", tagline: "Expand an IPv4 range into the smallest CIDR block", category: "Network", icon: Router, keywords: ["ipv4","range","expander","subnet","cidr"] },
   { slug: "ipv4-subnet-calc", name: "IPv4 Subnet Calculator", tagline: "Calculate subnet masks, network/broadcast addresses, and hosts", category: "Network", icon: Router, keywords: ["ipv4","subnet","cidr","network","calculator"] },
   { slug: "ipv4-converter", name: "IPv4 Converter", tagline: "Convert IPv4 addresses between decimal, hex, binary, and integer", category: "Network", icon: Globe, keywords: ["ipv4","convert","decimal","hex","binary"] },
   { slug: "ipv6-generator", name: "IPv6 ULA Generator", tagline: "Generate random IPv6 Unique Local Addresses", category: "Network", icon: Globe, keywords: ["ipv6","ula","address","generate","local"] },
+  { slug: "mac-lookup", name: "MAC Address Lookup", tagline: "Look up vendor and manufacturer info by MAC address", category: "Network", icon: Router, keywords: ["mac","address","lookup","vendor","oui","manufacturer"] },
   { slug: "mac-generator", name: "MAC Generator", tagline: "Generate random MAC addresses in multiple formats", category: "Network", icon: Router, keywords: ["mac","address","generate","random","network"] },
 
   // ===================== Math =====================
@@ -323,6 +330,7 @@ export const tools: ToolMeta[] = [
   // ===================== Advanced =====================
   { slug: "invisible-char-detector", name: "Invisible Character Detector", tagline: "Detect and remove zero-width and hidden characters", category: "Advanced", icon: ShieldAlert, keywords: ["invisible","zero-width","hidden","zwsp","bom"] },
   { slug: "unicode-cleaner", name: "Unicode Cleaner", tagline: "Normalize, transliterate, and clean Unicode text", category: "Advanced", icon: Languages, keywords: ["unicode","normalize","nfc","nfkc","transliterate"] },
+  { slug: "emoji-picker", name: "Emoji Picker", tagline: "Browse and search emojis, copy to clipboard", category: "Advanced", icon: Smile, keywords: ["emoji","picker","unicode","copy","paste"] },
   { slug: "emoji-manager", name: "Emoji Manager", tagline: "Detect, remove, replace, and extract emojis from text", category: "Advanced", icon: Smile, keywords: ["emoji","detect","remove","extract"] },
   { slug: "ascii-banner", name: "ASCII Banner", tagline: "Generate ASCII art banners from text", category: "Advanced", icon: Type, keywords: ["ascii","banner","art","text"] },
   { slug: "char-frequency", name: "Character Frequency", tagline: "Analyze character frequency distribution with bar chart", category: "Advanced", icon: BarChart3, keywords: ["character","frequency","distribution","chart"] },

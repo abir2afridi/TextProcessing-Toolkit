@@ -1,0 +1,543 @@
+{
+  "header": {
+    "tagline": "<primary>$</primary> tpt --version 1.0",
+    "tagline_small": "tpt",
+    "about": "Acerca de",
+    "online": "en línea",
+    "description": "en línea · lado del cliente · cero telemetría"
+  },
+  "sidebar": {
+    "search": "Buscar herramientas…",
+    "favorites": "Favoritos",
+    "footer": "IT-Tools v2025.11.17",
+    "copyright": "© 2025 Abir Hasan Siam"
+  },
+  "categories": {
+    "Core Tools": "Herramientas principales",
+    "Text Utilities": "Utilidades de texto",
+    "Extractors": "Extractores",
+    "Crypto & Security": "Cripto y seguridad",
+    "Converters": "Convertidores",
+    "Web": "Web",
+    "Images & Videos": "Imágenes y videos",
+    "Development": "Desarrollo",
+    "Network": "Red",
+    "Math": "Matemáticas",
+    "Measurement": "Medición",
+    "Data": "Datos",
+    "Dev Tools": "Herramientas de desarrollo",
+    "Advanced": "Avanzado"
+  },
+  "common": {
+    "no_results": "No se encontraron herramientas",
+    "copy": "Copiar",
+    "copied": "Copiado",
+    "input": "Entrada",
+    "output": "Salida",
+    "encode": "Codificar",
+    "decode": "Decodificar",
+    "refresh": "Actualizar",
+    "reset": "Restablecer",
+    "clear": "Limpiar"
+  },
+  "error": {
+    "title": "404",
+    "subtitle": "página no encontrada",
+    "description": "La ruta que buscas no existe.",
+    "back": "← volver al panel"
+  },
+  "error_boundary": {
+    "title": "algo salió mal",
+    "retry": "intentar de nuevo"
+  },
+  "theme": {
+    "switch_to_light": "Cambiar a modo claro",
+    "switch_to_dark": "Cambiar a modo oscuro"
+  },
+  "page": {
+    "title": "Text Processing Toolkit",
+    "description": "Kit de herramientas de procesamiento de texto todo en uno: convierta, limpie, formatee, analice, codifique y genere texto — completamente en el navegador."
+  },
+  "tools": {
+    "text-tracker-remover": {
+      "name": "Buscador y Eliminador de Texto",
+      "tagline": "Buscar y eliminar palabras, frases o patrones específicos"
+    },
+    "text-repeater": {
+      "name": "Repetidor de Texto",
+      "tagline": "Repetir cualquier texto con separadores y modos de salida personalizados"
+    },
+    "symbol-tracker-multiplier": {
+      "name": "Rastreador y Multiplicador de Símbolos",
+      "tagline": "Analizar frecuencia de símbolos y multiplicar ocurrencias"
+    },
+    "symbol-filter-remove": {
+      "name": "Filtro y Eliminación Masiva de Símbolos",
+      "tagline": "Filtrar líneas por símbolo y eliminarlas selectivamente"
+    },
+    "global-text-formatter": {
+      "name": "Formateador Global de Texto",
+      "tagline": "Aplicar negrita, cursiva, mayúsculas/minúsculas y otros formatos globalmente"
+    },
+    "case-converter": {
+      "name": "Convertidor de Mayúsculas/Minúsculas",
+      "tagline": "Convertir entre 13 estilos, incluyendo camelCase, snake_case, kebab-case"
+    },
+    "smart-replace": {
+      "name": "Reemplazo Inteligente",
+      "tagline": "Búsqueda y reemplazo avanzado de múltiples pares con soporte de regex"
+    },
+    "whitespace-cleaner": {
+      "name": "Limpiador de Espacios",
+      "tagline": "Recortar, colapsar y normalizar espacios y finales de línea"
+    },
+    "duplicate-remover": {
+      "name": "Eliminador de Duplicados",
+      "tagline": "Eliminar líneas o palabras duplicadas del texto"
+    },
+    "line-tools": {
+      "name": "Herramientas de Líneas",
+      "tagline": "Ordenar, fusionar y dividir líneas con múltiples estrategias"
+    },
+    "text-compare": {
+      "name": "Comparar Texto",
+      "tagline": "Comparar dos textos lado a lado a nivel de línea o palabra"
+    },
+    "find-replace": {
+      "name": "Buscar y Reemplazar",
+      "tagline": "Búsqueda y reemplazo rápido de un solo par con soporte de regex"
+    },
+    "remove-duplicate-lines": {
+      "name": "Eliminar Líneas Duplicadas",
+      "tagline": "Eliminar líneas duplicadas con opciones de mayúsculas y recorte"
+    },
+    "reverse-text": {
+      "name": "Texto Inverso",
+      "tagline": "Invertir texto por caracteres, palabras o líneas enteras"
+    },
+    "sort-lines": {
+      "name": "Ordenar Líneas",
+      "tagline": "Ordenar líneas alfabética, numéricamente, por longitud o aleatorio"
+    },
+    "text-statistics": {
+      "name": "Estadísticas de Texto",
+      "tagline": "Estadísticas completas: caracteres, palabras, oraciones, tiempo de lectura"
+    },
+    "word-frequency": {
+      "name": "Frecuencia de Palabras",
+      "tagline": "Contar ocurrencias de palabras con distribución de frecuencias"
+    },
+    "word-wrap": {
+      "name": "Ajuste de Línea",
+      "tagline": "Ajustar texto a un ancho de línea específico"
+    },
+    "line-numbering": {
+      "name": "Numeración de Líneas",
+      "tagline": "Agregar números de línea con relleno y separadores personalizados"
+    },
+    "indent-tool": {
+      "name": "Herramienta de Sangría",
+      "tagline": "Agregar o eliminar sangría de las líneas"
+    },
+    "prefix-suffix": {
+      "name": "Prefijo / Sufijo",
+      "tagline": "Agregar o eliminar prefijo y sufijo de cada línea"
+    },
+    "string-obfuscator": {
+      "name": "Ofuscador de Cadenas",
+      "tagline": "Ofuscar/desofuscar texto con Base64, ROT13, XOR y hex"
+    },
+    "numeronym-generator": {
+      "name": "Generador de Numerónimos",
+      "tagline": "Generar numerónimos como i18n a partir de palabras largas"
+    },
+    "regex-cheatsheet": {
+      "name": "Guía Rápida de Regex",
+      "tagline": "Referencia rápida para sintaxis y patrones de expresiones regulares"
+    },
+    "list-converter": {
+      "name": "Convertidor de Listas",
+      "tagline": "Transformar listas con recorte, ordenación, prefijo/sufijo y más"
+    },
+    "url-extractor": {
+      "name": "Extractor de URLs",
+      "tagline": "Extraer todas las URLs de un bloque de texto"
+    },
+    "email-extractor": {
+      "name": "Extractor de Correos",
+      "tagline": "Extraer todas las direcciones de correo electrónico del texto"
+    },
+    "phone-extractor": {
+      "name": "Extractor de Teléfonos",
+      "tagline": "Extraer números de teléfono en formatos comunes"
+    },
+    "hashtag-extractor": {
+      "name": "Extractor de Hashtags",
+      "tagline": "Extraer todos los hashtags de texto de redes sociales"
+    },
+    "pattern-extractor": {
+      "name": "Extractor de Patrones",
+      "tagline": "Extraer correos, URLs, IPs, números, fechas y más"
+    },
+    "bcrypt": {
+      "name": "Hash Bcrypt",
+      "tagline": "Generar y verificar hashes de contraseñas bcrypt"
+    },
+    "encrypt-decrypt": {
+      "name": "Cifrar/Descifrar",
+      "tagline": "Cifrar y descifrar texto con AES y una contraseña"
+    },
+    "password-strength": {
+      "name": "Fortaleza de Contraseña",
+      "tagline": "Analizar la fortaleza de la contraseña con entropía y comentarios"
+    },
+    "hmac-generator": {
+      "name": "Generador HMAC",
+      "tagline": "Generar firmas HMAC con algoritmos SHA"
+    },
+    "rsa-generator": {
+      "name": "Generador de Claves RSA",
+      "tagline": "Generar pares de claves públicas/privadas RSA"
+    },
+    "token-generator": {
+      "name": "Generador de Tokens",
+      "tagline": "Generar tokens y claves API aleatorios seguros"
+    },
+    "ulid-generator": {
+      "name": "Generador ULID",
+      "tagline": "Generar IDs universalmente únicos y lexicográficamente ordenables"
+    },
+    "bip39-generator": {
+      "name": "Frase de Paso BIP39",
+      "tagline": "Generar frases de paso mnemotécnicas BIP39"
+    },
+    "otp-generator": {
+      "name": "Generador OTP",
+      "tagline": "Generar códigos de contraseña de un solo uso"
+    },
+    "basic-auth": {
+      "name": "Generador de Autenticación Básica",
+      "tagline": "Generar cadenas de encabezado de Autenticación Básica"
+    },
+    "pdf-signature-checker": {
+      "name": "Verificador de Firmas PDF",
+      "tagline": "Verificar firmas digitales en archivos PDF"
+    },
+    "roman-numeral": {
+      "name": "Número Romano",
+      "tagline": "Convertir entre números y numerales romanos"
+    },
+    "base64-file": {
+      "name": "Archivo Base64",
+      "tagline": "Codificar archivos a Base64 o decodificar Base64 a archivos"
+    },
+    "json-to-xml": {
+      "name": "JSON ↔ XML",
+      "tagline": "Convertir entre formatos JSON y XML"
+    },
+    "xml-to-json": {
+      "name": "XML ↔ JSON",
+      "tagline": "Convertir documentos XML a JSON"
+    },
+    "json-to-csv": {
+      "name": "JSON ↔ CSV",
+      "tagline": "Convertir entre arrays JSON y hojas de cálculo CSV"
+    },
+    "toml-converter": {
+      "name": "Convertidor TOML",
+      "tagline": "Convertir entre formatos TOML y JSON"
+    },
+    "text-to-binary": {
+      "name": "Texto a Binario ASCII",
+      "tagline": "Convertir texto a binario ASCII y binario de vuelta a texto"
+    },
+    "text-to-unicode": {
+      "name": "Texto a Unicode",
+      "tagline": "Convertir texto a entidades numéricas Unicode y viceversa"
+    },
+    "yaml-toml": {
+      "name": "YAML ↔ TOML",
+      "tagline": "Convertir entre formatos YAML y TOML"
+    },
+    "yaml-json": {
+      "name": "YAML ↔ JSON",
+      "tagline": "Convertir entre formatos YAML y JSON"
+    },
+    "device-info": {
+      "name": "Información del Dispositivo",
+      "tagline": "Mostrar información del navegador y del dispositivo"
+    },
+    "open-graph-gen": {
+      "name": "Generador de Meta OG",
+      "tagline": "Generar etiquetas meta Open Graph para compartir en redes sociales"
+    },
+    "keycode-info": {
+      "name": "Información de Código de Tecla",
+      "tagline": "Detectar y mostrar información del código de tecla del teclado"
+    },
+    "user-agent-parser": {
+      "name": "Analizador de User-Agent",
+      "tagline": "Analizar e identificar navegador/SO a partir de cadenas user-agent"
+    },
+    "http-status-codes": {
+      "name": "Códigos de Estado HTTP",
+      "tagline": "Referencia de todos los códigos de estado HTTP con descripciones"
+    },
+    "json-diff-viewer": {
+      "name": "Visor de Diferencias JSON",
+      "tagline": "Comparar dos objetos JSON y resaltar diferencias"
+    },
+    "mime-types": {
+      "name": "Tipos MIME",
+      "tagline": "Buscar tipos MIME por extensión de archivo y viceversa"
+    },
+    "html-wysiwyg-editor": {
+      "name": "Editor HTML WYSIWYG",
+      "tagline": "Editar contenido HTML con un editor de texto enriquecido"
+    },
+    "safelink-decoder": {
+      "name": "Decodificador Outlook Safelink",
+      "tagline": "Decodificar enlaces SafeLink de Outlook"
+    },
+    "camera-recorder": {
+      "name": "Grabador de Cámara",
+      "tagline": "Grabar videos y tomar capturas de pantalla usando su cámara"
+    },
+    "json-minify": {
+      "name": "Minificar JSON",
+      "tagline": "Minificar JSON eliminando espacios en blanco"
+    },
+    "docker-run-to-compose": {
+      "name": "Docker Run a Compose",
+      "tagline": "Convertir un comando docker run a docker-compose.yml"
+    },
+    "qr-code-gen": {
+      "name": "Generador de Códigos QR",
+      "tagline": "Generar códigos QR a partir de texto o URLs"
+    },
+    "wifi-qr-gen": {
+      "name": "Código QR WiFi",
+      "tagline": "Generar códigos QR para acceso a redes WiFi"
+    },
+    "svg-placeholder": {
+      "name": "Placeholder SVG",
+      "tagline": "Generar imágenes placeholder SVG personalizables"
+    },
+    "benchmark-builder": {
+      "name": "Constructor de Benchmarks",
+      "tagline": "Medir y comparar el tiempo de ejecución de suites de código"
+    },
+    "git-cheatsheet": {
+      "name": "Guía Rápida de Git",
+      "tagline": "Referencia rápida para comandos comunes de Git"
+    },
+    "port-generator": {
+      "name": "Generador de Puertos",
+      "tagline": "Generar números de puerto aleatorios con referencia de puertos comunes"
+    },
+    "crontab-gen": {
+      "name": "Generador de Crontab",
+      "tagline": "Generar y analizar expresiones de programación cron"
+    },
+    "chmod-calc": {
+      "name": "Calculadora Chmod",
+      "tagline": "Calcular valores numéricos y simbólicos de permisos de archivos Unix"
+    },
+    "email-normalizer": {
+      "name": "Normalizador de Correos",
+      "tagline": "Normalizar y validar direcciones de correo electrónico"
+    },
+    "ipv4-range-expander": {
+      "name": "Expansor de Rango IPv4",
+      "tagline": "Expandir un rango IPv4 al bloque CIDR más pequeño"
+    },
+    "ipv4-subnet-calc": {
+      "name": "Calculadora de Subred IPv4",
+      "tagline": "Calcular máscaras de subred, direcciones de red/broadcast y hosts"
+    },
+    "ipv4-converter": {
+      "name": "Convertidor IPv4",
+      "tagline": "Convertir direcciones IPv4 entre decimal, hex, binario y entero"
+    },
+    "ipv6-generator": {
+      "name": "Generador IPv6 ULA",
+      "tagline": "Generar direcciones locales únicas IPv6 aleatorias"
+    },
+    "mac-lookup": {
+      "name": "Búsqueda de Dirección MAC",
+      "tagline": "Buscar información del fabricante por dirección MAC"
+    },
+    "mac-generator": {
+      "name": "Generador MAC",
+      "tagline": "Generar direcciones MAC aleatorias en múltiples formatos"
+    },
+    "math-evaluator": {
+      "name": "Evaluador Matemático",
+      "tagline": "Evaluar expresiones matemáticas con funciones avanzadas"
+    },
+    "percentage-calc": {
+      "name": "Calculadora de Porcentajes",
+      "tagline": "Calcular porcentajes, aumentos y disminuciones"
+    },
+    "eta-calculator": {
+      "name": "Calculadora ETA",
+      "tagline": "Calcular el tiempo estimado de llegada desde distancia y velocidad"
+    },
+    "chronometer": {
+      "name": "Cronómetro",
+      "tagline": "Cronómetro de precisión con temporización de vueltas"
+    },
+    "temp-converter": {
+      "name": "Convertidor de Temperatura",
+      "tagline": "Convertir entre Celsius, Fahrenheit y Kelvin"
+    },
+    "iban-validator": {
+      "name": "Validador IBAN",
+      "tagline": "Validar y analizar números de cuenta bancaria internacionales"
+    },
+    "phone-formatter": {
+      "name": "Formateador de Teléfonos",
+      "tagline": "Analizar y formatear números de teléfono en múltiples estilos"
+    },
+    "regex-playground": {
+      "name": "Campo de Pruebas Regex",
+      "tagline": "Crear, probar y depurar expresiones regulares en vivo"
+    },
+    "json-formatter": {
+      "name": "Formateador JSON",
+      "tagline": "Embellecer, minimizar y validar JSON con ubicación de errores"
+    },
+    "html-cleaner": {
+      "name": "Limpiador HTML",
+      "tagline": "Eliminar etiquetas, decodificar entidades y sanitizar HTML"
+    },
+    "markdown-formatter": {
+      "name": "Formateador Markdown",
+      "tagline": "Formatear markdown y previsualizar la salida renderizada"
+    },
+    "slug-generator": {
+      "name": "Generador de Slugs",
+      "tagline": "Generar slugs de URL limpios a partir de títulos y frases"
+    },
+    "keyword-density": {
+      "name": "Densidad de Palabras Clave",
+      "tagline": "Analizar frecuencia de palabras clave y porcentajes de densidad"
+    },
+    "base64-encode": {
+      "name": "Codificar/Decodificar Base64",
+      "tagline": "Codificar y decodificar texto Base64"
+    },
+    "hash-generator": {
+      "name": "Generador de Hashes",
+      "tagline": "Generar hashes SHA-1, SHA-256, SHA-384, SHA-512"
+    },
+    "hex-binary": {
+      "name": "Hex / Binario",
+      "tagline": "Convertir entre representaciones de texto, hex y binario"
+    },
+    "html-entities": {
+      "name": "Entidades HTML",
+      "tagline": "Codificar y decodificar entidades HTML"
+    },
+    "jwt-decoder": {
+      "name": "Decodificador JWT",
+      "tagline": "Decodificar tokens JWT e inspeccionar encabezado/payload/firma"
+    },
+    "morse-code": {
+      "name": "Código Morse",
+      "tagline": "Convertir texto a código Morse y viceversa"
+    },
+    "nato-phonetic": {
+      "name": "Fonético NATO",
+      "tagline": "Convertir texto al alfabeto fonético de la OTAN"
+    },
+    "number-base": {
+      "name": "Base Numérica",
+      "tagline": "Convertir números entre binario, octal, decimal, hex"
+    },
+    "password-generator": {
+      "name": "Generador de Contraseñas",
+      "tagline": "Generar contraseñas seguras aleatorias"
+    },
+    "sql-formatter": {
+      "name": "Formateador SQL",
+      "tagline": "Formatear consultas SQL para legibilidad"
+    },
+    "string-escape": {
+      "name": "Escape de Cadenas",
+      "tagline": "Escapar y desescapar cadenas JSON, JS, SQL y Unicode"
+    },
+    "timestamp-converter": {
+      "name": "Convertidor de Timestamp",
+      "tagline": "Convertir entre timestamps Unix y fechas legibles"
+    },
+    "url-encoder": {
+      "name": "Codificador/Decodificador URL",
+      "tagline": "Codificar y decodificar componentes URL"
+    },
+    "url-parser": {
+      "name": "Analizador URL",
+      "tagline": "Analizar URLs en protocolo, host, ruta, parámetros de consulta"
+    },
+    "uuid-generator": {
+      "name": "Generador UUID",
+      "tagline": "Generar identificadores UUID v4"
+    },
+    "color-converter": {
+      "name": "Convertidor de Color",
+      "tagline": "Convertir entre formatos de color hex, RGB, RGBA, HSL, HSLA"
+    },
+    "csv-json": {
+      "name": "CSV ↔ JSON",
+      "tagline": "Convertir entre formatos CSV y JSON"
+    },
+    "xml-formatter": {
+      "name": "Formateador XML",
+      "tagline": "Imprimir y formatear documentos XML de forma ordenada"
+    },
+    "yaml-prettify": {
+      "name": "Embellecedor YAML",
+      "tagline": "Imprimir y formatear documentos YAML de forma ordenada"
+    },
+    "invisible-char-detector": {
+      "name": "Detector de Caracteres Invisibles",
+      "tagline": "Detectar y eliminar caracteres de ancho cero y ocultos"
+    },
+    "unicode-cleaner": {
+      "name": "Limpiador Unicode",
+      "tagline": "Normalizar, transliterar y limpiar texto Unicode"
+    },
+    "emoji-picker": {
+      "name": "Selector de Emojis",
+      "tagline": "Navegar y buscar emojis, copiar al portapapeles"
+    },
+    "emoji-manager": {
+      "name": "Gestor de Emojis",
+      "tagline": "Detectar, eliminar, reemplazar y extraer emojis del texto"
+    },
+    "ascii-banner": {
+      "name": "Banner ASCII",
+      "tagline": "Generar banners de arte ASCII a partir de texto"
+    },
+    "char-frequency": {
+      "name": "Frecuencia de Caracteres",
+      "tagline": "Analizar distribución de frecuencia de caracteres con gráfico de barras"
+    },
+    "cipher": {
+      "name": "Cifrado",
+      "tagline": "Codificar y decodificar cifrados César, ROT13 y Atbash"
+    },
+    "lorem-ipsum": {
+      "name": "Generador Lorem Ipsum",
+      "tagline": "Generar texto placeholder Lorem Ipsum"
+    },
+    "random-picker": {
+      "name": "Seleccionador Aleatorio",
+      "tagline": "Elegir elementos aleatorios de una lista"
+    },
+    "unicode-inspector": {
+      "name": "Inspector Unicode",
+      "tagline": "Inspeccionar puntos de código Unicode, grafemas y propiedades"
+    }
+  }
+}

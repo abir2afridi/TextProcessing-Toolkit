@@ -7,7 +7,8 @@ function fmtTime(ms: number) {
   const m = Math.floor((ms % 3600000) / 60000);
   const s = Math.floor((ms % 60000) / 1000);
   const mm = Math.floor(ms % 1000);
-  return [String(h).padStart(2, "0"), String(m).padStart(2, "0"), String(s).padStart(2, "0")].join(":") + "." + String(mm).padStart(3, "0");
+  const hrs = h > 0 ? `${h.toString().padStart(2, "0")}:` : "";
+  return `${hrs}${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}.${mm.toString().padStart(3, "0")}`;
 }
 
 export default function Chronometer() {
@@ -16,10 +17,15 @@ export default function Chronometer() {
   const [laps, setLaps] = useState<number[]>([]);
   const startRef = useRef(0);
   const lastRef = useRef(0);
-  const intervalRef = useRef<number | null>(null);
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
-    return () => { if (intervalRef.current !== null) clearInterval(intervalRef.current); };
+    return () => { if (rafRef.current !== null) cancelAnimationFrame(rafRef.current); };
+  }, []);
+
+  const tick = useCallback(() => {
+    setElapsed(lastRef.current + (performance.now() - startRef.current));
+    rafRef.current = requestAnimationFrame(tick);
   }, []);
 
   const start = useCallback(() => {
@@ -27,21 +33,19 @@ export default function Chronometer() {
     setRunning(true);
     startRef.current = performance.now();
     lastRef.current = elapsed;
-    intervalRef.current = window.setInterval(() => {
-      setElapsed(lastRef.current + (performance.now() - startRef.current));
-    }, 10);
-  }, [running, elapsed]);
+    rafRef.current = requestAnimationFrame(tick);
+  }, [running, elapsed, tick]);
 
   const stop = useCallback(() => {
     if (!running) return;
     setRunning(false);
-    if (intervalRef.current !== null) { clearInterval(intervalRef.current); intervalRef.current = null; }
+    if (rafRef.current !== null) { cancelAnimationFrame(rafRef.current); rafRef.current = null; }
     setElapsed(lastRef.current + (performance.now() - startRef.current));
   }, [running]);
 
   const reset = useCallback(() => {
     setRunning(false);
-    if (intervalRef.current !== null) { clearInterval(intervalRef.current); intervalRef.current = null; }
+    if (rafRef.current !== null) { cancelAnimationFrame(rafRef.current); rafRef.current = null; }
     setElapsed(0);
     setLaps([]);
   }, []);
@@ -53,19 +57,18 @@ export default function Chronometer() {
 
   return (
     <div className="space-y-4">
+      <div className="rounded-sm border border-border bg-surface p-6">
+        <div className="text-center font-mono text-[40px] tabular-nums tracking-wider text-primary">{fmtTime(elapsed)}</div>
+      </div>
       <OptionRow>
         {!running ? (
           <Button size="sm" onClick={start} className="h-7 rounded-sm font-mono text-[11px]">Start</Button>
         ) : (
-          <Button size="sm" onClick={stop} className="h-7 rounded-sm font-mono text-[11px]">Stop</Button>
+          <Button size="sm" variant="destructive" onClick={stop} className="h-7 rounded-sm font-mono text-[11px]">Stop</Button>
         )}
-        <Button size="sm" onClick={reset} className="h-7 rounded-sm font-mono text-[11px]">Reset</Button>
-        <Button size="sm" onClick={lap} disabled={!running} className="h-7 rounded-sm font-mono text-[11px]">Lap</Button>
+        <Button size="sm" variant="outline" onClick={reset} className="h-7 rounded-sm font-mono text-[11px]">Reset</Button>
+        <Button size="sm" variant="outline" onClick={lap} disabled={!running} className="h-7 rounded-sm font-mono text-[11px]">Lap</Button>
       </OptionRow>
-      <div className="rounded-sm border border-border bg-surface p-6 text-center">
-        <div className="font-mono text-4xl tabular-nums text-primary tracking-wider">{fmtTime(elapsed)}</div>
-        <div className="mt-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">{running ? "Running" : "Stopped"}</div>
-      </div>
       {laps.length > 0 && (
         <div className="rounded-sm border border-border bg-surface">
           <div className="border-b border-border px-3 py-2 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Lap Times</div>

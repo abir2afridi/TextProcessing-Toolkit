@@ -1,89 +1,96 @@
 import { useState, useMemo } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { OptionRow } from "@/components/ToolShell";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import { addMilliseconds, formatRelative } from "date-fns";
+import { enGB } from "date-fns/locale";
 
-function fmtDuration(seconds: number) {
-  const h = Math.floor(seconds / 3600);
-  const m = Math.floor((seconds % 3600) / 60);
-  const s = Math.floor(seconds % 60);
-  return [String(h).padStart(2, "0"), String(m).padStart(2, "0"), String(s).padStart(2, "0")].join(":");
+function formatMsDuration(ms: number) {
+  if (!ms || !isFinite(ms)) return "—";
+  const secs = Math.floor((ms / 1000) % 60);
+  const mins = Math.floor((ms / 60000) % 60);
+  const hrs = Math.floor(ms / 3600000);
+  const parts: string[] = [];
+  if (hrs) parts.push(`${hrs}h`);
+  if (mins) parts.push(`${mins}m`);
+  if (secs) parts.push(`${secs}s`);
+  return parts.join(" ") || "0s";
 }
 
-function fmtNow() {
-  const d = new Date();
-  return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
-}
-
-function fmtETA(secondsFromNow: number) {
-  const d = new Date(Date.now() + secondsFromNow * 1000);
-  return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
-}
-
-function Card({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-sm border border-border bg-surface p-3">
-      <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">{label}</div>
-      <div className="mt-1 font-mono text-lg text-primary">{value}</div>
-    </div>
-  );
-}
+const timeUnits = [
+  { label: "milliseconds", value: 1 },
+  { label: "seconds", value: 1000 },
+  { label: "minutes", value: 60000 },
+  { label: "hours", value: 3600000 },
+  { label: "days", value: 86400000 },
+];
 
 export default function ETACalculator() {
-  const [distUnit, setDistUnit] = useState<"km" | "mi">("km");
-  const [speedUnit, setSpeedUnit] = useState<"kmh" | "mph">("kmh");
-  const [distance, setDistance] = useState("100");
-  const [speed, setSpeed] = useState("60");
+  const [unitCount, setUnitCount] = useState(3 * 62);
+  const [unitPerTimeSpan, setUnitPerTimeSpan] = useState(3);
+  const [timeSpan, setTimeSpan] = useState(5);
+  const [timeSpanUnit, setTimeSpanUnit] = useState(60000);
 
-  const duration = useMemo(() => {
-    const d = parseFloat(distance), s = parseFloat(speed);
-    if (isNaN(d) || isNaN(s) || s <= 0) return null;
-    return (d / s) * 3600;
-  }, [distance, speed, distUnit, speedUnit]);
+  const durationMs = useMemo(() => {
+    const tsMs = timeSpan * timeSpanUnit;
+    if (!unitCount || !unitPerTimeSpan || !timeSpan || !tsMs) return 0;
+    return unitCount / (unitPerTimeSpan / tsMs);
+  }, [unitCount, unitPerTimeSpan, timeSpan, timeSpanUnit]);
+
+  const endAt = useMemo(() => {
+    if (!durationMs || !isFinite(durationMs)) return null;
+    return formatRelative(addMilliseconds(Date.now(), durationMs), Date.now(), { locale: enGB });
+  }, [durationMs]);
 
   return (
     <div className="space-y-4">
-      <OptionRow>
-        <div className="flex items-center gap-2">
-          <Label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">Distance</Label>
-          <Input type="number" value={distance} onChange={(e) => setDistance(e.target.value)} className="h-8 w-24 rounded-sm font-mono text-xs" />
-          <Select value={distUnit} onValueChange={(v) => setDistUnit(v as "km" | "mi")}>
-            <SelectTrigger className="h-7 w-20 rounded-sm font-mono text-xs">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="km" className="font-mono text-xs">km</SelectItem>
-              <SelectItem value="mi" className="font-mono text-xs">miles</SelectItem>
-            </SelectContent>
-          </Select>
+      <p className="font-mono text-[11px] leading-relaxed text-muted-foreground">
+        With a concrete example, if you wash 5 plates in 3 minutes and you have 500 plates to wash, it will take you 5
+        hours to wash them all.
+      </p>
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="space-y-1">
+          <Label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">Amount of element to consume</Label>
+          <Input type="number" min={1} value={unitCount} onChange={(e) => setUnitCount(Math.max(1, Number(e.target.value) || 1))} className="h-8 rounded-sm font-mono text-xs" />
         </div>
-        <div className="flex items-center gap-2">
-          <Label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">Speed</Label>
-          <Input type="number" value={speed} onChange={(e) => setSpeed(e.target.value)} className="h-8 w-24 rounded-sm font-mono text-xs" />
-          <Select value={speedUnit} onValueChange={(v) => setSpeedUnit(v as "kmh" | "mph")}>
-            <SelectTrigger className="h-7 w-20 rounded-sm font-mono text-xs">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="kmh" className="font-mono text-xs">km/h</SelectItem>
-              <SelectItem value="mph" className="font-mono text-xs">mph</SelectItem>
-            </SelectContent>
-          </Select>
+        <div className="space-y-1">
+          <Label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">The consumption started at</Label>
+          <div className="h-8 rounded-sm border border-border bg-background px-3 font-mono text-xs leading-8 text-muted-foreground">Now</div>
         </div>
-      </OptionRow>
-      {duration === null ? (
-        <div className="rounded-sm border border-destructive/40 bg-destructive/10 px-3 py-2 font-mono text-xs text-destructive">Invalid input</div>
-      ) : (
-        <div className="grid gap-3 sm:grid-cols-3">
-          <Card label="Duration (HH:MM:SS)" value={fmtDuration(duration)} />
-          <Card label="Total Minutes" value={(duration / 60).toFixed(1)} />
-          <Card label="ETA (approximate)" value={fmtETA(duration)} />
-        </div>
-      )}
-      <div className="rounded-sm border border-border bg-surface px-3 py-2 font-mono text-[11px] text-muted-foreground">
-        Current time: {fmtNow()} · ETA: {duration !== null ? fmtETA(duration) : "—"}
       </div>
+
+      <div className="space-y-1">
+        <Label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">Amount of unit consumed by time span</Label>
+        <div className="flex flex-wrap items-center gap-2">
+          <Input type="number" min={1} value={unitPerTimeSpan} onChange={(e) => setUnitPerTimeSpan(Math.max(1, Number(e.target.value) || 1))} className="h-8 w-24 rounded-sm font-mono text-xs" />
+          <span className="font-mono text-[11px] text-muted-foreground">in</span>
+          <Input type="number" min={1} value={timeSpan} onChange={(e) => setTimeSpan(Math.max(1, Number(e.target.value) || 1))} className="h-8 w-24 rounded-sm font-mono text-xs" />
+          <Select value={String(timeSpanUnit)} onValueChange={(v) => setTimeSpanUnit(Number(v))}>
+            <SelectTrigger className="h-8 w-36 rounded-sm font-mono text-xs">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {timeUnits.map((u) => (
+                <SelectItem key={u.value} value={String(u.value)} className="font-mono text-xs">{u.label}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      {durationMs > 0 && isFinite(durationMs) ? (
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div className="rounded-sm border border-border bg-surface p-3">
+            <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">Total duration</div>
+            <div className="mt-1 font-mono text-sm text-primary">{formatMsDuration(durationMs)}</div>
+          </div>
+          <div className="rounded-sm border border-border bg-surface p-3">
+            <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">It will end</div>
+            <div className="mt-1 font-mono text-sm text-primary">{endAt}</div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
