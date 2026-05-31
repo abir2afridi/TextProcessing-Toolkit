@@ -6,17 +6,17 @@ This is a free, open-source project maintained by volunteers. Here is how to get
 
 - [README](README.md) — project overview and getting started
 - [CONTRIBUTING](CONTRIBUTING.md) — how to contribute and development guidelines
-- [About page](https://github.com/anomalyco/TextProcessing-Toolkit) — project features, roadmap, and FAQ
+- [About page](https://github.com/abir2afridi/TextProcessing-Toolkit) — project features, roadmap, and FAQ
 
 ## Getting Help
 
 ### 1. Search Existing Issues
 
-Check the [issue tracker](https://github.com/anomalyco/TextProcessing-Toolkit/issues) to see if your question has been asked before.
+Check the [issue tracker](https://github.com/abir2afridi/TextProcessing-Toolkit/issues) to see if your question has been asked before.
 
 ### 2. GitHub Discussions
 
-Use [Discussions](https://github.com/anomalyco/TextProcessing-Toolkit/discussions) for:
+Use [Discussions](https://github.com/abir2afridi/TextProcessing-Toolkit/discussions) for:
 
 - Questions about how to use a tool
 - Ideas for new tools or features
@@ -25,7 +25,7 @@ Use [Discussions](https://github.com/anomalyco/TextProcessing-Toolkit/discussion
 
 ### 3. Bug Reports
 
-If you have found a bug, open a [Bug Report](https://github.com/anomalyco/TextProcessing-Toolkit/issues/new/choose). Please include:
+If you have found a bug, open a [Bug Report](https://github.com/abir2afridi/TextProcessing-Toolkit/issues/new/choose). Please include:
 
 - The tool name
 - Steps to reproduce
@@ -34,7 +34,7 @@ If you have found a bug, open a [Bug Report](https://github.com/anomalyco/TextPr
 
 ### 4. Feature Requests
 
-If you need a tool that does not exist yet, open a [Feature Request](https://github.com/anomalyco/TextProcessing-Toolkit/issues/new/choose).
+If you need a tool that does not exist yet, open a [Feature Request](https://github.com/abir2afridi/TextProcessing-Toolkit/issues/new/choose).
 
 ## Before Opening an Issue
 

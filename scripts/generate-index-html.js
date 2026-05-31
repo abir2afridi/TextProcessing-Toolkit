@@ -46,7 +46,7 @@ const html = `<!DOCTYPE html>
   <link rel="icon" type="image/png" href="https://img.icons8.com/?size=100&id=OfjTGv1SlHbW&format=png">
   <meta property="og:title" content="Text Processing Toolkit">
   <meta property="og:description" content="116 high-performance text utilities — all in your browser.">
-  <meta property="og:image" content="https://raw.githubusercontent.com/anomalyco/TextProcessing-Toolkit/main/public/BannerTPT.png">
+  <meta property="og:image" content="https://raw.githubusercontent.com/abir2afridi/TextProcessing-Toolkit/main/public/BannerTPT.png">
   <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>

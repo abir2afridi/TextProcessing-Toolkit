@@ -1,0 +1,118 @@
+name: 🔧 Tool Request
+description: Suggest a new text-processing utility to add to the toolkit
+title: "[Tool]: "
+labels: ["tool-request", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a new tool! Please describe what it should do so we can evaluate its usefulness for the Text Processing Toolkit.
+
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      options:
+        - label: >
+            I have searched the [existing tools](https://github.com/abir2afridi/TextProcessing-Toolkit)
+            to confirm this tool does not exist yet
+          required: true
+        - label: >
+            I have checked the [feature requests](https://github.com/abir2afridi/TextProcessing-Toolkit/issues)
+            to confirm this has not been requested before
+          required: true
+
+  - type: input
+    id: tool-name
+    attributes:
+      label: Tool Name
+      description: What should this tool be called?
+      placeholder: e.g., "Binary Converter", "Markdown Preview"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Suggested Category
+      description: Which category does this tool best fit in?
+      options:
+        - Core Tools
+        - Text Utilities
+        - Extractors
+        - Crypto & Security
+        - Converters
+        - Web
+        - Images & Videos
+        - Development
+        - Network
+        - Math
+        - Measurement
+        - Data
+        - Dev Tools
+        - Advanced
+        - New category (describe below)
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: What specific text-processing problem does this tool solve?
+      placeholder: >
+        Users often need to convert between number bases (hex, decimal, binary)
+        while working with code or network data. Currently there is no dedicated tool for this.
+    validations:
+      required: true
+
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected Behavior
+      description: Describe what the tool should do. Input → output examples are very helpful.
+      placeholder: |
+        Input: "FF" (hex)
+        Output: "255" (decimal)
+
+        The tool should:
+        - Accept input in any number base
+        - Detect the base automatically or let the user choose
+        - Show results in hex, decimal, binary, and octal simultaneously
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Current Workaround
+      description: How do users accomplish this today (if at all)?
+      placeholder: Using an external website or calculator app
+
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Links to similar tools in other projects, screenshots, or API specs
+      placeholder: https://www.rapidtables.com/convert/number/hex-to-decimal.html
+
+  - type: dropdown
+    id: value
+    attributes:
+      label: Value Assessment
+      description: How valuable would this tool be to the community?
+      options:
+        - Critical — many users need this regularly
+        - High — commonly needed by target audience
+        - Medium — useful for specific scenarios
+        - Nice to have — occasional use
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: coc
+    attributes:
+      label: Code of Conduct
+      options:
+        - label: I agree to follow this project's [Code of Conduct](../../CODE_OF_CONDUCT.md)
+          required: true

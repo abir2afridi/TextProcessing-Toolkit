@@ -13,9 +13,9 @@ body:
     attributes:
       label: Prerequisites
       options:
-        - label: I have searched the [existing issues](https://github.com/anomalyco/TextProcessing-Toolkit/issues) to make sure this has not been requested before
+        - label: I have searched the [existing issues](https://github.com/abir2afridi/TextProcessing-Toolkit/issues) to make sure this has not been requested before
           required: true
-        - label: I have checked the [existing tools](https://github.com/anomalyco/TextProcessing-Toolkit) to confirm this functionality is not already available
+        - label: I have checked the [existing tools](https://github.com/abir2afridi/TextProcessing-Toolkit) to confirm this functionality is not already available
           required: true
 
   - type: dropdown
@@ -90,3 +90,12 @@ body:
     attributes:
       label: Additional Context
       description: Any other information, links, or references
+
+  - type: checkboxes
+    id: coc
+    attributes:
+      label: Code of Conduct
+      description: By submitting this feature request, you agree to follow the project's guidelines
+      options:
+        - label: I agree to follow this project's [Code of Conduct](../../CODE_OF_CONDUCT.md)
+          required: true

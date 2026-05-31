@@ -27,7 +27,7 @@ This project follows a [Code of Conduct](CODE_OF_CONDUCT.md). By participating, 
 # https://bun.sh
 
 # Clone the repository
-git clone https://github.com/anomalyco/TextProcessing-Toolkit.git
+git clone https://github.com/abir2afridi/TextProcessing-Toolkit.git
 cd TextProcessing-Toolkit
 
 # Install dependencies
@@ -188,7 +188,7 @@ When fixing or improving existing translations, update only the affected keys.
 
 ## Reporting Bugs
 
-Open a [Bug Report](https://github.com/anomalyco/TextProcessing-Toolkit/issues/new/choose) and include:
+Open a [Bug Report](https://github.com/abir2afridi/TextProcessing-Toolkit/issues/new/choose) and include:
 
 - The affected tool name
 - Steps to reproduce
@@ -199,7 +199,7 @@ Open a [Bug Report](https://github.com/anomalyco/TextProcessing-Toolkit/issues/n
 
 ## Feature Requests
 
-Open a [Feature Request](https://github.com/anomalyco/TextProcessing-Toolkit/issues/new/choose) and describe:
+Open a [Feature Request](https://github.com/abir2afridi/TextProcessing-Toolkit/issues/new/choose) and describe:
 
 - The problem you are trying to solve
 - Your proposed solution

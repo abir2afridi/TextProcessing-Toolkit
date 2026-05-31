@@ -77,7 +77,7 @@ const FALLBACK_REPOS: GHRepo[] = [
     id: 1,
     name: "TextProcessing-Toolkit",
     description: "95+ text utilities. 100% client-side. Zero uploads.",
-    html_url: "https://github.com/anomalyco/TextProcessing-Toolkit",
+    html_url: "https://github.com/abir2afridi/TextProcessing-Toolkit",
     stargazers_count: 128,
     forks_count: 34,
     language: "TypeScript",
@@ -148,7 +148,7 @@ const FALLBACK_EVENTS: GHEvent[] = Array.from({ length: 12 }, (_, i) => ({
   ],
   repo: {
     name: [
-      "anomalyco/TextProcessing-Toolkit",
+      "abir2afridi/TextProcessing-Toolkit",
       "abir2afridi/cyber-brutalist-ui",
       "abir2afridi/neon-cli",
     ][i % 3],
@@ -182,13 +182,13 @@ export const Route = createFileRoute("/dev")({
       {
         property: "og:image",
         content:
-          "https://raw.githubusercontent.com/anomalyco/TextProcessing-Toolkit/main/public/BannerTPT.png",
+          "https://raw.githubusercontent.com/abir2afridi/TextProcessing-Toolkit/main/public/BannerTPT.png",
       },
       { name: "twitter:card", content: "summary_large_image" },
       {
         name: "twitter:image",
         content:
-          "https://raw.githubusercontent.com/anomalyco/TextProcessing-Toolkit/main/public/BannerTPT.png",
+          "https://raw.githubusercontent.com/abir2afridi/TextProcessing-Toolkit/main/public/BannerTPT.png",
       },
     ],
   }),

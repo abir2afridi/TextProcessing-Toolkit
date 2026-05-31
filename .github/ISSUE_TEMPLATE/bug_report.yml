@@ -14,7 +14,7 @@ body:
       label: Prerequisites
       description: Before submitting, please confirm the following
       options:
-        - label: I have searched the [existing issues](https://github.com/anomalyco/TextProcessing-Toolkit/issues) to make sure this bug has not been reported yet
+        - label: I have searched the [existing issues](https://github.com/abir2afridi/TextProcessing-Toolkit/issues) to make sure this bug has not been reported yet
           required: true
         - label: I have tested the latest version of the toolkit to confirm the bug still exists
           required: true
@@ -132,8 +132,24 @@ body:
       placeholder: v1.0
 
   - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots / Recordings
+      description: If applicable, add screenshots or screen recordings to help explain the problem
+      placeholder: Drag and drop images here
+
+  - type: textarea
     id: context
     attributes:
       label: Additional Context
-      description: Any other information that might help? Screenshots, recordings, related issues, etc.
-      placeholder: Add screenshots or links here
+      description: Any other information that might help? Related issues, etc.
+      placeholder: Add links or references here
+
+  - type: checkboxes
+    id: coc
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow the project's guidelines
+      options:
+        - label: I agree to follow this project's [Code of Conduct](../../CODE_OF_CONDUCT.md)
+          required: true

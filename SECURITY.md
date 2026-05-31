@@ -10,10 +10,10 @@ The Text Processing Toolkit is a **100% client-side application**. No user data 
 
 If you discover a security vulnerability, **please do not open a public issue**. Instead, report it privately:
 
-1. Go to [GitHub Security Advisories](https://github.com/anomalyco/TextProcessing-Toolkit/security/advisories/new)
+1. Go to [GitHub Security Advisories](https://github.com/abir2afridi/TextProcessing-Toolkit/security/advisories/new)
 2. Fill out the advisory form with details about the vulnerability
 
-Alternatively, you can email the maintainer directly (see the [dev page](https://github.com/anomalyco/TextProcessing-Toolkit) for contact information).
+Alternatively, you can email the maintainer directly (see the [dev page](https://github.com/abir2afridi/TextProcessing-Toolkit) for contact information).
 
 ### What to include
 

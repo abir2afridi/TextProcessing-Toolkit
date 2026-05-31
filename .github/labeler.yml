@@ -1,0 +1,50 @@
+"area: frontend":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "src/components/**"
+      - "src/routes/**"
+      - "src/styles.css"
+
+"area: tools":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "src/components/tools/**"
+      - "src/lib/tools-registry.ts"
+
+"area: i18n":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "src/i18n/**"
+      - "src/i18n/locales/**"
+
+"area: docs":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "docs/**"
+      - "*.md"
+      - ".github/**"
+
+"area: ci-cd":
+  - changed-files:
+    - any-glob-to-any-file:
+      - ".github/workflows/**"
+      - "vercel.json"
+      - "wrangler.jsonc"
+      - "Dockerfile"
+      - "docker-compose.yml"
+
+"area: config":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "package.json"
+      - "tsconfig.json"
+      - "vite.config.*"
+      - ".eslintrc*"
+      - ".prettier*"
+
+"area: tests":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "**/*.test.*"
+      - "**/*.spec.*"
+      - "tests/**"

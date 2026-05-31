@@ -1,0 +1,143 @@
+name: 🎨 UI/UX Issue
+description: Report a visual bug, layout problem, or usability concern
+title: "[UI]: "
+labels: ["ui"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve the interface! Please provide details about the issue.
+
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      options:
+        - label: I have searched existing issues to confirm this has not been reported yet
+          required: true
+        - label: I have tested in a private/incognito window to rule out extension conflicts
+          required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected Area
+      description: Which part of the UI is affected?
+      options:
+        - Home page / tool grid
+        - Tool page (input/output panel)
+        - Sidebar / navigation
+        - Search / command palette
+        - About page
+        - Dev page
+        - Theme (dark/light mode)
+        - Responsive / mobile layout
+        - Accessibility (keyboard, screen reader)
+        - Emoji picker / manager
+        - Settings / preferences
+        - Other (describe below)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue-type
+    attributes:
+      label: Issue Type
+      options:
+        - Visual bug — something looks wrong
+        - Layout broken — elements misaligned or overlapping
+        - Poor usability — confusing or unintuitive interaction
+        - Inconsistent design — different patterns for similar elements
+        - Missing feedback — no visual response to user action
+        - Responsive breakage — works on desktop but not on mobile/tablet
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: device
+    attributes:
+      label: Device Type
+      options:
+        - Desktop / Laptop
+        - Tablet
+        - Mobile phone
+        - All devices
+    validations:
+      required: true
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Edge
+        - Brave
+        - Other (specify below)
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating System
+      placeholder: e.g., Windows 11, macOS 15, Android 14
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Clearly describe what the issue is
+      placeholder: The tool output panel overflows its container when the result is a long string
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Appearance / Behavior
+      description: What should it look like or how should it behave?
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: Required for UI issues. Drag and drop images here.
+      placeholder: Drag and drop screenshots
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: How can we reproduce this issue?
+      placeholder: |
+        1. Go to tool '...'
+        2. Resize window to 768px width
+        3. Click on '...'
+        4. Observe layout breakage
+    validations:
+      required: false
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested Improvement
+      description: Do you have ideas for how to fix this?
+      placeholder: Use flex-wrap on the container and add min-width to the panels
+
+  - type: checkboxes
+    id: coc
+    attributes:
+      label: Code of Conduct
+      options:
+        - label: I agree to follow this project's [Code of Conduct](../../CODE_OF_CONDUCT.md)
+          required: true

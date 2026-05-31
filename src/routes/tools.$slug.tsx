@@ -26,9 +26,9 @@ export const Route = createFileRoute("/tools/$slug")({
             { name: "description", content: tagline },
             { property: "og:title", content: `${name} — Text Processing Toolkit` },
             { property: "og:description", content: tagline },
-            { property: "og:image", content: "https://raw.githubusercontent.com/anomalyco/TextProcessing-Toolkit/main/public/BannerTPT.png" },
+            { property: "og:image", content: "https://raw.githubusercontent.com/abir2afridi/TextProcessing-Toolkit/main/public/BannerTPT.png" },
             { name: "twitter:card", content: "summary_large_image" },
-            { name: "twitter:image", content: "https://raw.githubusercontent.com/anomalyco/TextProcessing-Toolkit/main/public/BannerTPT.png" },
+            { name: "twitter:image", content: "https://raw.githubusercontent.com/abir2afridi/TextProcessing-Toolkit/main/public/BannerTPT.png" },
           ]
         : [{ title: "Tool — Text Processing Toolkit" }],
     };

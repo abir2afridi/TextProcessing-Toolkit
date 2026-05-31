@@ -1,11 +1,11 @@
 blank_issues_enabled: false
 contact_links:
   - name: 📖 Read the About Page
-    url: https://github.com/anomalyco/TextProcessing-Toolkit
+    url: https://github.com/abir2afridi/TextProcessing-Toolkit
     about: Learn more about the project, its features, and roadmap before opening an issue.
   - name: 💬 Start a Discussion
-    url: https://github.com/anomalyco/TextProcessing-Toolkit/discussions
+    url: https://github.com/abir2afridi/TextProcessing-Toolkit/discussions
     about: Have a question, idea, or want to show what you built? Use Discussions.
   - name: 🔒 Report a Security Vulnerability
-    url: https://github.com/anomalyco/TextProcessing-Toolkit/security/advisories/new
+    url: https://github.com/abir2afridi/TextProcessing-Toolkit/security/advisories/new
     about: Please report security vulnerabilities privately via GitHub Security Advisories.

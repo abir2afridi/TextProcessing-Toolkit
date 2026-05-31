@@ -1,0 +1,129 @@
+# Repository Labels
+# Run `gh label create` commands below to sync these labels manually.
+# Or push this file to main to trigger .github/workflows/label-sync.yml
+
+# Type labels
+- name: bug
+  color: d73a4a
+  description: Something isn't working
+- name: enhancement
+  color: a2eeef
+  description: New feature or improvement
+- name: documentation
+  color: 0075ca
+  description: Documentation updates
+- name: question
+  color: d876e3
+  description: Questions and support requests
+- name: security
+  color: e4e669
+  description: Security-related issues
+- name: tool-request
+  color: 1d76db
+  description: Request for a new text-processing tool
+- name: ui
+  color: bfd4f2
+  description: UI/UX related issues
+- name: performance
+  color: f9d0c4
+  description: Performance improvements
+- name: accessibility
+  color: 7057ff
+  description: Accessibility improvements
+- name: i18n
+  color: c2e0c6
+  description: Translations and internationalization
+
+# Status labels
+- name: triage
+  color: ededed
+  description: Needs initial review
+- name: needs-reproduction
+  color: fef2c0
+  description: Cannot reproduce without more info
+- name: needs-info
+  color: fef2c0
+  description: More information needed from reporter
+- name: confirmed
+  color: 0e8a16
+  description: Issue has been confirmed
+- name: in-progress
+  color: fbca04
+  description: Actively being worked on
+- name: blocked
+  color: e4e669
+  description: Blocked by another issue or dependency
+- name: wont-fix
+  color: ffffff
+  description: Will not be addressed
+- name: duplicate
+  color: cfd3d7
+  description: Duplicate of another issue
+- name: stale
+  color: c5def5
+  description: Inactive, will be closed soon
+- name: invalid
+  color: e4e669
+  description: Not a valid issue or not reproducible
+
+# Priority labels
+- name: "priority: critical"
+  color: b60205
+  description: Blocker — app is unusable
+- name: "priority: high"
+  color: d93f0b
+  description: Major feature broken
+- name: "priority: medium"
+  color: fbca04
+  description: Feature partially broken
+- name: "priority: low"
+  color: 0e8a16
+  description: Minor visual or edge case
+
+# Area labels
+- name: "area: frontend"
+  color: bfd4f2
+  description: Frontend components
+- name: "area: tools"
+  color: f9d0c4
+  description: Tool components and registry
+- name: "area: i18n"
+  color: c2e0c6
+  description: Translations
+- name: "area: docs"
+  color: 0075ca
+  description: Documentation
+- name: "area: ci-cd"
+  color: ededed
+  description: CI/CD configuration
+- name: "area: config"
+  color: c5def5
+  description: Build and project configuration
+- name: "area: tests"
+  color: c2e0c6
+  description: Test infrastructure
+
+# Contributor labels
+- name: "good first issue"
+  color: 7057ff
+  description: Good for newcomers
+- name: "help wanted"
+  color: 008672
+  description: Extra attention needed
+
+# PR size labels
+- name: "size: xs"
+  color: c5def5
+  description: PR with 1-10 lines changed
+- name: "size: s"
+  color: c5def5
+  description: PR with 11-50 lines changed
+- name: "size: m"
+  color: fef2c0
+  description: PR with 51-200 lines changed
+- name: "size: l"
+  color: f9d0c4
+  description: PR with 201-500 lines changed
+- name: "size: xl"
+  color: d73a4a
+  description: PR with 500+ lines changed

@@ -51,13 +51,13 @@ export const Route = createFileRoute("/about")({
       {
         property: "og:image",
         content:
-          "https://raw.githubusercontent.com/anomalyco/TextProcessing-Toolkit/main/public/BannerTPT.png",
+          "https://raw.githubusercontent.com/abir2afridi/TextProcessing-Toolkit/main/public/BannerTPT.png",
       },
       { name: "twitter:card", content: "summary_large_image" },
       {
         name: "twitter:image",
         content:
-          "https://raw.githubusercontent.com/anomalyco/TextProcessing-Toolkit/main/public/BannerTPT.png",
+          "https://raw.githubusercontent.com/abir2afridi/TextProcessing-Toolkit/main/public/BannerTPT.png",
       },
     ],
   }),
@@ -661,7 +661,7 @@ function AboutPage() {
               className="h-8 rounded-sm border-border font-mono text-xs"
             >
               <a
-                href="https://github.com/anomalyco/TextProcessing-Toolkit/issues"
+                href="https://github.com/abir2afridi/TextProcessing-Toolkit/issues"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -751,7 +751,7 @@ function AboutPage() {
               className="h-9 rounded-sm border-border font-mono text-xs"
             >
               <a
-                href="https://github.com/anomalyco/TextProcessing-Toolkit"
+                href="https://github.com/abir2afridi/TextProcessing-Toolkit"
                 target="_blank"
                 rel="noopener noreferrer"
               >
