@@ -83,8 +83,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:title", content: "Text Processing Toolkit" },
       { property: "og:description", content: "All-in-one text processing toolkit." },
+      { property: "og:image", content: "https://raw.githubusercontent.com/anomalyco/TextProcessing-Toolkit/main/public/BannerTPT.png" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "https://raw.githubusercontent.com/anomalyco/TextProcessing-Toolkit/main/public/BannerTPT.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

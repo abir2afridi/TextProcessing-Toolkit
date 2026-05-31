@@ -12,6 +12,9 @@ export const Route = createFileRoute("/")({
     meta: [
       { title: "Text Processing Toolkit" },
       { name: "description", content: `${tools.length} high-performance text utilities across Core, Text, Extractors, Dev and Advanced categories — all in your browser.` },
+      { property: "og:image", content: "https://raw.githubusercontent.com/anomalyco/TextProcessing-Toolkit/main/public/BannerTPT.png" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "https://raw.githubusercontent.com/anomalyco/TextProcessing-Toolkit/main/public/BannerTPT.png" },
     ],
   }),
   component: Dashboard,
