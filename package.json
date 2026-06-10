@@ -16,7 +16,6 @@
   "dependencies": {
     "@cloudflare/vite-plugin": "^1.25.5",
     "@hookform/resolvers": "^5.2.2",
-    "@huggingface/transformers": "^3.8.1",
     "@iarna/toml": "^2.2.5",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-alert-dialog": "^1.1.15",
@@ -75,7 +74,6 @@
     "mathjs": "^15.2.0",
     "mime-types": "^3.0.2",
     "node-forge": "^1.4.0",
-    "onnxruntime-web": "^1.22.0-dev.20250409-89f8206ba4",
     "oui-data": "^1.1.571",
     "pdf-signature-reader": "^1.4.3",
     "qrcode": "^1.5.4",
@@ -103,6 +101,8 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@huggingface/transformers": "^3.8.1",
+    "onnxruntime-web": "^1.22.0-dev.20250409-89f8206ba4",
     "@eslint/js": "^9.32.0",
     "@lovable.dev/vite-tanstack-config": "^1.7.0",
     "@types/crypto-js": "^4.2.2",
