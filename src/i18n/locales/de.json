@@ -546,6 +546,22 @@
     "background-remover": {
       "name": "Hintergrundentferner",
       "tagline": "Entfernen Sie automatisch Hintergründe aus Bildern mit KI"
+    },
+    "matte-generator": {
+      "name": "Matt-Generator",
+      "tagline": "Platzieren Sie nicht-quadratische Bilder mit unscharfem, einfarbigem oder verlaufendem Hintergrund auf einer quadratischen Matte"
+    },
+    "scroll-generator": {
+      "name": "Nahtloser Scroll-Generator",
+      "tagline": "Panoramabilder für Instagram-Karussell-Scrolls in Kacheln aufteilen"
+    },
+    "social-cropper": {
+      "name": "Social Media Cropper",
+      "tagline": "Bilder auf plattformspezifische Seitenverhältnisse für Instagram, Bluesky, Threads zuschneiden"
+    },
+    "watermarker": {
+      "name": "Wasserzeichen",
+      "tagline": "Bildwasserzeichen mit anpassbarer Position, Deckkraft, Größe und Blend-Modi hinzufügen"
     }
   }
 }

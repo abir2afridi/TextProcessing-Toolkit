@@ -3,7 +3,7 @@ import { useState, useMemo } from "react";
 import { Search, ArrowRight, Star, Clock, Terminal } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { tools, categories, getTool } from "@/lib/tools-registry";
+import { tools, categories, getTool, getToolIndex } from "@/lib/tools-registry";
 import { useFavorites, useRecent } from "@/lib/storage";
 import { cn } from "@/lib/utils";
 
@@ -205,6 +205,9 @@ function Grid({
               <Icon className="h-4 w-4" />
             </div>
             <div className="mt-3 flex items-center gap-2">
+              <span className="inline-flex items-center justify-center min-w-[22px] h-5 rounded-sm border border-border bg-background px-1 font-mono text-[10px] font-bold tabular-nums text-muted-foreground">
+                {getToolIndex(t.slug) + 1}
+              </span>
               <h3 className="font-mono text-sm font-semibold tracking-tight">{t.name}</h3>
             </div>
             <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">{t.tagline}</p>

@@ -546,6 +546,22 @@
     "background-remover": {
       "name": "Background Remover",
       "tagline": "Remove backgrounds from images automatically using AI"
+    },
+    "matte-generator": {
+      "name": "Matte Generator",
+      "tagline": "Put non-square images on a square matte with blur, solid, or gradient backgrounds"
+    },
+    "scroll-generator": {
+      "name": "Seamless Scroll Generator",
+      "tagline": "Split panoramic images into tiles for Instagram carousel scrolls"
+    },
+    "social-cropper": {
+      "name": "Social Media Cropper",
+      "tagline": "Crop images to platform-specific aspect ratios for Instagram, Bluesky, Threads"
+    },
+    "watermarker": {
+      "name": "Watermarker",
+      "tagline": "Add image watermarks with customizable position, opacity, size, and blend modes"
     }
   }
 }

@@ -546,6 +546,22 @@
     "background-remover": {
       "name": "Suppresseur d'Arrière-plan",
       "tagline": "Supprimez automatiquement les arrière-plans des images avec l'IA"
+    },
+    "matte-generator": {
+      "name": "Générateur de Matte",
+      "tagline": "Placez des images non carrées sur un matte carré avec des arrière-plans flous, unis ou dégradés"
+    },
+    "scroll-generator": {
+      "name": "Générateur de Scroll Fluide",
+      "tagline": "Divisez les images panoramiques en tuiles pour les carrousels Instagram"
+    },
+    "social-cropper": {
+      "name": "Recadreur de Médias Sociaux",
+      "tagline": "Recadrez les images aux ratios spécifiques des plateformes Instagram, Bluesky, Threads"
+    },
+    "watermarker": {
+      "name": "Filigrane",
+      "tagline": "Ajoutez des filigranes aux images avec position, opacité, taille et modes de fusion personnalisables"
     }
   }
 }

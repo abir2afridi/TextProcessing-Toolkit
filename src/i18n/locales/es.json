@@ -546,6 +546,22 @@
     "background-remover": {
       "name": "Eliminador de Fondos",
       "tagline": "Elimina fondos de imágenes automáticamente con IA"
+    },
+    "matte-generator": {
+      "name": "Generador de Matte",
+      "tagline": "Coloque imágenes no cuadradas en un matte cuadrado con fondos borrosos, sólidos o degradados"
+    },
+    "scroll-generator": {
+      "name": "Generador de Scroll Continuo",
+      "tagline": "Divide imágenes panorámicas en tiles para carruseles de Instagram"
+    },
+    "social-cropper": {
+      "name": "Recortador de Redes Sociales",
+      "tagline": "Recorta imágenes a relaciones de aspecto específicas para Instagram, Bluesky, Threads"
+    },
+    "watermarker": {
+      "name": "Marcador de Agua",
+      "tagline": "Añade marcas de agua a imágenes con posición, opacidad, tamaño y modos de fusión personalizables"
     }
   }
 }

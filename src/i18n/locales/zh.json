@@ -546,6 +546,22 @@
     "background-remover": {
       "name": "背景去除器",
       "tagline": "使用AI自动从图像中移除背景"
+    },
+    "matte-generator": {
+      "name": "遮罩生成器",
+      "tagline": "将非方形图像放置在带有模糊、纯色或渐变背景的方形遮罩上"
+    },
+    "scroll-generator": {
+      "name": "无缝滚动生成器",
+      "tagline": "将全景图像分割为用于Instagram轮播滚动的切片"
+    },
+    "social-cropper": {
+      "name": "社交媒体裁剪器",
+      "tagline": "将图像裁剪为Instagram、Bluesky、Threads等平台特定的宽高比"
+    },
+    "watermarker": {
+      "name": "水印工具",
+      "tagline": "为图像添加可自定义位置、透明度、大小和混合模式的水印"
     }
   }
 }
