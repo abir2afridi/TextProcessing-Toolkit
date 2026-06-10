@@ -578,6 +578,10 @@
     "harmony-genny": {
       "name": "和谐色彩生成器",
       "tagline": "使用基于 OKLCH 的互补色、类似色、三分色等调色板生成色彩和谐方案"
+    },
+    "palette-collection": {
+      "name": "调色板收藏",
+      "tagline": "浏览来自自然、键帽、电影、艺术和设计的 200 多个精选调色板"
     }
   }
 }

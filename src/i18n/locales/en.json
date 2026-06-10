@@ -578,6 +578,10 @@
     "harmony-genny": {
       "name": "Harmony Generator",
       "tagline": "Generate colour harmonies using OKLCH-based complementary, analogous, triadic, and more palettes"
+    },
+    "palette-collection": {
+      "name": "Palette Collection",
+      "tagline": "Browse 200+ curated colour palettes from nature, keycaps, movies, art, and design"
     }
   }
 }

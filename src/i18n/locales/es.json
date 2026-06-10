@@ -578,6 +578,10 @@
     "harmony-genny": {
       "name": "Generador de Armonías",
       "tagline": "Genere armonías de color usando paletas complementarias, análogas, triádicas y más basadas en OKLCH"
+    },
+    "palette-collection": {
+      "name": "Colección de Paletas",
+      "tagline": "Explore más de 200 paletas de colores seleccionadas de la naturaleza, teclas, películas, arte y diseño"
     }
   }
 }

@@ -195,6 +195,7 @@ export const toolComponents: Record<string, ComponentType> = {
   "contrast-checker": lazyTool(() => import("@/components/tools/ContrastChecker")),
   "gradient-genny": lazyTool(() => import("@/components/tools/GradientGenny")),
   "harmony-genny": lazyTool(() => import("@/components/tools/HarmonyGenny")),
+  "palette-collection": lazyTool(() => import("@/components/tools/PaletteCollection")),
 
   // Development
   "benchmark-builder": lazyTool(() => import("@/components/tools/BenchmarkBuilder")),
@@ -910,6 +911,14 @@ export const tools: ToolMeta[] = [
     category: "Images & Videos",
     icon: Palette,
     keywords: ["harmony", "complementary", "analogous", "triadic", "tetradic", "colour", "palette", "oklch"],
+  },
+  {
+    slug: "palette-collection",
+    name: "Palette Collection",
+    tagline: "Browse 200+ curated colour palettes from nature, keycaps, movies, art, and design",
+    category: "Images & Videos",
+    icon: Palette,
+    keywords: ["palette", "collection", "curated", "colour", "theme", "inspiration", "browse"],
   },
 
   // ===================== Development =====================
