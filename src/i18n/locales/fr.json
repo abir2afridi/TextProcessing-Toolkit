@@ -574,6 +574,10 @@
     "gradient-genny": {
       "name": "Générateur de Dégradés",
       "tagline": "Créez des dégradés linéaires, de coins et en mesh avec des contrôles de couleur interactifs"
+    },
+    "harmony-genny": {
+      "name": "Générateur d'Harmonies",
+      "tagline": "Générez des harmonies de couleurs avec des palettes complémentaires, analogues, triadiques et plus basées sur OKLCH"
     }
   }
 }

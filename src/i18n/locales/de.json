@@ -574,6 +574,10 @@
     "gradient-genny": {
       "name": "Farbverlauf-Generator",
       "tagline": "Lineare, Eck- und Mesh-Farbverläufe mit interaktiven Farbsteuerungen erstellen"
+    },
+    "harmony-genny": {
+      "name": "Harmonie-Generator",
+      "tagline": "Erzeugen Sie Farbharmonien mit OKLCH-basierten komplementären, analogen, triadischen und weiteren Paletten"
     }
   }
 }

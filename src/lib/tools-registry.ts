@@ -194,6 +194,7 @@ export const toolComponents: Record<string, ComponentType> = {
   "colour-blindness-sim": lazyTool(() => import("@/components/tools/ColourBlindnessSim")),
   "contrast-checker": lazyTool(() => import("@/components/tools/ContrastChecker")),
   "gradient-genny": lazyTool(() => import("@/components/tools/GradientGenny")),
+  "harmony-genny": lazyTool(() => import("@/components/tools/HarmonyGenny")),
 
   // Development
   "benchmark-builder": lazyTool(() => import("@/components/tools/BenchmarkBuilder")),
@@ -901,6 +902,14 @@ export const tools: ToolMeta[] = [
     category: "Images & Videos",
     icon: Palette,
     keywords: ["gradient", "linear", "mesh", "corners", "colour", "blend", "pigment", "noise"],
+  },
+  {
+    slug: "harmony-genny",
+    name: "Harmony Generator",
+    tagline: "Generate colour harmonies using OKLCH-based complementary, analogous, triadic, and more palettes",
+    category: "Images & Videos",
+    icon: Palette,
+    keywords: ["harmony", "complementary", "analogous", "triadic", "tetradic", "colour", "palette", "oklch"],
   },
 
   // ===================== Development =====================

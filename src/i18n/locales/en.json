@@ -574,6 +574,10 @@
     "gradient-genny": {
       "name": "Gradient Generator",
       "tagline": "Create linear, corner, and mesh gradients with interactive colour controls"
+    },
+    "harmony-genny": {
+      "name": "Harmony Generator",
+      "tagline": "Generate colour harmonies using OKLCH-based complementary, analogous, triadic, and more palettes"
     }
   }
 }

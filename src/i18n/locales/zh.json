@@ -574,6 +574,10 @@
     "gradient-genny": {
       "name": "渐变生成器",
       "tagline": "通过交互式颜色控制创建线性、角落和网格渐变"
+    },
+    "harmony-genny": {
+      "name": "和谐色彩生成器",
+      "tagline": "使用基于 OKLCH 的互补色、类似色、三分色等调色板生成色彩和谐方案"
     }
   }
 }
