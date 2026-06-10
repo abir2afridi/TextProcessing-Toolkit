@@ -63,6 +63,7 @@ export default function BackgroundRemover() {
       if (!pipelineRef.current) {
         setProcessing({ status: "downloading", message: "Downloading...", progress: 0 });
 
+        if (typeof window === "undefined") throw new Error("Cannot run in SSR");
         const { pipeline, env } = await import("@huggingface/transformers");
 
         env.allowLocalModels = false;

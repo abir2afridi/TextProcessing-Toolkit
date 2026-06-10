@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "npx vite build --config vite.config.vercel.ts",
+  "buildCommand": "VERCEL_ANALYZE_BUILD_OUTPUT=1 npx vite build --config vite.config.vercel.ts",
   "outputDirectory": "dist/client",
   "installCommand": "npm install",
   "rewrites": [
