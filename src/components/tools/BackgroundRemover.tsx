@@ -63,34 +63,35 @@ export default function BackgroundRemover() {
       if (!pipelineRef.current) {
         setProcessing({ status: "downloading", message: "Downloading...", progress: 0 });
 
-        if (typeof window === "undefined") throw new Error("Cannot run in SSR");
-        const { pipeline, env } = await import("@huggingface/transformers");
+        if (!import.meta.env.SSR) {
+          const { pipeline, env } = await import("@huggingface/transformers");
 
-        env.allowLocalModels = false;
-        env.useBrowserCache = false;
+          env.allowLocalModels = false;
+          env.useBrowserCache = false;
 
-        const progressCallback = (event: { status?: string; progress?: number }) => {
-          if (event.status === "progress" && event.progress !== undefined) {
-            setProcessing({
-              status: "downloading",
-              message: "Downloading...",
-              progress: Math.round(event.progress),
+          const progressCallback = (event: { status?: string; progress?: number }) => {
+            if (event.status === "progress" && event.progress !== undefined) {
+              setProcessing({
+                status: "downloading",
+                message: "Downloading...",
+                progress: Math.round(event.progress),
+              });
+            }
+          };
+
+          try {
+            pipelineRef.current = await pipeline("image-segmentation", "briaai/RMBG-1.4", {
+              device: "webgpu",
+              dtype: "fp32",
+              progress_callback: progressCallback,
+            });
+          } catch {
+            pipelineRef.current = await pipeline("image-segmentation", "briaai/RMBG-1.4", {
+              device: "wasm",
+              dtype: "fp32",
+              progress_callback: progressCallback,
             });
           }
-        };
-
-        try {
-          pipelineRef.current = await pipeline("image-segmentation", "briaai/RMBG-1.4", {
-            device: "webgpu",
-            dtype: "fp32",
-            progress_callback: progressCallback,
-          });
-        } catch {
-          pipelineRef.current = await pipeline("image-segmentation", "briaai/RMBG-1.4", {
-            device: "wasm",
-            dtype: "fp32",
-            progress_callback: progressCallback,
-          });
         }
       }
 

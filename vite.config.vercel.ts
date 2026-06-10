@@ -6,9 +6,6 @@ export default defineConfig({
     server: { entry: "server.vercel" },
   },
   vite: {
-    ssr: {
-      external: ["onnxruntime-web", "@huggingface/transformers"],
-    },
     define: {
       global: "globalThis",
     },
