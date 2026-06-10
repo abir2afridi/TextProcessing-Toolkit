@@ -51,7 +51,7 @@ A free, open-source collection of **126 high-performance text utilities** that r
 | **Crypto & Security** | 11 | Bcrypt Hash, Encrypt/Decrypt, Password Strength, HMAC Generator, RSA Key Generator, Token Generator, ULID Generator, BIP39 Passphrase, OTP Generator, Basic Auth Generator, PDF Signature Checker |
 | **Converters** | 10 | Roman Numeral, Base64 File, JSON ↔ XML, XML ↔ JSON, JSON ↔ CSV, TOML Converter, Text to ASCII Binary, Text to Unicode, YAML ↔ TOML, YAML ↔ JSON |
 | **Web** | 10 | Device Info, OG Meta Generator, Keycode Info, User-Agent Parser, HTTP Status Codes, JSON Diff Viewer, MIME Types, HTML WYSIWYG Editor, Outlook Safelink Decoder, Camera Recorder |
-| **Images & Videos** | 9 | QR Code Generator, WiFi QR Code, SVG Placeholder, Palette Generator, Background Remover, Matte Generator, Seamless Scroll Generator, Social Media Cropper, Watermarker |
+| **Images & Videos** | 9 | QR Code Generator, WiFi QR Code, SVG Placeholder, Palette Generator, Background Remover *(AI-powered)*, Matte Generator, Seamless Scroll Generator, Social Media Cropper, Watermarker |
 | **Development** | 6 | Benchmark Builder, Git Cheatsheet, Port Generator, Crontab Generator, Chmod Calculator, Email Normalizer |
 | **Network** | 6 | IPv4 Range Expander, IPv4 Subnet Calculator, IPv4 Converter, IPv6 ULA Generator, MAC Address Lookup, MAC Generator |
 | **Math** | 3 | Math Evaluator, Percentage Calculator, ETA Calculator |
@@ -88,6 +88,7 @@ A free, open-source collection of **126 high-performance text utilities** that r
 | **Charts** | Recharts 2.15 |
 | **Forms** | react-hook-form + zod |
 | **Crypto** | bcryptjs, crypto-js, node-forge |
+| **AI/ML** | @huggingface/transformers, onnxruntime-web (browser-only) |
 | **Rich Text** | TipTap Editor |
 | **Notifications** | sonner |
 | **i18n** | i18next + react-i18next |
@@ -139,7 +140,7 @@ bun run build:vercel
 # Then deploy the dist/client folder via Vercel
 ```
 
-Vercel deployment uses a custom `vite.config.vercel.ts` with SSR via TanStack Start. Cloudflare deployment uses the default `vite.config.ts` with `@cloudflare/vite-plugin`.
+Vercel deployment uses a custom `vite.config.vercel.ts` with SSR via TanStack Start. Browser-only ML packages (`@huggingface/transformers`, `onnxruntime-web`) are excluded from server bundles using `import.meta.env.SSR` guards to stay within Vercel's 250 MB Lambda limit. Cloudflare deployment uses the default `vite.config.ts` with `@cloudflare/vite-plugin`.
 
 ---
 
@@ -193,6 +194,7 @@ TextProcessing-Toolkit/
 - **Language** — locale detected from `localStorage("tpt-locale")` or `navigator.language`, persisted on change
 - **TanStack Router** — file-based routing with auto-generated `routeTree.gen.ts`
 - **SSR** — TanStack Start provides server-side rendering on Vercel; Cloudflare Workers runs the edge runtime
+- **Browser-only ML** — AI tools (Background Remover) use `import.meta.env.SSR` guards to exclude heavy ML packages from server bundles, keeping Vercel Lambda under 250 MB
 - **Cloudflare-ready** — deployable via `@cloudflare/vite-plugin` and `wrangler`
 
 ### Data Privacy
