@@ -543,6 +543,10 @@
       "name": "Palette Generator",
       "tagline": "Generate, lock, edit, and export color palettes with 26 strategies"
     },
+    "colour-blind-sim": {
+      "name": "Colour Blindness Simulator",
+      "tagline": "Simulate how images appear to people with different types of colour vision deficiency"
+    },
     "background-remover": {
       "name": "Background Remover",
       "tagline": "Remove backgrounds from images automatically using AI"

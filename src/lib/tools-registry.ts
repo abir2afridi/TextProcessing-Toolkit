@@ -207,6 +207,7 @@ export const toolComponents: Record<string, ComponentType> = {
   "mac-generator": lazyTool(() => import("@/components/tools/MACGenerator")),
 
   // Images & Videos
+  "colour-blind-sim": lazyTool(() => import("@/components/tools/ColourBlindSim")),
   "palette-genny": lazyTool(() => import("@/components/tools/PaletteGenny")),
 
   // Math
@@ -813,6 +814,14 @@ export const tools: ToolMeta[] = [
     category: "Images & Videos",
     icon: Palette,
     keywords: ["palette", "color", "colour", "generate", "theme", "swatch", "harmony"],
+  },
+  {
+    slug: "colour-blind-sim",
+    name: "Colour Blindness Simulator",
+    tagline: "Simulate how images appear to people with different types of colour vision deficiency",
+    category: "Images & Videos",
+    icon: Eye,
+    keywords: ["colour", "color", "blind", "vision", "deficiency", "protanopia", "deuteranopia", "tritanopia", "simulate", "accessibility"],
   },
   {
     slug: "background-remover",

@@ -543,6 +543,10 @@
       "name": "Paletten-Generator",
       "tagline": "Farbpaletten mit 26 Strategien erstellen, sperren, bearbeiten und exportieren"
     },
+    "colour-blind-sim": {
+      "name": "Farbenblindheits-Simulator",
+      "tagline": "Simulieren Sie, wie Bilder für Menschen mit verschiedenen Formen der Farbsehschwäche aussehen"
+    },
     "background-remover": {
       "name": "Hintergrundentferner",
       "tagline": "Entfernen Sie automatisch Hintergründe aus Bildern mit KI"

@@ -543,6 +543,10 @@
       "name": "Generador de Paletas",
       "tagline": "Genera, bloquea, edita y exporta paletas de colores con 26 estrategias"
     },
+    "colour-blind-sim": {
+      "name": "Simulador de Daltonismo",
+      "tagline": "Simula cómo ven las imágenes las personas con diferentes tipos de deficiencia del color"
+    },
     "background-remover": {
       "name": "Eliminador de Fondos",
       "tagline": "Elimina fondos de imágenes automáticamente con IA"

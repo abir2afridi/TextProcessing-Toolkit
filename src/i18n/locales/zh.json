@@ -543,6 +543,10 @@
       "name": "调色板生成器",
       "tagline": "使用26种策略生成、锁定、编辑和导出调色板"
     },
+    "colour-blind-sim": {
+      "name": "色盲模拟器",
+      "tagline": "模拟不同类型的色觉障碍者看到的图像效果"
+    },
     "background-remover": {
       "name": "背景去除器",
       "tagline": "使用AI自动从图像中移除背景"
