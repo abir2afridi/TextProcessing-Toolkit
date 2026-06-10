@@ -18,7 +18,7 @@ A free, open-source collection of **127 high-performance text utilities** that r
 ## Features
 
 - **100% private** — zero server uploads, no analytics, no tracking, data never leaves your device
-- **127 tools & growing** — 14 categories from Base64 to bcrypt, JSON to TOML, regex to QR
+- **126 tools & growing** — 14 categories from Base64 to bcrypt, JSON to TOML, regex to QR
 - **Instant execution** — no reloads, no API calls, results appear as you type
 - **Consistent interface** — every tool follows the same input/output panel pattern with drag-and-drop file support
 - **Unicode-safe** — full support for CJK, Arabic, Cyrillic, emoji, and multi-byte characters

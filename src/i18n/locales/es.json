@@ -543,10 +543,6 @@
       "name": "Generador de Paletas",
       "tagline": "Genera, bloquea, edita y exporta paletas de colores con 26 estrategias"
     },
-    "colour-blind-sim": {
-      "name": "Simulador de Daltonismo",
-      "tagline": "Simula cómo ven las imágenes las personas con diferentes tipos de deficiencia del color"
-    },
     "background-remover": {
       "name": "Eliminador de Fondos",
       "tagline": "Elimina fondos de imágenes automáticamente con IA"
@@ -566,6 +562,10 @@
     "watermarker": {
       "name": "Marcador de Agua",
       "tagline": "Añade marcas de agua a imágenes con posición, opacidad, tamaño y modos de fusión personalizables"
+    },
+    "colour-blindness-sim": {
+      "name": "Simulador de Daltonismo",
+      "tagline": "Simula cómo las imágenes aparecen a usuarios con deficiencias de visión cromática"
     }
   }
 }

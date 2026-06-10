@@ -46,6 +46,7 @@ import {
   Quote,
   Clock,
   Eye,
+  EyeOff,
   Globe,
   Binary,
   Option as OptionIcon,
@@ -189,6 +190,7 @@ export const toolComponents: Record<string, ComponentType> = {
   "scroll-generator": lazyTool(() => import("@/components/tools/ScrollGenerator")),
   "social-cropper": lazyTool(() => import("@/components/tools/SocialCropper")),
   watermarker: lazyTool(() => import("@/components/tools/Watermarker")),
+  "colour-blindness-sim": lazyTool(() => import("@/components/tools/ColourBlindnessSimulator")),
 
   // Development
   "benchmark-builder": lazyTool(() => import("@/components/tools/BenchmarkBuilder")),
@@ -207,7 +209,6 @@ export const toolComponents: Record<string, ComponentType> = {
   "mac-generator": lazyTool(() => import("@/components/tools/MACGenerator")),
 
   // Images & Videos
-  "colour-blind-sim": lazyTool(() => import("@/components/tools/ColourBlindSim")),
   "palette-genny": lazyTool(() => import("@/components/tools/PaletteGenny")),
 
   // Math
@@ -816,14 +817,6 @@ export const tools: ToolMeta[] = [
     keywords: ["palette", "color", "colour", "generate", "theme", "swatch", "harmony"],
   },
   {
-    slug: "colour-blind-sim",
-    name: "Colour Blindness Simulator",
-    tagline: "Simulate how images appear to people with different types of colour vision deficiency",
-    category: "Images & Videos",
-    icon: Eye,
-    keywords: ["colour", "color", "blind", "vision", "deficiency", "protanopia", "deuteranopia", "tritanopia", "simulate", "accessibility"],
-  },
-  {
     slug: "background-remover",
     name: "Background Remover",
     tagline: "Remove backgrounds from images automatically using AI",
@@ -881,6 +874,14 @@ export const tools: ToolMeta[] = [
     category: "Images & Videos",
     icon: Droplets,
     keywords: ["watermark", "overlay", "opacity", "brand", "protect", "stamp", "blend"],
+  },
+  {
+    slug: "colour-blindness-sim",
+    name: "Colour Blindness Simulator",
+    tagline: "Simulate how images appear to users with colour vision deficiencies",
+    category: "Images & Videos",
+    icon: EyeOff,
+    keywords: ["colour", "blindness", "cvd", "accessibility", "protanopia", "deuteranopia", "tritanopia", "achromatopsia"],
   },
 
   // ===================== Development =====================

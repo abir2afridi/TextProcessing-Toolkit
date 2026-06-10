@@ -543,10 +543,6 @@
       "name": "Générateur de Palettes",
       "tagline": "Générez, verrouillez, modifiez et exportez des palettes de couleurs avec 26 stratégies"
     },
-    "colour-blind-sim": {
-      "name": "Simulateur de Daltonisme",
-      "tagline": "Simulez comment les images apparaissent aux personnes avec différents types de déficience chromatique"
-    },
     "background-remover": {
       "name": "Suppresseur d'Arrière-plan",
       "tagline": "Supprimez automatiquement les arrière-plans des images avec l'IA"
@@ -566,6 +562,10 @@
     "watermarker": {
       "name": "Filigrane",
       "tagline": "Ajoutez des filigranes aux images avec position, opacité, taille et modes de fusion personnalisables"
+    },
+    "colour-blindness-sim": {
+      "name": "Simulateur de Daltonisme",
+      "tagline": "Simulez l'apparence des images pour les utilisateurs ayant des déficiences de vision des couleurs"
     }
   }
 }

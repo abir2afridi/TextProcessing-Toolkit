@@ -543,10 +543,6 @@
       "name": "Paletten-Generator",
       "tagline": "Farbpaletten mit 26 Strategien erstellen, sperren, bearbeiten und exportieren"
     },
-    "colour-blind-sim": {
-      "name": "Farbenblindheits-Simulator",
-      "tagline": "Simulieren Sie, wie Bilder für Menschen mit verschiedenen Formen der Farbsehschwäche aussehen"
-    },
     "background-remover": {
       "name": "Hintergrundentferner",
       "tagline": "Entfernen Sie automatisch Hintergründe aus Bildern mit KI"
@@ -566,6 +562,10 @@
     "watermarker": {
       "name": "Wasserzeichen",
       "tagline": "Bildwasserzeichen mit anpassbarer Position, Deckkraft, Größe und Blend-Modi hinzufügen"
+    },
+    "colour-blindness-sim": {
+      "name": "Farbenblindheitssimulator",
+      "tagline": "Simulieren Sie, wie Bilder für Benutzer mit Farbsehschwächen aussehen"
     }
   }
 }
