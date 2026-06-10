@@ -570,6 +570,10 @@
     "contrast-checker": {
       "name": "对比度检查器",
       "tagline": "检查并修复前景色与背景色之间的 WCAG 颜色对比度比率"
+    },
+    "gradient-genny": {
+      "name": "渐变生成器",
+      "tagline": "通过交互式颜色控制创建线性、角落和网格渐变"
     }
   }
 }

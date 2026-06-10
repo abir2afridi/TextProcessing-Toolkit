@@ -570,6 +570,10 @@
     "contrast-checker": {
       "name": "Contrast Checker",
       "tagline": "Check and fix WCAG colour contrast ratios between foreground and background"
+    },
+    "gradient-genny": {
+      "name": "Gradient Generator",
+      "tagline": "Create linear, corner, and mesh gradients with interactive colour controls"
     }
   }
 }

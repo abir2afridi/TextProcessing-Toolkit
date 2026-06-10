@@ -570,6 +570,10 @@
     "contrast-checker": {
       "name": "Verificador de Contraste",
       "tagline": "Compruebe y corrija las relaciones de contraste de color WCAG entre el primer plano y el fondo"
+    },
+    "gradient-genny": {
+      "name": "Generador de Degradados",
+      "tagline": "Crea degradados lineales, de esquina y malla con controles de color interactivos"
     }
   }
 }

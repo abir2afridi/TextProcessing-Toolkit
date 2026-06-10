@@ -570,6 +570,10 @@
     "contrast-checker": {
       "name": "Vérificateur de Contraste",
       "tagline": "Vérifiez et corrigez les ratios de contraste des couleurs WCAG entre le premier plan et l'arrière-plan"
+    },
+    "gradient-genny": {
+      "name": "Générateur de Dégradés",
+      "tagline": "Créez des dégradés linéaires, de coins et en mesh avec des contrôles de couleur interactifs"
     }
   }
 }

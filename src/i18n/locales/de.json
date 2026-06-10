@@ -570,6 +570,10 @@
     "contrast-checker": {
       "name": "Kontrastprüfer",
       "tagline": "WCAG-Farbkontrastverhältnisse zwischen Vordergrund und Hintergrund prüfen und korrigieren"
+    },
+    "gradient-genny": {
+      "name": "Farbverlauf-Generator",
+      "tagline": "Lineare, Eck- und Mesh-Farbverläufe mit interaktiven Farbsteuerungen erstellen"
     }
   }
 }

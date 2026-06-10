@@ -193,6 +193,7 @@ export const toolComponents: Record<string, ComponentType> = {
   watermarker: lazyTool(() => import("@/components/tools/Watermarker")),
   "colour-blindness-sim": lazyTool(() => import("@/components/tools/ColourBlindnessSim")),
   "contrast-checker": lazyTool(() => import("@/components/tools/ContrastChecker")),
+  "gradient-genny": lazyTool(() => import("@/components/tools/GradientGenny")),
 
   // Development
   "benchmark-builder": lazyTool(() => import("@/components/tools/BenchmarkBuilder")),
@@ -892,6 +893,14 @@ export const tools: ToolMeta[] = [
     category: "Images & Videos",
     icon: Contrast,
     keywords: ["contrast", "wcag", "accessibility", "aa", "aaa", "ratio", "colour", "compliance"],
+  },
+  {
+    slug: "gradient-genny",
+    name: "Gradient Generator",
+    tagline: "Create linear, corner, and mesh gradients with interactive colour controls",
+    category: "Images & Videos",
+    icon: Palette,
+    keywords: ["gradient", "linear", "mesh", "corners", "colour", "blend", "pigment", "noise"],
   },
 
   // ===================== Development =====================
