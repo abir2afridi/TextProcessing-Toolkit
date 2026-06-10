@@ -11,6 +11,7 @@ import {
   Activity, QrCode, Wifi, Image, Code, Cpu, GitBranch,
   Timer, Thermometer, CreditCard, Smartphone, Router, Unlock,
   Trophy, Ruler, BookOpen, Contact, ScanLine, FileCheck, Code2, Mail, Camera, Container,
+  Eraser as EraserIcon,
 } from "lucide-react";
 
 export type ToolCategory =
@@ -118,6 +119,7 @@ export const toolComponents: Record<string, ComponentType> = {
   "qr-code-gen": lazyTool(() => import("@/components/tools/QRCodeGen")),
   "wifi-qr-gen": lazyTool(() => import("@/components/tools/WiFiQRGen")),
   "svg-placeholder": lazyTool(() => import("@/components/tools/SVGPlaceholder")),
+  "background-remover": lazyTool(() => import("@/components/tools/BackgroundRemover")),
 
   // Development
   "benchmark-builder": lazyTool(() => import("@/components/tools/BenchmarkBuilder")),
@@ -134,6 +136,9 @@ export const toolComponents: Record<string, ComponentType> = {
   "ipv6-generator": lazyTool(() => import("@/components/tools/IPv6Generator")),
   "mac-lookup": lazyTool(() => import("@/components/tools/MacAddressLookup")),
   "mac-generator": lazyTool(() => import("@/components/tools/MACGenerator")),
+
+  // Images & Videos
+  "palette-genny": lazyTool(() => import("@/components/tools/PaletteGenny")),
 
   // Math
   "math-evaluator": lazyTool(() => import("@/components/tools/MathEvaluator")),
@@ -270,6 +275,8 @@ export const tools: ToolMeta[] = [
   { slug: "qr-code-gen", name: "QR Code Generator", tagline: "Generate QR codes from text or URLs", category: "Images & Videos", icon: QrCode, keywords: ["qr","code","generate","scan","barcode"] },
   { slug: "wifi-qr-gen", name: "WiFi QR Code", tagline: "Generate QR codes for WiFi network access", category: "Images & Videos", icon: Wifi, keywords: ["wifi","qr","network","password","connect"] },
   { slug: "svg-placeholder", name: "SVG Placeholder", tagline: "Generate customizable SVG placeholder images", category: "Images & Videos", icon: Image, keywords: ["svg","placeholder","image","generate","placeholder"] },
+  { slug: "palette-genny", name: "Palette Generator", tagline: "Generate, lock, edit, and export color palettes with 26 strategies", category: "Images & Videos", icon: Palette, keywords: ["palette","color","colour","generate","theme","swatch","harmony"] },
+  { slug: "background-remover", name: "Background Remover", tagline: "Remove backgrounds from images automatically using AI", category: "Images & Videos", icon: EraserIcon, keywords: ["background","remove","erase","image","photo","ai","segmentation"] },
 
   // ===================== Development =====================
   { slug: "benchmark-builder", name: "Benchmark Builder", tagline: "Measure and compare execution time of code suites", category: "Development", icon: GitBranch, keywords: ["benchmark","builder","execution","duration","mean","variance"] },

@@ -538,6 +538,14 @@
     "unicode-inspector": {
       "name": "Unicode-Inspektor",
       "tagline": "Unicode-Codepunkte, Grapheme und Eigenschaften inspizieren"
+    },
+    "palette-genny": {
+      "name": "Paletten-Generator",
+      "tagline": "Farbpaletten mit 26 Strategien erstellen, sperren, bearbeiten und exportieren"
+    },
+    "background-remover": {
+      "name": "Hintergrundentferner",
+      "tagline": "Entfernen Sie automatisch Hintergründe aus Bildern mit KI"
     }
   }
 }

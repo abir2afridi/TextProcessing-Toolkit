@@ -9,7 +9,7 @@
 [![Vercel](https://img.shields.io/badge/Vercel-000000?logo=vercel&logoColor=white)](https://vercel.com)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-A free, open-source collection of **120 high-performance text utilities** that run entirely in your browser. Nothing is uploaded — every operation happens locally on your machine.
+A free, open-source collection of **122 high-performance text utilities** that run entirely in your browser. Nothing is uploaded — every operation happens locally on your machine.
 
 > **Built for text. Powered by the browser.**
 
@@ -18,7 +18,7 @@ A free, open-source collection of **120 high-performance text utilities** that r
 ## Features
 
 - **100% private** — zero server uploads, no analytics, no tracking, data never leaves your device
-- **120 tools & growing** — 14 categories from Base64 to bcrypt, JSON to TOML, regex to QR
+- **122 tools & growing** — 14 categories from Base64 to bcrypt, JSON to TOML, regex to QR
 - **Instant execution** — no reloads, no API calls, results appear as you type
 - **Consistent interface** — every tool follows the same input/output panel pattern with drag-and-drop file support
 - **Unicode-safe** — full support for CJK, Arabic, Cyrillic, emoji, and multi-byte characters
@@ -51,7 +51,7 @@ A free, open-source collection of **120 high-performance text utilities** that r
 | **Crypto & Security** | 11 | Bcrypt Hash, Encrypt/Decrypt, Password Strength, HMAC Generator, RSA Key Generator, Token Generator, ULID Generator, BIP39 Passphrase, OTP Generator, Basic Auth Generator, PDF Signature Checker |
 | **Converters** | 10 | Roman Numeral, Base64 File, JSON ↔ XML, XML ↔ JSON, JSON ↔ CSV, TOML Converter, Text to ASCII Binary, Text to Unicode, YAML ↔ TOML, YAML ↔ JSON |
 | **Web** | 10 | Device Info, OG Meta Generator, Keycode Info, User-Agent Parser, HTTP Status Codes, JSON Diff Viewer, MIME Types, HTML WYSIWYG Editor, Outlook Safelink Decoder, Camera Recorder |
-| **Images & Videos** | 3 | QR Code Generator, WiFi QR Code, SVG Placeholder |
+| **Images & Videos** | 5 | QR Code Generator, WiFi QR Code, SVG Placeholder, Palette Generator, Background Remover |
 | **Development** | 6 | Benchmark Builder, Git Cheatsheet, Port Generator, Crontab Generator, Chmod Calculator, Email Normalizer |
 | **Network** | 6 | IPv4 Range Expander, IPv4 Subnet Calculator, IPv4 Converter, IPv6 ULA Generator, MAC Address Lookup, MAC Generator |
 | **Math** | 3 | Math Evaluator, Percentage Calculator, ETA Calculator |

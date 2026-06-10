@@ -538,6 +538,14 @@
     "unicode-inspector": {
       "name": "Inspector Unicode",
       "tagline": "Inspeccionar puntos de código Unicode, grafemas y propiedades"
+    },
+    "palette-genny": {
+      "name": "Generador de Paletas",
+      "tagline": "Genera, bloquea, edita y exporta paletas de colores con 26 estrategias"
+    },
+    "background-remover": {
+      "name": "Eliminador de Fondos",
+      "tagline": "Elimina fondos de imágenes automáticamente con IA"
     }
   }
 }
