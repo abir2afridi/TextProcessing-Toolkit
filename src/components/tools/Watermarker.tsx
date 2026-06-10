@@ -105,13 +105,7 @@ export default function Watermarker() {
     setResultImage(null);
   };
 
-  useEffect(() => {
-    if (baseImage && watermark) {
-      generateWatermark();
-    }
-  }, [baseImage, watermark, position, randomPos, opacity, blendMode, scale, padding]);
-
-  const generateWatermark = () => {
+  const generateWatermark = useCallback(() => {
     if (!baseImage || !watermark) return;
 
     const baseImg = new Image();
@@ -172,7 +166,13 @@ export default function Watermarker() {
     watermarkImg.onload = onLoad;
     baseImg.src = baseImage;
     watermarkImg.src = watermark;
-  };
+  }, [baseImage, watermark, position, randomPos, opacity, blendMode, scale, padding]);
+
+  useEffect(() => {
+    if (baseImage && watermark) {
+      generateWatermark();
+    }
+  }, [baseImage, watermark, generateWatermark]);
 
   const downloadResult = () => {
     if (!resultImage) return;
@@ -261,7 +261,7 @@ export default function Watermarker() {
             </div>
           ) : (
             <div className="relative group rounded-lg overflow-hidden ring-1 ring-border">
-              <div className="w-full h-44 bg-[repeating-conic-gradient(var(--color-muted)_0%_25%,transparent_0%_50%)] bg-[length:16px_16px] flex items-center justify-center">
+              <div className="w-full h-44 bg-[repeating-conic-gradient(var(--color-muted)_0%_25%,transparent_0%_50%)] bg-size-[16px_16px] flex items-center justify-center">
                 <img
                   src={watermark}
                   alt="Watermark"
@@ -394,11 +394,7 @@ export default function Watermarker() {
                 Preview
               </label>
               <div className="rounded-lg overflow-hidden shadow-lg ring-1 ring-border">
-                <img
-                  src={resultImage}
-                  alt="Result"
-                  className="max-w-[320px] max-h-[320px] w-auto"
-                />
+                <img src={resultImage} alt="Result" className="max-w-[320px] max-h-80 w-auto" />
               </div>
               <span className="text-xs text-muted-foreground">
                 {baseSize.width} × {baseSize.height} px
