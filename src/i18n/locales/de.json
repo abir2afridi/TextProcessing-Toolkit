@@ -582,6 +582,14 @@
     "palette-collection": {
       "name": "Palettensammlung",
       "tagline": "Durchsuchen Sie 200+ kuratierte Farbpaletten aus Natur, Tastenkappen, Filmen, Kunst und Design"
+    },
+    "palette-extractor": {
+      "name": "Palettenextraktor",
+      "tagline": "Farbpaletten aus Bildern mit k-means-Clustering und 8 Strategien extrahieren"
+    },
+    "selective-text-replacer": {
+      "name": "Selektiver Text-Ersetzer",
+      "tagline": "Ausgewählte Wörter sperren und den Rest des Textes frei bearbeiten"
     }
   }
 }

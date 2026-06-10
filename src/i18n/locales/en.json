@@ -582,6 +582,14 @@
     "palette-collection": {
       "name": "Palette Collection",
       "tagline": "Browse 200+ curated colour palettes from nature, keycaps, movies, art, and design"
+    },
+    "palette-extractor": {
+      "name": "Palette Extractor",
+      "tagline": "Extract colour palettes from images using k-means clustering with 8 strategies"
+    },
+    "selective-text-replacer": {
+      "name": "Selective Text Replacer",
+      "tagline": "Lock selected words and freely edit the rest of your text"
     }
   }
 }

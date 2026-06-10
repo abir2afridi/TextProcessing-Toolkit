@@ -136,6 +136,7 @@ export const toolComponents: Record<string, ComponentType> = {
   "string-obfuscator": lazyTool(() => import("@/components/tools/StringObfuscator")),
   "numeronym-generator": lazyTool(() => import("@/components/tools/NumeronymGen")),
   "regex-cheatsheet": lazyTool(() => import("@/components/tools/RegexCheatsheet")),
+  "selective-text-replacer": lazyTool(() => import("@/components/tools/SelectiveTextReplacer")),
 
   // Extractors
   "url-extractor": lazyTool(() => import("@/components/tools/UrlExtractor")),
@@ -196,6 +197,7 @@ export const toolComponents: Record<string, ComponentType> = {
   "gradient-genny": lazyTool(() => import("@/components/tools/GradientGenny")),
   "harmony-genny": lazyTool(() => import("@/components/tools/HarmonyGenny")),
   "palette-collection": lazyTool(() => import("@/components/tools/PaletteCollection")),
+  "palette-extractor": lazyTool(() => import("@/components/tools/PaletteExtractor")),
 
   // Development
   "benchmark-builder": lazyTool(() => import("@/components/tools/BenchmarkBuilder")),
@@ -474,6 +476,14 @@ export const tools: ToolMeta[] = [
     category: "Text Utilities",
     icon: List,
     keywords: ["list", "convert", "trim", "sort", "duplicate", "prefix", "suffix", "separator"],
+  },
+  {
+    slug: "selective-text-replacer",
+    name: "Selective Text Replacer",
+    tagline: "Lock selected words and freely edit the rest of your text",
+    category: "Text Utilities",
+    icon: Lock,
+    keywords: ["select", "lock", "edit", "replace", "partial", "segment", "word"],
   },
 
   // ===================== Extractors =====================
@@ -919,6 +929,14 @@ export const tools: ToolMeta[] = [
     category: "Images & Videos",
     icon: Palette,
     keywords: ["palette", "collection", "curated", "colour", "theme", "inspiration", "browse"],
+  },
+  {
+    slug: "palette-extractor",
+    name: "Palette Extractor",
+    tagline: "Extract colour palettes from images using k-means clustering with 8 strategies",
+    category: "Images & Videos",
+    icon: Palette,
+    keywords: ["palette", "extract", "colour", "image", "k-means", "cluster", "dominant", "vibrant"],
   },
 
   // ===================== Development =====================

@@ -582,6 +582,14 @@
     "palette-collection": {
       "name": "Collection de Palettes",
       "tagline": "Parcourez plus de 200 palettes de couleurs organisées de la nature, des touches, des films, de l'art et du design"
+    },
+    "palette-extractor": {
+      "name": "Extracteur de Palettes",
+      "tagline": "Extrayez des palettes de couleurs d'images avec le clustering k-means et 8 stratégies"
+    },
+    "selective-text-replacer": {
+      "name": "Remplaceur de Texte Sélectif",
+      "tagline": "Verrouillez les mots sélectionnés et modifiez librement le reste du texte"
     }
   }
 }

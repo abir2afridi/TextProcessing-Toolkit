@@ -582,6 +582,14 @@
     "palette-collection": {
       "name": "调色板收藏",
       "tagline": "浏览来自自然、键帽、电影、艺术和设计的 200 多个精选调色板"
+    },
+    "palette-extractor": {
+      "name": "调色板提取器",
+      "tagline": "使用 k-means 聚类和 8 种策略从图像中提取调色板"
+    },
+    "selective-text-replacer": {
+      "name": "选择性文本替换器",
+      "tagline": "锁定选定单词，自由编辑文本的其余部分"
     }
   }
 }

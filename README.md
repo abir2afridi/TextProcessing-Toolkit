@@ -9,7 +9,7 @@
 [![Vercel](https://img.shields.io/badge/Vercel-000000?logo=vercel&logoColor=white)](https://vercel.com)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-A free, open-source collection of **131 high-performance text utilities** that run entirely in your browser. Nothing is uploaded — every operation happens locally on your machine.
+A free, open-source collection of **132 high-performance text utilities** that run entirely in your browser. Nothing is uploaded — every operation happens locally on your machine.
 
 > **Built for text. Powered by the browser.**
 
@@ -46,12 +46,12 @@ A free, open-source collection of **131 high-performance text utilities** that r
 | Category | Count | Tools |
 |----------|:-----:|-------|
 | **Core Tools** | 5 | Text Tracker & Remover, Text Repeater, Symbol Tracker & Multiplier, Symbol Filter & Bulk Remove, Global Text Formatter |
-| **Text Utilities** | 20 | Case Converter, Smart Replace, Whitespace Cleaner, Duplicate Remover, Line Tools, Text Compare, Find & Replace, Remove Duplicate Lines, Reverse Text, Sort Lines, Text Statistics, Word Frequency, Word Wrap, Line Numbering, Indent Tool, Prefix/Suffix, String Obfuscator, Numeronym Generator, Regex Cheatsheet, List Converter |
+| **Text Utilities** | 21 | Case Converter, Smart Replace, Whitespace Cleaner, Duplicate Remover, Line Tools, Text Compare, Find & Replace, Remove Duplicate Lines, Reverse Text, Sort Lines, Text Statistics, Word Frequency, Word Wrap, Line Numbering, Indent Tool, Prefix/Suffix, String Obfuscator, Numeronym Generator, Regex Cheatsheet, List Converter, Selective Text Replacer |
 | **Extractors** | 5 | URL Extractor, Email Extractor, Phone Extractor, Hashtag Extractor, Pattern Extractor |
 | **Crypto & Security** | 11 | Bcrypt Hash, Encrypt/Decrypt, Password Strength, HMAC Generator, RSA Key Generator, Token Generator, ULID Generator, BIP39 Passphrase, OTP Generator, Basic Auth Generator, PDF Signature Checker |
 | **Converters** | 10 | Roman Numeral, Base64 File, JSON ↔ XML, XML ↔ JSON, JSON ↔ CSV, TOML Converter, Text to ASCII Binary, Text to Unicode, YAML ↔ TOML, YAML ↔ JSON |
 | **Web** | 10 | Device Info, OG Meta Generator, Keycode Info, User-Agent Parser, HTTP Status Codes, JSON Diff Viewer, MIME Types, HTML WYSIWYG Editor, Outlook Safelink Decoder, Camera Recorder |
-| **Images & Videos** | 14 | QR Code Generator, WiFi QR Code, SVG Placeholder, Palette Generator, Background Remover *(AI-powered)*, Matte Generator, Seamless Scroll Generator, Social Media Cropper, Watermarker, Colour Blindness Simulator, Contrast Checker, Gradient Generator, Harmony Generator, Palette Collection |
+| **Images & Videos** | 15 | QR Code Generator, WiFi QR Code, SVG Placeholder, Palette Generator, Background Remover *(AI-powered)*, Matte Generator, Seamless Scroll Generator, Social Media Cropper, Watermarker, Colour Blindness Simulator, Contrast Checker, Gradient Generator, Harmony Generator, Palette Collection, Palette Extractor |
 | **Development** | 6 | Benchmark Builder, Git Cheatsheet, Port Generator, Crontab Generator, Chmod Calculator, Email Normalizer |
 | **Network** | 6 | IPv4 Range Expander, IPv4 Subnet Calculator, IPv4 Converter, IPv6 ULA Generator, MAC Address Lookup, MAC Generator |
 | **Math** | 3 | Math Evaluator, Percentage Calculator, ETA Calculator |
