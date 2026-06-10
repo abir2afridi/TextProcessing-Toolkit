@@ -13,9 +13,6 @@ export default defineConfig({
     server: { entry: "server" },
   },
   vite: {
-    ssr: {
-      external: ["onnxruntime-web", "@huggingface/transformers"],
-    },
     define: {
       global: "globalThis",
     },
