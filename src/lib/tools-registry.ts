@@ -46,7 +46,6 @@ import {
   Quote,
   Clock,
   Eye,
-  EyeOff,
   Globe,
   Binary,
   Option as OptionIcon,
@@ -78,6 +77,8 @@ import {
   GalleryHorizontal,
   Crop,
   Droplets,
+  Contrast,
+  EyeOff,
 } from "lucide-react";
 
 export type ToolCategory =
@@ -190,7 +191,8 @@ export const toolComponents: Record<string, ComponentType> = {
   "scroll-generator": lazyTool(() => import("@/components/tools/ScrollGenerator")),
   "social-cropper": lazyTool(() => import("@/components/tools/SocialCropper")),
   watermarker: lazyTool(() => import("@/components/tools/Watermarker")),
-  "colour-blindness-sim": lazyTool(() => import("@/components/tools/ColourBlindnessSimulator")),
+  "colour-blindness-sim": lazyTool(() => import("@/components/tools/ColourBlindnessSim")),
+  "contrast-checker": lazyTool(() => import("@/components/tools/ContrastChecker")),
 
   // Development
   "benchmark-builder": lazyTool(() => import("@/components/tools/BenchmarkBuilder")),
@@ -878,10 +880,18 @@ export const tools: ToolMeta[] = [
   {
     slug: "colour-blindness-sim",
     name: "Colour Blindness Simulator",
-    tagline: "Simulate how images appear to users with colour vision deficiencies",
+    tagline: "Simulate colour vision deficiencies including protanopia, deuteranopia, and tritanopia",
     category: "Images & Videos",
     icon: EyeOff,
-    keywords: ["colour", "blindness", "cvd", "accessibility", "protanopia", "deuteranopia", "tritanopia", "achromatopsia"],
+    keywords: ["colour", "blindness", "simulator", "protanopia", "deuteranopia", "tritanopia", "accessibility", "vision"],
+  },
+  {
+    slug: "contrast-checker",
+    name: "Contrast Checker",
+    tagline: "Check and fix WCAG colour contrast ratios between foreground and background",
+    category: "Images & Videos",
+    icon: Contrast,
+    keywords: ["contrast", "wcag", "accessibility", "aa", "aaa", "ratio", "colour", "compliance"],
   },
 
   // ===================== Development =====================

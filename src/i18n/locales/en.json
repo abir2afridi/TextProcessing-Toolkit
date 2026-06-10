@@ -565,7 +565,11 @@
     },
     "colour-blindness-sim": {
       "name": "Colour Blindness Simulator",
-      "tagline": "Simulate how images appear to users with colour vision deficiencies"
+      "tagline": "Simulate colour vision deficiencies including protanopia, deuteranopia, and tritanopia"
+    },
+    "contrast-checker": {
+      "name": "Contrast Checker",
+      "tagline": "Check and fix WCAG colour contrast ratios between foreground and background"
     }
   }
 }

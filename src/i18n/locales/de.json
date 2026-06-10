@@ -565,7 +565,11 @@
     },
     "colour-blindness-sim": {
       "name": "Farbenblindheitssimulator",
-      "tagline": "Simulieren Sie, wie Bilder für Benutzer mit Farbsehschwächen aussehen"
+      "tagline": "Simulieren Sie Farbsehschwächen wie Protanopie, Deuteranopie und Tritanopie"
+    },
+    "contrast-checker": {
+      "name": "Kontrastprüfer",
+      "tagline": "WCAG-Farbkontrastverhältnisse zwischen Vordergrund und Hintergrund prüfen und korrigieren"
     }
   }
 }

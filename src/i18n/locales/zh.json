@@ -565,7 +565,11 @@
     },
     "colour-blindness-sim": {
       "name": "色盲模拟器",
-      "tagline": "模拟图像在色觉缺陷用户眼中的显示效果"
+      "tagline": "模拟色觉缺陷，包括红色盲、绿色盲和蓝色盲"
+    },
+    "contrast-checker": {
+      "name": "对比度检查器",
+      "tagline": "检查并修复前景色与背景色之间的 WCAG 颜色对比度比率"
     }
   }
 }

@@ -565,7 +565,11 @@
     },
     "colour-blindness-sim": {
       "name": "Simulador de Daltonismo",
-      "tagline": "Simula cómo las imágenes aparecen a usuarios con deficiencias de visión cromática"
+      "tagline": "Simule deficiencias de visión del color como protanopia, deuteranopia y tritanopia"
+    },
+    "contrast-checker": {
+      "name": "Verificador de Contraste",
+      "tagline": "Compruebe y corrija las relaciones de contraste de color WCAG entre el primer plano y el fondo"
     }
   }
 }
