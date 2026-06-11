@@ -65,7 +65,9 @@ import {
   Trophy,
   Ruler,
   BookOpen,
+  ClipboardPaste,
   Contact,
+  Scan,
   ScanLine,
   FileCheck,
   Code2,
@@ -207,6 +209,9 @@ export const toolComponents: Record<string, ComponentType> = {
   "image-clipper": lazyTool(() => import("@/components/tools/ImageClipper")),
   "image-converter": lazyTool(() => import("@/components/tools/ImageConverter")),
   "image-splitter": lazyTool(() => import("@/components/tools/ImageSplitter")),
+  "image-tracer": lazyTool(() => import("@/components/tools/ImageTracer")),
+  "paste-image": lazyTool(() => import("@/components/tools/PasteImage")),
+  "placeholder-genny": lazyTool(() => import("@/components/tools/PlaceholderGenny")),
 
   // Development
   "benchmark-builder": lazyTool(() => import("@/components/tools/BenchmarkBuilder")),
@@ -1002,6 +1007,30 @@ export const tools: ToolMeta[] = [
     category: "Images & Videos",
     icon: Grid3X3,
     keywords: ["split", "grid", "tile", "image", "carousel", "instagram", "panorama", "rows", "cols"],
+  },
+  {
+    slug: "image-tracer",
+    name: "Image Tracer",
+    tagline: "Convert raster images to SVG vector paths with colour quantisation",
+    category: "Images & Videos",
+    icon: Scan,
+    keywords: ["tracer", "vectorize", "vector", "svg", "trace", "raster", "quantize", "posterize", "outline"],
+  },
+  {
+    slug: "paste-image",
+    name: "Paste Image",
+    tagline: "Paste images from your clipboard and crop them",
+    category: "Images & Videos",
+    icon: ClipboardPaste,
+    keywords: ["paste", "image", "clipboard", "crop", "download"],
+  },
+  {
+    slug: "placeholder-genny",
+    name: "Placeholder Generator",
+    tagline: "Generate custom placeholder images in PNG or SVG format",
+    category: "Images & Videos",
+    icon: Image,
+    keywords: ["placeholder", "generate", "image", "png", "svg", "dummy", "mockup"],
   },
 
   // ===================== Development =====================

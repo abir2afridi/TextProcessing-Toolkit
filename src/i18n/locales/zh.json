@@ -611,6 +611,18 @@
       "name": "图像分割器",
       "tagline": "将全景图像分割为适用于 Instagram 轮播滚动条的拼贴图块"
     },
+    "image-tracer": {
+      "name": "图像追踪器",
+      "tagline": "将光栅图像转换为带有颜色量化的 SVG 矢量路径"
+    },
+    "paste-image": {
+      "name": "粘贴图像",
+      "tagline": "从剪贴板粘贴图像并进行裁剪"
+    },
+    "placeholder-genny": {
+      "name": "占位图生成器",
+      "tagline": "生成 PNG 或 SVG 格式的自定义占位图像"
+    },
     "tailwind-shades": {
       "name": "Tailwind 色阶生成器",
       "tagline": "使用基于 OKLCH 的色彩科学生成 Tailwind CSS 颜色色阶"

@@ -72,6 +72,7 @@
     "emojilib": "^4.0.3",
     "gifenc": "^1.0.3",
     "i18next": "^26.3.0",
+    "imagetracerjs": "^1.2.6",
     "input-otp": "^1.4.2",
     "json5": "^2.2.3",
     "jszip": "^3.10.1",

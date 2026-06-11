@@ -611,6 +611,18 @@
       "name": "Diviseur d'Images",
       "tagline": "Divisez des images panoramiques en tuiles pour les carrousels Instagram"
     },
+    "image-tracer": {
+      "name": "Traceur d'Images",
+      "tagline": "Convertissez des images raster en chemins vectoriels SVG avec quantification des couleurs"
+    },
+    "paste-image": {
+      "name": "Coller une Image",
+      "tagline": "Collez des images depuis le presse-papiers et recadrez-les"
+    },
+    "placeholder-genny": {
+      "name": "Générateur de Placeholder",
+      "tagline": "Générez des images placeholder personnalisées au format PNG ou SVG"
+    },
     "tailwind-shades": {
       "name": "Générateur de Nuances Tailwind",
       "tagline": "Générez des nuances de couleur Tailwind CSS avec la science des couleurs basée sur OKLCH"

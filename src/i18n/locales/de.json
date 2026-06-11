@@ -611,6 +611,18 @@
       "name": "Bildteiler",
       "tagline": "Panoramabilder für Instagram-Karussell-Scrolls in Kacheln aufteilen"
     },
+    "image-tracer": {
+      "name": "Bildnachzeichner",
+      "tagline": "Rasterbilder mit Farbquantisierung in SVG-Vektorpfade konvertieren"
+    },
+    "paste-image": {
+      "name": "Bild einfügen",
+      "tagline": "Bilder aus der Zwischenablage einfügen und zuschneiden"
+    },
+    "placeholder-genny": {
+      "name": "Platzhalter Generator",
+      "tagline": "Benutzerdefinierte Platzhalterbilder im PNG- oder SVG-Format erstellen"
+    },
     "tailwind-shades": {
       "name": "Tailwind-Farbabstufungs-Generator",
       "tagline": "Erzeugen Sie Tailwind CSS-Farbabstufungen mit OKLCH-basierter Farbwissenschaft"

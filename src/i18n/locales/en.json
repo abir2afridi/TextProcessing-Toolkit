@@ -611,6 +611,18 @@
       "name": "Image Splitter",
       "tagline": "Split panoramic images into tiles for Instagram carousel scrolls"
     },
+    "image-tracer": {
+      "name": "Image Tracer",
+      "tagline": "Convert raster images to SVG vector paths with colour quantisation"
+    },
+    "paste-image": {
+      "name": "Paste Image",
+      "tagline": "Paste images from your clipboard and crop them"
+    },
+    "placeholder-genny": {
+      "name": "Placeholder Generator",
+      "tagline": "Generate custom placeholder images in PNG or SVG format"
+    },
     "tailwind-shades": {
       "name": "Tailwind Shade Generator",
       "tagline": "Generate Tailwind CSS colour shades with OKLCH-based colour science"
