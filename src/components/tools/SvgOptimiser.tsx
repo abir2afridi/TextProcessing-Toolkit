@@ -10,6 +10,7 @@ import {
   Minus,
   Plus,
 } from "lucide-react";
+import type { Config } from "svgo";
 import { optimize } from "svgo/browser";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -53,13 +54,13 @@ export default function SvgOptimiserTool() {
   ]);
 
   const togglePlugin = (id: string) => {
-    setPlugins((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, enabled: !p.enabled } : p))
-    );
+    setPlugins((prev) => prev.map((p) => (p.id === id ? { ...p, enabled: !p.enabled } : p)));
   };
 
   const buildConfig = useCallback(() => {
-    const svgoPlugins: (string | { name: string; params?: Record<string, unknown> })[] = ["preset-default"];
+    const svgoPlugins: { name: string; params?: Record<string, unknown> }[] = [
+      { name: "preset-default" },
+    ];
 
     if (floatPrecision > 0) {
       svgoPlugins.push({
@@ -78,7 +79,7 @@ export default function SvgOptimiserTool() {
 
     for (const p of plugins) {
       if (p.id === "removeDimensions") {
-        if (p.enabled) svgoPlugins.push("removeDimensions");
+        if (p.enabled) svgoPlugins.push({ name: "removeDimensions" });
       } else if (p.id === "removeComments") {
         svgoPlugins.push({ name: "removeComments", params: { enabled: p.enabled } });
       } else if (p.id === "removeMetadata") {
@@ -103,7 +104,7 @@ export default function SvgOptimiserTool() {
       });
     }
 
-    return { multipass, plugins: svgoPlugins };
+    return { multipass, plugins: svgoPlugins } as Config;
   }, [multipass, floatPrecision, plugins, customAttrs]);
 
   useEffect(() => {
@@ -117,35 +118,39 @@ export default function SvgOptimiserTool() {
     return () => URL.revokeObjectURL(url);
   }, [output]);
 
-  const optimizeSvg = useCallback((svg: string) => {
-    if (!svg.trim().startsWith("<svg") && !svg.trim().startsWith("<?xml")) {
-      setOutput("");
-      setStats(null);
-      return;
-    }
-    try {
-      const config = buildConfig();
-      const result = optimize(svg, config);
-      const optimized = result.data;
-      setOutput(optimized);
+  const optimizeSvg = useCallback(
+    (svg: string) => {
+      if (!svg.trim().startsWith("<svg") && !svg.trim().startsWith("<?xml")) {
+        setOutput("");
+        setStats(null);
+        return;
+      }
+      try {
+        const result = optimize(svg, buildConfig());
+        const optimized = result.data;
+        setOutput(optimized);
 
-      const originalSize = new Blob([svg]).size;
-      const optimizedSize = new Blob([optimized]).size;
-      const saved = originalSize - optimizedSize;
-      const percent = Math.round((saved / originalSize) * 100);
+        const originalSize = new Blob([svg]).size;
+        const optimizedSize = new Blob([optimized]).size;
+        const saved = originalSize - optimizedSize;
+        const percent = Math.round((saved / originalSize) * 100);
 
-      setStats({
-        original: originalSize,
-        optimized: optimizedSize,
-        saved,
-        percent,
-      });
-    } catch (err) {
-      toast.error(`SVG optimisation failed: ${err instanceof Error ? err.message : "Unknown error"}`);
-      setOutput("");
-      setStats(null);
-    }
-  }, [buildConfig]);
+        setStats({
+          original: originalSize,
+          optimized: optimizedSize,
+          saved,
+          percent,
+        });
+      } catch (err) {
+        toast.error(
+          `SVG optimisation failed: ${err instanceof Error ? err.message : "Unknown error"}`,
+        );
+        setOutput("");
+        setStats(null);
+      }
+    },
+    [buildConfig],
+  );
 
   useEffect(() => {
     if (input) {
@@ -338,7 +343,9 @@ export default function SvgOptimiserTool() {
                         onChange={() => togglePlugin(p.id)}
                         className="rounded"
                       />
-                      <Label htmlFor={`plugin-${p.id}`} className="text-sm">{p.label}</Label>
+                      <Label htmlFor={`plugin-${p.id}`} className="text-sm">
+                        {p.label}
+                      </Label>
                     </div>
                   ))}
                 </div>
@@ -396,7 +403,7 @@ export default function SvgOptimiserTool() {
                 <img
                   src={previewUrl}
                   alt="Optimised SVG preview"
-                  className="max-w-full max-h-[200px] w-auto h-auto"
+                  className="max-w-full max-h-50 w-auto h-auto"
                 />
               )}
             </div>
@@ -409,16 +416,24 @@ export default function SvgOptimiserTool() {
             </Button>
             <Button size="lg" variant="outline" className="h-14" onClick={copyOutput}>
               {copiedOptimized ? (
-                <><Check className="size-5 mr-2" /> Copied!</>
+                <>
+                  <Check className="size-5 mr-2" /> Copied!
+                </>
               ) : (
-                <><Copy className="size-5 mr-2" /> Copy Optimized</>
+                <>
+                  <Copy className="size-5 mr-2" /> Copy Optimized
+                </>
               )}
             </Button>
             <Button size="lg" variant="secondary" className="h-14" onClick={copyInput}>
               {copiedOriginal ? (
-                <><Check className="size-5 mr-2" /> Copied!</>
+                <>
+                  <Check className="size-5 mr-2" /> Copied!
+                </>
               ) : (
-                <><Copy className="size-5 mr-2" /> Copy Original</>
+                <>
+                  <Copy className="size-5 mr-2" /> Copy Original
+                </>
               )}
             </Button>
           </div>

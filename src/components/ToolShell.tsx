@@ -1,7 +1,19 @@
 import { type ReactNode, useEffect, useRef, useState, useCallback } from "react";
 import {
-  Star, Copy, Download, Trash2, ArrowLeft, Upload, ClipboardPaste,
-  WrapText, Maximize2, Minimize2, Share2, Check, FileText, Printer,
+  Star,
+  Copy,
+  Download,
+  Trash2,
+  ArrowLeft,
+  Upload,
+  ClipboardPaste,
+  WrapText,
+  Maximize2,
+  Minimize2,
+  Share2,
+  Check,
+  FileText,
+  Printer,
 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
@@ -28,7 +40,9 @@ export function ToolShell({ tool, children }: Props) {
   // ESC exits fullscreen
   useEffect(() => {
     if (!fullscreen) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setFullscreen(false); };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setFullscreen(false);
+    };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [fullscreen]);
@@ -48,38 +62,75 @@ export function ToolShell({ tool, children }: Props) {
     <div
       className={cn(
         "flex flex-col",
-        fullscreen ? "fixed inset-0 z-50 h-screen w-screen bg-background" : "h-full",
+        fullscreen ? "fixed inset-0 z-50 h-screen w-screen bg-background" : "",
       )}
     >
-      <header className="flex flex-wrap items-start justify-between gap-3 border-b border-border bg-surface/50 px-4 py-3 sm:gap-4 sm:px-6 sm:py-5">
+      <header className="sticky top-12 z-20 flex flex-wrap items-start justify-between gap-3 border-b border-border bg-background/80 px-4 py-3 backdrop-blur sm:gap-4 sm:px-6 sm:py-5">
         <div className="flex items-start gap-3">
           <div className="grid h-10 w-10 place-items-center rounded-sm border border-border bg-background">
             <Icon className="h-5 w-5 text-primary" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <Badge variant="outline" className="rounded-sm border-border bg-transparent font-mono text-[9px] uppercase tracking-widest text-muted-foreground">
+              <Badge
+                variant="outline"
+                className="rounded-sm border-border bg-transparent font-mono text-[9px] uppercase tracking-widest text-muted-foreground"
+              >
                 {t(`categories.${tool.category}`)}
               </Badge>
               <code className="font-mono text-[10px] text-muted-foreground/70">/{tool.slug}</code>
             </div>
-            <h1 className="mt-1 font-mono text-xl font-bold tracking-tight">{t(`tools.${tool.slug}.name`)}</h1>
-            <p className="mt-0.5 text-sm text-muted-foreground">{t(`tools.${tool.slug}.tagline`)}</p>
+            <h1 className="mt-1 font-mono text-xl font-bold tracking-tight">
+              {t(`tools.${tool.slug}.name`)}
+            </h1>
+            <p className="mt-0.5 text-sm text-muted-foreground">
+              {t(`tools.${tool.slug}.tagline`)}
+            </p>
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-1.5">
           <Button asChild variant="ghost" size="sm" className="font-mono text-xs">
-            <Link to="/"><ArrowLeft className="mr-1 h-3.5 w-3.5" />all tools</Link>
+            <Link to="/">
+              <ArrowLeft className="mr-1 h-3.5 w-3.5" />
+              all tools
+            </Link>
           </Button>
-          <Button variant="ghost" size="sm" onClick={share} className="font-mono text-xs" title="Copy share link">
-            {shared ? <Check className="h-3.5 w-3.5 text-primary" /> : <Share2 className="h-3.5 w-3.5" />}
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={share}
+            className="font-mono text-xs"
+            title="Copy share link"
+          >
+            {shared ? (
+              <Check className="h-3.5 w-3.5 text-primary" />
+            ) : (
+              <Share2 className="h-3.5 w-3.5" />
+            )}
             <span className="max-sm:hidden">share</span>
           </Button>
-          <Button variant="ghost" size="sm" onClick={() => window.print()} className="font-mono text-xs" title="Print">
-            <Printer className="h-3.5 w-3.5" /><span className="max-sm:hidden">print</span>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => window.print()}
+            className="font-mono text-xs"
+            title="Print"
+          >
+            <Printer className="h-3.5 w-3.5" />
+            <span className="max-sm:hidden">print</span>
           </Button>
-          <Button variant="ghost" size="sm" onClick={() => setFullscreen((f) => !f)} className="font-mono text-xs" title="Toggle fullscreen (Esc)">
-            {fullscreen ? <Minimize2 className="h-3.5 w-3.5" /> : <Maximize2 className="h-3.5 w-3.5" />}
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setFullscreen((f) => !f)}
+            className="font-mono text-xs"
+            title="Toggle fullscreen (Esc)"
+          >
+            {fullscreen ? (
+              <Minimize2 className="h-3.5 w-3.5" />
+            ) : (
+              <Maximize2 className="h-3.5 w-3.5" />
+            )}
             <span className="max-sm:hidden">{fullscreen ? "exit" : "focus"}</span>
           </Button>
           <Button
@@ -94,7 +145,7 @@ export function ToolShell({ tool, children }: Props) {
         </div>
       </header>
 
-      <div className="flex-1 overflow-auto bg-background">
+      <div className="flex-1 bg-background">
         <div className="mx-auto w-full max-w-[1400px] p-6">{children}</div>
       </div>
     </div>
@@ -228,7 +279,12 @@ export function IOPanel({
         "flex flex-col rounded-sm border border-border bg-surface transition-colors",
         dragOver && "border-primary ring-1 ring-primary/40",
       )}
-      onDragOver={(e) => { if (editable) { e.preventDefault(); setDragOver(true); } }}
+      onDragOver={(e) => {
+        if (editable) {
+          e.preventDefault();
+          setDragOver(true);
+        }
+      }}
       onDragLeave={() => setDragOver(false)}
       onDrop={onDrop}
     >
@@ -250,7 +306,13 @@ export function IOPanel({
           {showActions && (
             <>
               {editable && onLoadSample && (
-                <Button variant="ghost" size="sm" className="h-7 px-2" onClick={onLoadSample} title="Load sample">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-7 px-2"
+                  onClick={onLoadSample}
+                  title="Load sample"
+                >
                   <FileText className="h-3.5 w-3.5" />
                 </Button>
               )}
@@ -263,10 +325,22 @@ export function IOPanel({
                     onChange={onFilePick}
                     className="hidden"
                   />
-                  <Button variant="ghost" size="sm" className="h-7 px-2" onClick={() => fileRef.current?.click()} title="Upload file">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 px-2"
+                    onClick={() => fileRef.current?.click()}
+                    title="Upload file"
+                  >
                     <Upload className="h-3.5 w-3.5" />
                   </Button>
-                  <Button variant="ghost" size="sm" className="h-7 px-2" onClick={onPaste} title="Paste from clipboard">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 px-2"
+                    onClick={onPaste}
+                    title="Paste from clipboard"
+                  >
                     <ClipboardPaste className="h-3.5 w-3.5" />
                   </Button>
                 </>
@@ -281,15 +355,36 @@ export function IOPanel({
                 <WrapText className="h-3.5 w-3.5" />
               </Button>
               {editable && (
-                <Button variant="ghost" size="sm" className="h-7 px-2" onClick={() => onChange!("")} title="Clear" disabled={!value}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-7 px-2"
+                  onClick={() => onChange!("")}
+                  title="Clear"
+                  disabled={!value}
+                >
                   <Trash2 className="h-3.5 w-3.5" />
                 </Button>
               )}
-              <Button variant="ghost" size="sm" className="h-7 px-2" onClick={onCopy} disabled={!value} title="Copy">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-7 px-2"
+                onClick={onCopy}
+                disabled={!value}
+                title="Copy"
+              >
                 <Copy className="h-3.5 w-3.5" />
                 {copied && <span className="ml-1 font-mono text-[10px]">ok</span>}
               </Button>
-              <Button variant="ghost" size="sm" className="h-7 px-2" onClick={onDownload} disabled={!value} title="Download as .txt">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-7 px-2"
+                onClick={onDownload}
+                disabled={!value}
+                title="Download as .txt"
+              >
                 <Download className="h-3.5 w-3.5" />
               </Button>
             </>

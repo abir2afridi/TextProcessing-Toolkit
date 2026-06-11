@@ -93,13 +93,13 @@ export default function ImageClipper() {
         return;
       }
 
-      let left = bounds.left - expandPx;
-      let top = bounds.top - expandPx;
-      let right = bounds.right - expandPx;
-      let bottom = bounds.bottom - expandPx;
+      const left = bounds.left - expandPx;
+      const top = bounds.top - expandPx;
+      const right = bounds.right - expandPx;
+      const bottom = bounds.bottom - expandPx;
 
-      let clippedWidth = w - left - right;
-      let clippedHeight = h - top - bottom;
+      const clippedWidth = w - left - right;
+      const clippedHeight = h - top - bottom;
 
       if (clippedWidth <= 0 || clippedHeight <= 0) {
         setError("Expand contraction is too large — no pixels remain.");
@@ -420,7 +420,7 @@ export default function ImageClipper() {
                   className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${fillBg ? "bg-primary" : "bg-border"}`}
                 >
                   <span
-                    className={`inline-block h-3.5 w-3.5 rounded-full bg-white transition-transform ${fillBg ? "translate-x-[18px]" : "translate-x-[3px]"}`}
+                    className={`inline-block h-3.5 w-3.5 rounded-full bg-white transition-transform ${fillBg ? "translate-x-4.5" : "translate-x-0.75"}`}
                   />
                 </button>
                 {fillBg && (

@@ -36,21 +36,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useFilePaste } from "@/hooks/use-file-paste";
 
 interface TracerOptions {
@@ -112,7 +100,12 @@ const PRESETS: PresetConfig[] = [
   { id: "grayscale", label: "Mono", icon: Moon, description: "7-tone greyscale" },
   { id: "fixedpalette", label: "Genlock", icon: Grid3X3, description: "27-colour RGB cube" },
   { id: "randomsampling1", label: "Logan", icon: Shuffle, description: "Random palette sampling" },
-  { id: "randomsampling2", label: "Clockwise", icon: Shuffle, description: "Random palette variant" },
+  {
+    id: "randomsampling2",
+    label: "Clockwise",
+    icon: Shuffle,
+    description: "Random palette variant",
+  },
   { id: "artistic1", label: "Theories", icon: Paintbrush, description: "Stylised output" },
   { id: "artistic2", label: "Dustbowl", icon: Brush, description: "Stylised variant" },
   { id: "artistic3", label: "Warrrant", icon: Palette, description: "Artistic colour mix" },
@@ -123,18 +116,38 @@ function InfoTip({ text }: { text: string }) {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <button type="button" className="text-muted-foreground/60 hover:text-muted-foreground transition-colors">
+        <button
+          type="button"
+          className="text-muted-foreground/60 hover:text-muted-foreground transition-colors"
+        >
           <Info className="size-3.5" />
         </button>
       </TooltipTrigger>
-      <TooltipContent side="top" className="max-w-[200px]">{text}</TooltipContent>
+      <TooltipContent side="top" className="max-w-50">
+        {text}
+      </TooltipContent>
     </Tooltip>
   );
 }
 
-function OptionSlider({ label, tip, value, onChange, min, max, step, displayValue }: {
-  label: string; tip: string; value: number; onChange: (v: number) => void;
-  min: number; max: number; step: number; displayValue?: string;
+function OptionSlider({
+  label,
+  tip,
+  value,
+  onChange,
+  min,
+  max,
+  step,
+  displayValue,
+}: {
+  label: string;
+  tip: string;
+  value: number;
+  onChange: (v: number) => void;
+  min: number;
+  max: number;
+  step: number;
+  displayValue?: string;
 }) {
   return (
     <div className="space-y-2">
@@ -143,16 +156,37 @@ function OptionSlider({ label, tip, value, onChange, min, max, step, displayValu
           <Label className="text-sm">{label}</Label>
           <InfoTip text={tip} />
         </span>
-        <span className="text-sm font-mono text-muted-foreground tabular-nums">{displayValue ?? value}</span>
+        <span className="text-sm font-mono text-muted-foreground tabular-nums">
+          {displayValue ?? value}
+        </span>
       </div>
-      <Slider min={min} max={max} step={step} value={[value]} onValueChange={([v]) => onChange(v)} />
+      <Slider
+        min={min}
+        max={max}
+        step={step}
+        value={[value]}
+        onValueChange={([v]) => onChange(v)}
+      />
     </div>
   );
 }
 
-function Stepper({ label, tip, value, onChange, min, max, step = 1 }: {
-  label: string; tip: string; value: number; onChange: (v: number) => void;
-  min: number; max: number; step?: number;
+function Stepper({
+  label,
+  tip,
+  value,
+  onChange,
+  min,
+  max,
+  step = 1,
+}: {
+  label: string;
+  tip: string;
+  value: number;
+  onChange: (v: number) => void;
+  min: number;
+  max: number;
+  step?: number;
 }) {
   return (
     <div className="flex items-center justify-between">
@@ -161,13 +195,23 @@ function Stepper({ label, tip, value, onChange, min, max, step = 1 }: {
         <InfoTip text={tip} />
       </span>
       <div className="flex items-center gap-1">
-        <button type="button" onClick={() => onChange(Math.max(min, value - step))} disabled={value <= min}
+        <button
+          type="button"
+          onClick={() => onChange(Math.max(min, value - step))}
+          disabled={value <= min}
           className="flex items-center justify-center size-7 rounded-md border bg-card hover:bg-accent disabled:opacity-30 disabled:pointer-events-none transition-colors"
-        ><Minus className="size-3" /></button>
+        >
+          <Minus className="size-3" />
+        </button>
         <span className="w-8 text-center text-sm font-mono tabular-nums">{value}</span>
-        <button type="button" onClick={() => onChange(Math.min(max, value + step))} disabled={value >= max}
+        <button
+          type="button"
+          onClick={() => onChange(Math.min(max, value + step))}
+          disabled={value >= max}
           className="flex items-center justify-center size-7 rounded-md border bg-card hover:bg-accent disabled:opacity-30 disabled:pointer-events-none transition-colors"
-        ><Plus className="size-3" /></button>
+        >
+          <Plus className="size-3" />
+        </button>
       </div>
     </div>
   );
@@ -176,7 +220,9 @@ function Stepper({ label, tip, value, onChange, min, max, step = 1 }: {
 function SectionHeader({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex items-center gap-2 pt-1">
-      <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70">{children}</span>
+      <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70">
+        {children}
+      </span>
       <div className="flex-1 h-px bg-border" />
     </div>
   );
@@ -197,11 +243,19 @@ function StrokeWidthPicker({ value, onChange }: { value: number; onChange: (v: n
       </div>
       <div className="flex gap-1.5">
         {STROKE_OPTIONS.map((sw, i) => (
-          <button key={sw} type="button" onClick={() => onChange(sw)}
+          <button
+            key={sw}
+            type="button"
+            onClick={() => onChange(sw)}
             className={`flex-1 h-9 rounded-md border flex items-center justify-center transition-colors ${i === activeIdx ? "border-primary bg-primary/10" : "bg-card hover:bg-accent"}`}
           >
-            {sw === 0 ? <span className="text-[10px] text-muted-foreground">None</span> : (
-              <div className="rounded-full bg-foreground" style={{ width: `${Math.min(sw * 6, 24)}px`, height: `${Math.max(sw, 1)}px` }} />
+            {sw === 0 ? (
+              <span className="text-[10px] text-muted-foreground">None</span>
+            ) : (
+              <div
+                className="rounded-full bg-foreground"
+                style={{ width: `${Math.min(sw * 6, 24)}px`, height: `${Math.max(sw, 1)}px` }}
+              />
             )}
           </button>
         ))}
@@ -225,9 +279,14 @@ function ScalePicker({ value, onChange }: { value: number; onChange: (v: number)
       </div>
       <div className="flex gap-1.5">
         {SCALE_OPTIONS.map((s, i) => (
-          <button key={s} type="button" onClick={() => onChange(s)}
+          <button
+            key={s}
+            type="button"
+            onClick={() => onChange(s)}
             className={`flex-1 h-9 rounded-md border text-xs font-medium transition-colors ${i === activeIdx ? "border-primary bg-primary/10 text-primary" : "bg-card hover:bg-accent text-muted-foreground"}`}
-          >{s}x</button>
+          >
+            {s}x
+          </button>
         ))}
       </div>
     </div>
@@ -244,17 +303,34 @@ function ColourCountCard({ value, onChange }: { value: number; onChange: (v: num
         </span>
       </div>
       <div className="flex items-center justify-between">
-        <button type="button" onClick={() => onChange(Math.max(2, value - 1))} disabled={value <= 2}
+        <button
+          type="button"
+          onClick={() => onChange(Math.max(2, value - 1))}
+          disabled={value <= 2}
           className="flex items-center justify-center size-9 rounded-lg border bg-background hover:bg-accent disabled:opacity-30 disabled:pointer-events-none transition-colors"
-        ><Minus className="size-4" /></button>
+        >
+          <Minus className="size-4" />
+        </button>
         <div className="flex flex-col items-center">
           <span className="text-3xl font-bold tabular-nums leading-none">{value}</span>
         </div>
-        <button type="button" onClick={() => onChange(Math.min(64, value + 1))} disabled={value >= 64}
+        <button
+          type="button"
+          onClick={() => onChange(Math.min(64, value + 1))}
+          disabled={value >= 64}
           className="flex items-center justify-center size-9 rounded-lg border bg-background hover:bg-accent disabled:opacity-30 disabled:pointer-events-none transition-colors"
-        ><Plus className="size-4" /></button>
+        >
+          <Plus className="size-4" />
+        </button>
       </div>
-      <Slider min={2} max={64} step={1} value={[value]} onValueChange={([v]) => onChange(v)} className="mt-3" />
+      <Slider
+        min={2}
+        max={64}
+        step={1}
+        value={[value]}
+        onValueChange={([v]) => onChange(v)}
+        className="mt-3"
+      />
     </div>
   );
 }
@@ -323,11 +399,17 @@ export default function ImageTracerTool() {
       const img = new Image();
       img.onload = () => {
         const canvas = canvasRef.current;
-        if (!canvas) { reject(new Error("Canvas not available")); return; }
+        if (!canvas) {
+          reject(new Error("Canvas not available"));
+          return;
+        }
         canvas.width = img.width;
         canvas.height = img.height;
         const ctx = canvas.getContext("2d");
-        if (!ctx) { reject(new Error("Canvas 2D context unavailable")); return; }
+        if (!ctx) {
+          reject(new Error("Canvas 2D context unavailable"));
+          return;
+        }
         ctx.drawImage(img, 0, 0);
         resolve(ctx.getImageData(0, 0, img.width, img.height));
       };
@@ -344,7 +426,8 @@ export default function ImageTracerTool() {
     if (!hasViewBox && widthMatch && heightMatch) {
       result = result.replace(/<svg/, `<svg viewBox="0 0 ${widthMatch[1]} ${heightMatch[1]}"`);
     }
-    result = result.replace(/(<svg[^>]*)\swidth="[^"]*"/, '$1 width="100%"')
+    result = result
+      .replace(/(<svg[^>]*)\swidth="[^"]*"/, '$1 width="100%"')
       .replace(/(<svg[^>]*)\sheight="[^"]*"/, '$1 height="auto"');
     return result;
   };
@@ -364,26 +447,34 @@ export default function ImageTracerTool() {
     setTracing(false);
   }, []);
 
-  const runTrace = useCallback(async (imgd: ImageData, opts: TracerOptions) => {
-    setTracing(true);
-    const worker = await getWorker();
-    if (worker) {
-      const buffer = imgd.data.buffer.slice(0);
-      worker.onmessage = (e: MessageEvent<string>) => handleTraceResult(e.data);
-      worker.onerror = () => { console.error("Worker tracing failed"); setTracing(false); };
-      worker.postMessage({ buffer, width: imgd.width, height: imgd.height, opts: { ...opts } }, [buffer]);
-    } else {
-      try {
-        const mod = await import("imagetracerjs");
-        await new Promise((resolve) => setTimeout(resolve, 10));
-        const rawSvg = mod.default.imagedataToSVG(imgd, { ...opts });
-        handleTraceResult(rawSvg);
-      } catch (err) {
-        console.error("Tracing failed:", err);
-        setTracing(false);
+  const runTrace = useCallback(
+    async (imgd: ImageData, opts: TracerOptions) => {
+      setTracing(true);
+      const worker = await getWorker();
+      if (worker) {
+        const buffer = imgd.data.buffer.slice(0);
+        worker.onmessage = (e: MessageEvent<string>) => handleTraceResult(e.data);
+        worker.onerror = () => {
+          console.error("Worker tracing failed");
+          setTracing(false);
+        };
+        worker.postMessage({ buffer, width: imgd.width, height: imgd.height, opts: { ...opts } }, [
+          buffer,
+        ]);
+      } else {
+        try {
+          const mod = await import("imagetracerjs");
+          await new Promise((resolve) => setTimeout(resolve, 10));
+          const rawSvg = mod.default.imagedataToSVG(imgd, { ...opts });
+          handleTraceResult(rawSvg);
+        } catch (err) {
+          console.error("Tracing failed:", err);
+          setTracing(false);
+        }
       }
-    }
-  }, [getWorker, handleTraceResult]);
+    },
+    [getWorker, handleTraceResult],
+  );
 
   useEffect(() => {
     if (!imageFile) return;
@@ -393,7 +484,9 @@ export default function ImageTracerTool() {
       imageDataRef.current = imgd;
       runTrace(imgd, options);
     });
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [imageFile, extractImageData, runTrace]);
 
@@ -413,17 +506,23 @@ export default function ImageTracerTool() {
     setImageSrc(URL.createObjectURL(file));
   }, []);
 
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(false);
-    const file = e.dataTransfer.files[0];
-    if (file) handleFile(file);
-  }, [handleFile]);
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      setIsDragOver(false);
+      const file = e.dataTransfer.files[0];
+      if (file) handleFile(file);
+    },
+    [handleFile],
+  );
 
-  const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) handleFile(file);
-  }, [handleFile]);
+  const handleFileSelect = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (file) handleFile(file);
+    },
+    [handleFile],
+  );
 
   useFilePaste(handleFile, "image/png,image/jpeg,image/webp,image/gif");
 
@@ -434,18 +533,25 @@ export default function ImageTracerTool() {
       const mod = await import("imagetracerjs");
       const presetOpts = mod.default.optionpresets[name];
       if (presetOpts) {
-        setOptions((prev) => ({ ...DEFAULT_OPTIONS, ...presetOpts, scale: presetOpts.scale ?? prev.scale }));
+        setOptions((prev) => ({
+          ...DEFAULT_OPTIONS,
+          ...presetOpts,
+          scale: presetOpts.scale ?? prev.scale,
+        }));
       }
     } catch {
       setOptions({ ...DEFAULT_OPTIONS });
     }
   }, []);
 
-  const updateOption = useCallback(<K extends keyof TracerOptions>(key: K, value: TracerOptions[K]) => {
-    setPreset("custom");
-    setDirty(true);
-    setOptions((prev) => ({ ...prev, [key]: value }));
-  }, []);
+  const updateOption = useCallback(
+    <K extends keyof TracerOptions>(key: K, value: TracerOptions[K]) => {
+      setPreset("custom");
+      setDirty(true);
+      setOptions((prev) => ({ ...prev, [key]: value }));
+    },
+    [],
+  );
 
   const handleDownload = useCallback(() => {
     const raw = rawSvgRef.current;
@@ -499,15 +605,26 @@ export default function ImageTracerTool() {
       <div className="space-y-4">
         <div
           onDrop={handleDrop}
-          onDragOver={(e) => { e.preventDefault(); setIsDragOver(true); }}
+          onDragOver={(e) => {
+            e.preventDefault();
+            setIsDragOver(true);
+          }}
           onDragLeave={() => setIsDragOver(false)}
           onClick={() => fileInputRef.current?.click()}
           className={`border-2 border-dashed rounded-xl p-12 text-center transition-colors cursor-pointer ${isDragOver ? "border-primary bg-primary/5" : "hover:border-primary/50"}`}
         >
-          <input ref={fileInputRef} type="file" accept="image/png,image/jpeg,image/webp,image/gif" onChange={handleFileSelect} className="hidden" />
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/png,image/jpeg,image/webp,image/gif"
+            onChange={handleFileSelect}
+            className="hidden"
+          />
           <Upload className="size-12 mx-auto text-muted-foreground mb-4" />
           <p className="text-lg font-medium">Drop an image here</p>
-          <p className="text-sm text-muted-foreground mt-1">or click to select, or paste &mdash; PNG, JPG, WebP, GIF</p>
+          <p className="text-sm text-muted-foreground mt-1">
+            or click to select, or paste &mdash; PNG, JPG, WebP, GIF
+          </p>
         </div>
         <canvas ref={canvasRef} className="hidden" />
       </div>
@@ -517,7 +634,13 @@ export default function ImageTracerTool() {
   return (
     <div className="space-y-4">
       <canvas ref={canvasRef} className="hidden" />
-      <input ref={fileInputRef} type="file" accept="image/png,image/jpeg,image/webp,image/gif" onChange={handleFileSelect} className="hidden" />
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/png,image/jpeg,image/webp,image/gif"
+        onChange={handleFileSelect}
+        className="hidden"
+      />
 
       <div className="flex items-center gap-2 flex-wrap">
         <div className="flex items-center gap-2 rounded-lg border bg-card px-2.5 py-1.5">
@@ -527,16 +650,22 @@ export default function ImageTracerTool() {
             </div>
           )}
           <div className="min-w-0">
-            <p className="text-sm font-medium truncate max-w-[140px]">{imageFile.name}</p>
+            <p className="text-sm font-medium truncate max-w-35">{imageFile.name}</p>
           </div>
           <span className="text-xs text-muted-foreground">{formatSize(imageFile.size)}</span>
-          <button type="button" onClick={handleClear}
+          <button
+            type="button"
+            onClick={handleClear}
             className="shrink-0 flex items-center justify-center size-6 rounded hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
-          ><X className="size-3.5" /></button>
+          >
+            <X className="size-3.5" />
+          </button>
         </div>
 
         {hasResult && !tracing && (
-          <span className="text-xs text-muted-foreground">SVG: {formatSize(new Blob([rawSvgRef.current || ""]).size)}</span>
+          <span className="text-xs text-muted-foreground">
+            SVG: {formatSize(new Blob([rawSvgRef.current || ""]).size)}
+          </span>
         )}
 
         <div className="flex-1" />
@@ -546,43 +675,79 @@ export default function ImageTracerTool() {
             <Download className="size-3.5 mr-1.5" /> Download
           </Button>
           <Button size="sm" variant="outline" onClick={handleCopy} disabled={!hasResult || tracing}>
-            {copied ? <><Check className="size-3.5 mr-1.5" /> Copied</> : <><Copy className="size-3.5 mr-1.5" /> Copy</>}
+            {copied ? (
+              <>
+                <Check className="size-3.5 mr-1.5" /> Copied
+              </>
+            ) : (
+              <>
+                <Copy className="size-3.5 mr-1.5" /> Copy
+              </>
+            )}
           </Button>
         </div>
       </div>
 
-      <div className="rounded-xl border bg-card p-4 min-h-[280px] flex items-center justify-center">
+      <div className="rounded-xl border bg-card p-4 min-h-70 flex items-center justify-center">
         {tracing ? (
           <div className="flex flex-col items-center justify-center p-8">
             <Loader2 className="size-8 animate-spin text-muted-foreground mb-3" />
             <p className="text-sm text-muted-foreground">Tracing image&hellip;</p>
           </div>
         ) : previewUrl ? (
-          <img src={previewUrl} alt="Traced SVG preview" className="max-w-full max-h-[60vh] object-contain block mx-auto" />
+          <img
+            src={previewUrl}
+            alt="Traced SVG preview"
+            className="max-w-full max-h-[60vh] object-contain block mx-auto"
+          />
         ) : imageSrc ? (
-          <img src={imageSrc} alt="Source" className="max-w-full max-h-[60vh] object-contain block mx-auto" />
+          <img
+            src={imageSrc}
+            alt="Source"
+            className="max-w-full max-h-[60vh] object-contain block mx-auto"
+          />
         ) : null}
       </div>
 
       <div className="flex items-center gap-2">
         <Popover open={presetsOpen} onOpenChange={setPresetsOpen}>
           <PopoverTrigger asChild>
-            <button type="button" className="flex items-center gap-2 rounded-lg border bg-card px-3 py-2 text-sm hover:bg-accent transition-colors">
+            <button
+              type="button"
+              className="flex items-center gap-2 rounded-lg border bg-card px-3 py-2 text-sm hover:bg-accent transition-colors"
+            >
               <span className="text-xs text-muted-foreground">Preset</span>
               {(() => {
                 const active = PRESETS.find((p) => p.id === preset);
-                if (active) { const Icon = active.icon; return <><Icon className="size-4 text-primary" /><span className="font-medium">{active.label}</span></>; }
+                if (active) {
+                  const Icon = active.icon;
+                  return (
+                    <>
+                      <Icon className="size-4 text-primary" />
+                      <span className="font-medium">{active.label}</span>
+                    </>
+                  );
+                }
                 return <span className="font-medium">Custom</span>;
               })()}
               <ChevronsUpDown className="size-3.5 text-muted-foreground" />
             </button>
           </PopoverTrigger>
-          <PopoverContent align="start" className="w-[340px] p-2">
+          <PopoverContent align="start" className="w-85 p-2">
             <div className="grid grid-cols-4 gap-1">
               {PRESETS.map(({ id, label, icon: Icon }) => (
-                <button key={id} type="button" onClick={() => { applyPreset(id); setPresetsOpen(false); }}
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => {
+                    applyPreset(id);
+                    setPresetsOpen(false);
+                  }}
                   className={`flex flex-col items-center gap-1 rounded-md px-1 py-2.5 transition-colors ${preset === id ? "bg-primary/10 text-primary" : "hover:bg-accent text-muted-foreground hover:text-foreground"}`}
-                ><Icon className="size-4" /><span className="text-[10px] leading-tight font-medium">{label}</span></button>
+                >
+                  <Icon className="size-4" />
+                  <span className="text-[10px] leading-tight font-medium">{label}</span>
+                </button>
               ))}
             </div>
           </PopoverContent>
@@ -590,8 +755,15 @@ export default function ImageTracerTool() {
 
         {imageDataRef.current && (
           <Button size="sm" onClick={handleRetrace} disabled={!dirty || tracing} className="flex-1">
-            {tracing ? <><Loader2 className="size-3.5 mr-1.5 animate-spin" /> Tracing&hellip;</>
-              : <><RefreshCw className="size-3.5 mr-1.5" /> Retrace</>}
+            {tracing ? (
+              <>
+                <Loader2 className="size-3.5 mr-1.5 animate-spin" /> Tracing&hellip;
+              </>
+            ) : (
+              <>
+                <RefreshCw className="size-3.5 mr-1.5" /> Retrace
+              </>
+            )}
           </Button>
         )}
       </div>
@@ -599,24 +771,59 @@ export default function ImageTracerTool() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <div className="rounded-xl border bg-card p-4 space-y-4">
           <SectionHeader>Colours</SectionHeader>
-          <ColourCountCard value={options.numberofcolors} onChange={(v) => updateOption("numberofcolors", v)} />
-          <Stepper label="Quantise" tip="Number of k-means iterations for colour clustering. More cycles = more accurate colours, slower trace."
-            value={options.colorquantcycles} onChange={(v) => updateOption("colorquantcycles", v)} min={1} max={20} />
+          <ColourCountCard
+            value={options.numberofcolors}
+            onChange={(v) => updateOption("numberofcolors", v)}
+          />
+          <Stepper
+            label="Quantise"
+            tip="Number of k-means iterations for colour clustering. More cycles = more accurate colours, slower trace."
+            value={options.colorquantcycles}
+            onChange={(v) => updateOption("colorquantcycles", v)}
+            min={1}
+            max={20}
+          />
         </div>
 
         <div className="rounded-xl border bg-card p-4 space-y-4">
           <SectionHeader>Smoothing</SectionHeader>
-          <OptionSlider label="Paths" tip="Controls how aggressively straight lines replace curves. Higher = smoother with fewer curves."
-            value={options.ltres} onChange={(v) => updateOption("ltres", v)} min={0.1} max={10} step={0.1} displayValue={options.ltres.toFixed(1)} />
-          <OptionSlider label="Curves" tip="Controls quadratic spline fitting. Higher = smoother curves with less detail."
-            value={options.qtres} onChange={(v) => updateOption("qtres", v)} min={0.1} max={10} step={0.1} displayValue={options.qtres.toFixed(1)} />
-          <OptionSlider label="Threshold" tip="Paths with fewer than this many nodes are removed. Raise to filter out noise and small artifacts."
-            value={options.pathomit} onChange={(v) => updateOption("pathomit", v)} min={0} max={200} step={1} />
+          <OptionSlider
+            label="Paths"
+            tip="Controls how aggressively straight lines replace curves. Higher = smoother with fewer curves."
+            value={options.ltres}
+            onChange={(v) => updateOption("ltres", v)}
+            min={0.1}
+            max={10}
+            step={0.1}
+            displayValue={options.ltres.toFixed(1)}
+          />
+          <OptionSlider
+            label="Curves"
+            tip="Controls quadratic spline fitting. Higher = smoother curves with less detail."
+            value={options.qtres}
+            onChange={(v) => updateOption("qtres", v)}
+            min={0.1}
+            max={10}
+            step={0.1}
+            displayValue={options.qtres.toFixed(1)}
+          />
+          <OptionSlider
+            label="Threshold"
+            tip="Paths with fewer than this many nodes are removed. Raise to filter out noise and small artifacts."
+            value={options.pathomit}
+            onChange={(v) => updateOption("pathomit", v)}
+            min={0}
+            max={200}
+            step={1}
+          />
         </div>
 
         <div className="rounded-xl border bg-card p-4 space-y-4">
           <SectionHeader>Output</SectionHeader>
-          <StrokeWidthPicker value={options.strokewidth} onChange={(v) => updateOption("strokewidth", v)} />
+          <StrokeWidthPicker
+            value={options.strokewidth}
+            onChange={(v) => updateOption("strokewidth", v)}
+          />
           <ScalePicker value={options.scale} onChange={(v) => updateOption("scale", v)} />
         </div>
       </div>
@@ -624,24 +831,46 @@ export default function ImageTracerTool() {
       <Collapsible open={advancedOpen} onOpenChange={setAdvancedOpen}>
         <CollapsibleTrigger asChild>
           <button type="button" className="flex items-center justify-between w-full pt-1 group">
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70">Advanced</span>
-            <ChevronsUpDown className={`size-3.5 text-muted-foreground/70 transition-transform ${advancedOpen ? "rotate-180" : ""}`} />
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70">
+              Advanced
+            </span>
+            <ChevronsUpDown
+              className={`size-3.5 text-muted-foreground/70 transition-transform ${advancedOpen ? "rotate-180" : ""}`}
+            />
           </button>
         </CollapsibleTrigger>
         <CollapsibleContent className="pt-3">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <div className="rounded-xl border bg-card p-4 space-y-4">
-              <Stepper label="Blur radius" tip="Gaussian blur pre-processing. Smooths the image before tracing to reduce noise."
-                value={options.blurradius} onChange={(v) => updateOption("blurradius", v)} min={0} max={20} />
-              <OptionSlider label="Blur delta" tip="Threshold for the blur difference. Only relevant when blur radius > 0."
-                value={options.blurdelta} onChange={(v) => updateOption("blurdelta", v)} min={0} max={256} step={1} />
+              <Stepper
+                label="Blur radius"
+                tip="Gaussian blur pre-processing. Smooths the image before tracing to reduce noise."
+                value={options.blurradius}
+                onChange={(v) => updateOption("blurradius", v)}
+                min={0}
+                max={20}
+              />
+              <OptionSlider
+                label="Blur delta"
+                tip="Threshold for the blur difference. Only relevant when blur radius > 0."
+                value={options.blurdelta}
+                onChange={(v) => updateOption("blurdelta", v)}
+                min={0}
+                max={256}
+                step={1}
+              />
               <div className="space-y-2">
                 <span className="flex items-center gap-1.5">
                   <Label className="text-sm">Colour sampling</Label>
                   <InfoTip text="How initial colours are sampled. Generated uses k-means, Random picks randomly, Deterministic uses a fixed grid." />
                 </span>
-                <Select value={String(options.colorsampling)} onValueChange={(v) => updateOption("colorsampling", Number(v))}>
-                  <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
+                <Select
+                  value={String(options.colorsampling)}
+                  onValueChange={(v) => updateOption("colorsampling", Number(v))}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="0">Generated</SelectItem>
                     <SelectItem value="1">Random</SelectItem>
@@ -651,17 +880,36 @@ export default function ImageTracerTool() {
               </div>
             </div>
             <div className="rounded-xl border bg-card p-4 space-y-4">
-              <OptionSlider label="Min colour ratio" tip="Minimum proportion a colour must occupy to be kept. Raise to eliminate rare colours."
-                value={options.mincolorratio} onChange={(v) => updateOption("mincolorratio", v)} min={0} max={1} step={0.01} displayValue={options.mincolorratio.toFixed(2)} />
-              <Stepper label="Coordinate rounding" tip="Decimal places for SVG path coordinates. Lower = smaller file, less precise."
-                value={options.roundcoords} onChange={(v) => updateOption("roundcoords", v)} min={0} max={5} />
+              <OptionSlider
+                label="Min colour ratio"
+                tip="Minimum proportion a colour must occupy to be kept. Raise to eliminate rare colours."
+                value={options.mincolorratio}
+                onChange={(v) => updateOption("mincolorratio", v)}
+                min={0}
+                max={1}
+                step={0.01}
+                displayValue={options.mincolorratio.toFixed(2)}
+              />
+              <Stepper
+                label="Coordinate rounding"
+                tip="Decimal places for SVG path coordinates. Lower = smaller file, less precise."
+                value={options.roundcoords}
+                onChange={(v) => updateOption("roundcoords", v)}
+                min={0}
+                max={5}
+              />
               <div className="space-y-2">
                 <span className="flex items-center gap-1.5">
                   <Label className="text-sm">Layering mode</Label>
                   <InfoTip text="Sequential stacks colour layers back-to-front. Parallel creates independent layers per colour." />
                 </span>
-                <Select value={String(options.layering)} onValueChange={(v) => updateOption("layering", Number(v))}>
-                  <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
+                <Select
+                  value={String(options.layering)}
+                  onValueChange={(v) => updateOption("layering", Number(v))}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="0">Sequential</SelectItem>
                     <SelectItem value="1">Parallel</SelectItem>
@@ -670,10 +918,26 @@ export default function ImageTracerTool() {
               </div>
             </div>
             <div className="rounded-xl border bg-card p-4 space-y-4">
-              <OptionSlider label="Line control point ratio" tip="Adjusts control points on straight line segments. 0 = default placement."
-                value={options.lcpr} onChange={(v) => updateOption("lcpr", v)} min={0} max={1} step={0.01} displayValue={options.lcpr.toFixed(2)} />
-              <OptionSlider label="Quad control point ratio" tip="Adjusts control points on quadratic curves. 0 = default placement."
-                value={options.qcpr} onChange={(v) => updateOption("qcpr", v)} min={0} max={1} step={0.01} displayValue={options.qcpr.toFixed(2)} />
+              <OptionSlider
+                label="Line control point ratio"
+                tip="Adjusts control points on straight line segments. 0 = default placement."
+                value={options.lcpr}
+                onChange={(v) => updateOption("lcpr", v)}
+                min={0}
+                max={1}
+                step={0.01}
+                displayValue={options.lcpr.toFixed(2)}
+              />
+              <OptionSlider
+                label="Quad control point ratio"
+                tip="Adjusts control points on quadratic curves. 0 = default placement."
+                value={options.qcpr}
+                onChange={(v) => updateOption("qcpr", v)}
+                min={0}
+                max={1}
+                step={0.01}
+                displayValue={options.qcpr.toFixed(2)}
+              />
             </div>
           </div>
         </CollapsibleContent>
