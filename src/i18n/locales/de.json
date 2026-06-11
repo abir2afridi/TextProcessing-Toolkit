@@ -630,6 +630,10 @@
     "selective-text-replacer": {
       "name": "Selektiver Text-Ersetzer",
       "tagline": "Ausgewählte Wörter sperren und den Rest des Textes frei bearbeiten"
+    },
+    "svg-optimiser": {
+      "name": "SVG-Optimierer",
+      "tagline": "SVG-Dateien mit SVGO optimieren"
     }
   }
 }

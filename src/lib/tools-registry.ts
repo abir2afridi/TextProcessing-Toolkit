@@ -212,6 +212,7 @@ export const toolComponents: Record<string, ComponentType> = {
   "image-tracer": lazyTool(() => import("@/components/tools/ImageTracer")),
   "paste-image": lazyTool(() => import("@/components/tools/PasteImage")),
   "placeholder-genny": lazyTool(() => import("@/components/tools/PlaceholderGenny")),
+  "svg-optimiser": lazyTool(() => import("@/components/tools/SvgOptimiser")),
 
   // Development
   "benchmark-builder": lazyTool(() => import("@/components/tools/BenchmarkBuilder")),
@@ -1031,6 +1032,14 @@ export const tools: ToolMeta[] = [
     category: "Images & Videos",
     icon: Image,
     keywords: ["placeholder", "generate", "image", "png", "svg", "dummy", "mockup"],
+  },
+  {
+    slug: "svg-optimiser",
+    name: "SVG Optimiser",
+    tagline: "Optimise SVG files with SVGO — reduce file size and clean up code",
+    category: "Images & Videos",
+    icon: Code2,
+    keywords: ["svg", "optimise", "optimize", "svgo", "minify", "compress", "vector", "clean"],
   },
 
   // ===================== Development =====================

@@ -630,6 +630,10 @@
     "selective-text-replacer": {
       "name": "Remplaceur de Texte Sélectif",
       "tagline": "Verrouillez les mots sélectionnés et modifiez librement le reste du texte"
+    },
+    "svg-optimiser": {
+      "name": "Optimiseur SVG",
+      "tagline": "Optimisez les fichiers SVG avec SVGO"
     }
   }
 }

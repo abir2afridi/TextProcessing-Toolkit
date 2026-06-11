@@ -630,6 +630,10 @@
     "selective-text-replacer": {
       "name": "选择性文本替换器",
       "tagline": "锁定选定单词，自由编辑文本的其余部分"
+    },
+    "svg-optimiser": {
+      "name": "SVG 优化器",
+      "tagline": "使用 SVGO 优化 SVG 文件"
     }
   }
 }

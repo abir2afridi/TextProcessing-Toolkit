@@ -630,6 +630,10 @@
     "selective-text-replacer": {
       "name": "Selective Text Replacer",
       "tagline": "Lock selected words and freely edit the rest of your text"
+    },
+    "svg-optimiser": {
+      "name": "SVG Optimiser",
+      "tagline": "Optimise SVG files with SVGO"
     }
   }
 }
