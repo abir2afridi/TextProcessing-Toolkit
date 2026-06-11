@@ -591,6 +591,10 @@
       "name": "Pixel Picker",
       "tagline": "Pick pixel colours from images with a magnifier and live preview"
     },
+    "artwork-enhancer": {
+      "name": "Artwork Enhancer",
+      "tagline": "Add subtle noise & texture to artwork for a more organic look"
+    },
     "tailwind-shades": {
       "name": "Tailwind Shade Generator",
       "tagline": "Generate Tailwind CSS colour shades with OKLCH-based colour science"

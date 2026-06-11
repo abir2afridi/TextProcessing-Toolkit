@@ -591,6 +591,10 @@
       "name": "Sélecteur de Pixels",
       "tagline": "Prélevez les couleurs de pixels d'images avec une loupe et un aperçu en direct"
     },
+    "artwork-enhancer": {
+      "name": "Améliorateur d'Illustrations",
+      "tagline": "Ajoutez du bruit & texture subtils aux illustrations pour un aspect plus organique"
+    },
     "tailwind-shades": {
       "name": "Générateur de Nuances Tailwind",
       "tagline": "Générez des nuances de couleur Tailwind CSS avec la science des couleurs basée sur OKLCH"

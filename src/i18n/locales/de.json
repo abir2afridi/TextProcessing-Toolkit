@@ -591,6 +591,10 @@
       "name": "Pixel-Picker",
       "tagline": "Pixel-Farben aus Bildern mit Lupe und Live-Vorschau entnehmen"
     },
+    "artwork-enhancer": {
+      "name": "Kunstwerk-Verbesserer",
+      "tagline": "Fügen Sie subtiles Rauschen & Textur hinzu für einen organischeren Look"
+    },
     "tailwind-shades": {
       "name": "Tailwind-Farbabstufungs-Generator",
       "tagline": "Erzeugen Sie Tailwind CSS-Farbabstufungen mit OKLCH-basierter Farbwissenschaft"

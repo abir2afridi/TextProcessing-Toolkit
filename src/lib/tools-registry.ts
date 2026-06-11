@@ -200,6 +200,7 @@ export const toolComponents: Record<string, ComponentType> = {
   "palette-collection": lazyTool(() => import("@/components/tools/PaletteCollection")),
   "palette-extractor": lazyTool(() => import("@/components/tools/PaletteExtractor")),
   "pixel-picker": lazyTool(() => import("@/components/tools/PixelPicker")),
+  "artwork-enhancer": lazyTool(() => import("@/components/tools/ArtworkEnhancer")),
   "tailwind-shades": lazyTool(() => import("@/components/tools/TailwindShades")),
 
   // Development
@@ -948,6 +949,14 @@ export const tools: ToolMeta[] = [
     category: "Images & Videos",
     icon: Pipette,
     keywords: ["pixel", "picker", "colour", "color", "eyedropper", "image", "magnifier", "hex"],
+  },
+  {
+    slug: "artwork-enhancer",
+    name: "Artwork Enhancer",
+    tagline: "Add subtle colour noise to artwork for a more organic look",
+    category: "Images & Videos",
+    icon: Sparkles,
+    keywords: ["artwork", "enhance", "noise", "texture", "grain", "overlay", "colour", "digital art"],
   },
   {
     slug: "tailwind-shades",

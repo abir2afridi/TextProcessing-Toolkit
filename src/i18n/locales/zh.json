@@ -591,6 +591,10 @@
       "name": "像素取色器",
       "tagline": "使用放大镜和实时预览从图像中拾取像素颜色"
     },
+    "artwork-enhancer": {
+      "name": "艺术作品增强器",
+      "tagline": "为艺术作品添加微妙的噪点和纹理，呈现更自然的外观"
+    },
     "tailwind-shades": {
       "name": "Tailwind 色阶生成器",
       "tagline": "使用基于 OKLCH 的色彩科学生成 Tailwind CSS 颜色色阶"
