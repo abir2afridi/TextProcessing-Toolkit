@@ -595,6 +595,14 @@
       "name": "Artwork Enhancer",
       "tagline": "Add subtle noise & texture to artwork for a more organic look"
     },
+    "favicon-genny": {
+      "name": "Favicon Generator",
+      "tagline": "Generate favicons in multiple sizes from any image, including .ico"
+    },
+    "image-clipper": {
+      "name": "Image Clipper",
+      "tagline": "Auto-trim transparent edges from PNG images"
+    },
     "tailwind-shades": {
       "name": "Tailwind Shade Generator",
       "tagline": "Generate Tailwind CSS colour shades with OKLCH-based colour science"

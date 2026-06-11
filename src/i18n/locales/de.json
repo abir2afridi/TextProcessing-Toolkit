@@ -595,6 +595,14 @@
       "name": "Kunstwerk-Verbesserer",
       "tagline": "Fügen Sie subtiles Rauschen & Textur hinzu für einen organischeren Look"
     },
+    "favicon-genny": {
+      "name": "Favicon-Generator",
+      "tagline": "Generieren Sie Favicons in mehreren Größen aus jedem Bild, inkl. .ico"
+    },
+    "image-clipper": {
+      "name": "Bild-Clipper",
+      "tagline": "Transparente Ränder von PNG-Bildern automatisch abschneiden"
+    },
     "tailwind-shades": {
       "name": "Tailwind-Farbabstufungs-Generator",
       "tagline": "Erzeugen Sie Tailwind CSS-Farbabstufungen mit OKLCH-basierter Farbwissenschaft"

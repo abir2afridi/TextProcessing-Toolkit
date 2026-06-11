@@ -595,6 +595,14 @@
       "name": "艺术作品增强器",
       "tagline": "为艺术作品添加微妙的噪点和纹理，呈现更自然的外观"
     },
+    "favicon-genny": {
+      "name": "Favicon 生成器",
+      "tagline": "从任何图像生成多种尺寸的网站图标，包括 .ico"
+    },
+    "image-clipper": {
+      "name": "图像裁剪器",
+      "tagline": "自动裁剪 PNG 图像的透明边缘"
+    },
     "tailwind-shades": {
       "name": "Tailwind 色阶生成器",
       "tagline": "使用基于 OKLCH 的色彩科学生成 Tailwind CSS 颜色色阶"

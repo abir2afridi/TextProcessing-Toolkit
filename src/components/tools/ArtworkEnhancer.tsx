@@ -2,7 +2,13 @@ import { useState, useCallback, useRef, useEffect } from "react";
 import { Upload, Download, Trash2, RefreshCw, Eye, EyeOff, Image as ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { useFilePaste } from "@/hooks/use-file-paste";
 
@@ -11,11 +17,27 @@ type BlendMode = "overlay" | "soft-light" | "hard-light" | "screen" | "multiply"
 type DownloadFormat = "png" | "jpeg";
 
 const BLEND_MODES: { value: BlendMode; label: string; description: string }[] = [
-  { value: "overlay", label: "Overlay", description: "Classic — adds texture while preserving highlights/shadows" },
-  { value: "soft-light", label: "Soft Light", description: "Gentler than overlay, like soft light shining through" },
-  { value: "hard-light", label: "Hard Light", description: "Stronger contrast, multiplies or screens based on base" },
+  {
+    value: "overlay",
+    label: "Overlay",
+    description: "Classic — adds texture while preserving highlights/shadows",
+  },
+  {
+    value: "soft-light",
+    label: "Soft Light",
+    description: "Gentler than overlay, like soft light shining through",
+  },
+  {
+    value: "hard-light",
+    label: "Hard Light",
+    description: "Stronger contrast, multiplies or screens based on base",
+  },
   { value: "screen", label: "Screen", description: "Brightens, gives a faded/washed look" },
-  { value: "multiply", label: "Multiply", description: "Darkens, creates a gritty textured overlay" },
+  {
+    value: "multiply",
+    label: "Multiply",
+    description: "Darkens, creates a gritty textured overlay",
+  },
 ];
 
 function seededRandom(seed: number) {
@@ -210,15 +232,19 @@ export default function ArtworkEnhancer() {
     } else {
       const canvas = canvasRef.current;
       if (!canvas) return;
-      canvas.toBlob((blob) => {
-        if (!blob) return;
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.download = `${fileName || "artwork"}-enhanced.jpg`;
-        link.href = url;
-        link.click();
-        URL.revokeObjectURL(url);
-      }, "image/jpeg", jpegQuality / 100);
+      canvas.toBlob(
+        (blob) => {
+          if (!blob) return;
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.download = `${fileName || "artwork"}-enhanced.jpg`;
+          link.href = url;
+          link.click();
+          URL.revokeObjectURL(url);
+        },
+        "image/jpeg",
+        jpegQuality / 100,
+      );
     }
   };
 
@@ -297,7 +323,9 @@ export default function ArtworkEnhancer() {
                 </SelectContent>
               </Select>
               <p className="text-xs text-muted-foreground">
-                {noiseType === "colour" ? "Full RGB colour variation" : "Greyscale grain — closer to film"}
+                {noiseType === "colour"
+                  ? "Full RGB colour variation"
+                  : "Greyscale grain — closer to film"}
               </p>
             </div>
 
@@ -339,11 +367,18 @@ export default function ArtworkEnhancer() {
                   className="font-mono"
                   placeholder="Random seed"
                 />
-                <Button variant="outline" size="icon" onClick={generateNoise} title="Randomize seed">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={generateNoise}
+                  title="Randomize seed"
+                >
                   <RefreshCw className="size-4" />
                 </Button>
               </div>
-              <p className="text-xs text-muted-foreground">Same seed + settings = same noise pattern</p>
+              <p className="text-xs text-muted-foreground">
+                Same seed + settings = same noise pattern
+              </p>
             </div>
 
             <div className="space-y-3">
@@ -351,7 +386,10 @@ export default function ArtworkEnhancer() {
                 <label className="font-bold">Download Format</label>
               </div>
               <div className="flex gap-2">
-                <Select value={downloadFormat} onValueChange={(v) => setDownloadFormat(v as DownloadFormat)}>
+                <Select
+                  value={downloadFormat}
+                  onValueChange={(v) => setDownloadFormat(v as DownloadFormat)}
+                >
                   <SelectTrigger className="flex-1">
                     <SelectValue />
                   </SelectTrigger>
@@ -370,12 +408,16 @@ export default function ArtworkEnhancer() {
                       step={1}
                       className="flex-1"
                     />
-                    <span className="text-sm text-muted-foreground font-mono w-8 text-right">{jpegQuality}</span>
+                    <span className="text-sm text-muted-foreground font-mono w-8 text-right">
+                      {jpegQuality}
+                    </span>
                   </div>
                 )}
               </div>
               <p className="text-xs text-muted-foreground">
-                {downloadFormat === "png" ? "Lossless, larger file, supports transparency" : `JPEG quality: ${jpegQuality}%`}
+                {downloadFormat === "png"
+                  ? "Lossless, larger file, supports transparency"
+                  : `JPEG quality: ${jpegQuality}%`}
               </p>
             </div>
           </div>
@@ -413,27 +455,25 @@ export default function ArtworkEnhancer() {
                 </span>
               )}
             </div>
-            <div className="border rounded-xl overflow-hidden bg-[repeating-conic-gradient(#e5e5e5_0%_25%,#ffffff_0%_50%)] bg-[length:16px_16px]">
+            <div className="border rounded-xl overflow-hidden bg-[repeating-conic-gradient(#e5e5e5_0%_25%,#ffffff_0%_50%)] bg-size-[16px_16px]">
               {showOriginal && originalImage && (
                 <img
                   src={originalImage}
                   alt="Original artwork"
-                  className="w-full h-auto max-h-[600px] object-contain"
+                  className="w-full h-auto max-h-150 object-contain"
                 />
               )}
               {!showOriginal && resultImage && (
                 <img
                   src={resultImage}
                   alt="Enhanced artwork"
-                  className="w-full h-auto max-h-[600px] object-contain"
+                  className="w-full h-auto max-h-150 object-contain"
                 />
               )}
             </div>
             <p className="text-xs text-muted-foreground text-center">
               {imageSize.width} × {imageSize.height}px
-              {noiseSeed > 0 && (
-                <span className="ml-2">· seed: {noiseSeed}</span>
-              )}
+              {noiseSeed > 0 && <span className="ml-2">· seed: {noiseSeed}</span>}
             </p>
           </div>
         </>
@@ -444,10 +484,10 @@ export default function ArtworkEnhancer() {
       <div className="p-4 rounded-lg border bg-muted/30 text-sm">
         <p className="font-bold mb-1">About this technique</p>
         <p className="text-muted-foreground">
-          Adding noise at low opacity with a blend mode is a classic digital art trick.
-          It adds subtle texture and colour variation that makes artwork feel more organic
-          and cohesive, similar to the natural grain in traditional media. Experiment with
-          different noise types and blend modes to find the perfect look.
+          Adding noise at low opacity with a blend mode is a classic digital art trick. It adds
+          subtle texture and colour variation that makes artwork feel more organic and cohesive,
+          similar to the natural grain in traditional media. Experiment with different noise types
+          and blend modes to find the perfect look.
         </p>
       </div>
     </div>

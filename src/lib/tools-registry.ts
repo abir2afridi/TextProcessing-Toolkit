@@ -202,6 +202,8 @@ export const toolComponents: Record<string, ComponentType> = {
   "pixel-picker": lazyTool(() => import("@/components/tools/PixelPicker")),
   "artwork-enhancer": lazyTool(() => import("@/components/tools/ArtworkEnhancer")),
   "tailwind-shades": lazyTool(() => import("@/components/tools/TailwindShades")),
+  "favicon-genny": lazyTool(() => import("@/components/tools/FaviconGenny")),
+  "image-clipper": lazyTool(() => import("@/components/tools/ImageClipper")),
 
   // Development
   "benchmark-builder": lazyTool(() => import("@/components/tools/BenchmarkBuilder")),
@@ -965,6 +967,22 @@ export const tools: ToolMeta[] = [
     category: "Images & Videos",
     icon: Palette,
     keywords: ["tailwind", "shade", "color", "colour", "css", "oklch", "generator", "palette", "theme"],
+  },
+  {
+    slug: "favicon-genny",
+    name: "Favicon Generator",
+    tagline: "Generate favicons in multiple sizes from any image, including .ico",
+    category: "Images & Videos",
+    icon: Image,
+    keywords: ["favicon", "icon", "ico", "generate", "browser", "pwa", "apple-touch"],
+  },
+  {
+    slug: "image-clipper",
+    name: "Image Clipper",
+    tagline: "Auto-trim transparent edges from PNG images",
+    category: "Images & Videos",
+    icon: Crop,
+    keywords: ["clip", "trim", "crop", "transparent", "png", "alpha", "bounding box", "edge"],
   },
 
   // ===================== Development =====================

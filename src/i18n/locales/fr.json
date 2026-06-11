@@ -595,6 +595,14 @@
       "name": "Améliorateur d'Illustrations",
       "tagline": "Ajoutez du bruit & texture subtils aux illustrations pour un aspect plus organique"
     },
+    "favicon-genny": {
+      "name": "Générateur de Favicons",
+      "tagline": "Générez des favicons en plusieurs tailles à partir de n'importe quelle image, incl. .ico"
+    },
+    "image-clipper": {
+      "name": "Coupeur d'Image",
+      "tagline": "Couper automatiquement les bords transparents des images PNG"
+    },
     "tailwind-shades": {
       "name": "Générateur de Nuances Tailwind",
       "tagline": "Générez des nuances de couleur Tailwind CSS avec la science des couleurs basée sur OKLCH"
