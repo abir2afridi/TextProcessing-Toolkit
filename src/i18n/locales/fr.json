@@ -591,6 +591,10 @@
       "name": "Sélecteur de Pixels",
       "tagline": "Prélevez les couleurs de pixels d'images avec une loupe et un aperçu en direct"
     },
+    "tailwind-shades": {
+      "name": "Générateur de Nuances Tailwind",
+      "tagline": "Générez des nuances de couleur Tailwind CSS avec la science des couleurs basée sur OKLCH"
+    },
     "selective-text-replacer": {
       "name": "Remplaceur de Texte Sélectif",
       "tagline": "Verrouillez les mots sélectionnés et modifiez librement le reste du texte"

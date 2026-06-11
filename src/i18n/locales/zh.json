@@ -591,6 +591,10 @@
       "name": "像素取色器",
       "tagline": "使用放大镜和实时预览从图像中拾取像素颜色"
     },
+    "tailwind-shades": {
+      "name": "Tailwind 色阶生成器",
+      "tagline": "使用基于 OKLCH 的色彩科学生成 Tailwind CSS 颜色色阶"
+    },
     "selective-text-replacer": {
       "name": "选择性文本替换器",
       "tagline": "锁定选定单词，自由编辑文本的其余部分"

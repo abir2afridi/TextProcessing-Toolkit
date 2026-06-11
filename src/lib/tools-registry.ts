@@ -200,6 +200,7 @@ export const toolComponents: Record<string, ComponentType> = {
   "palette-collection": lazyTool(() => import("@/components/tools/PaletteCollection")),
   "palette-extractor": lazyTool(() => import("@/components/tools/PaletteExtractor")),
   "pixel-picker": lazyTool(() => import("@/components/tools/PixelPicker")),
+  "tailwind-shades": lazyTool(() => import("@/components/tools/TailwindShades")),
 
   // Development
   "benchmark-builder": lazyTool(() => import("@/components/tools/BenchmarkBuilder")),
@@ -947,6 +948,14 @@ export const tools: ToolMeta[] = [
     category: "Images & Videos",
     icon: Pipette,
     keywords: ["pixel", "picker", "colour", "color", "eyedropper", "image", "magnifier", "hex"],
+  },
+  {
+    slug: "tailwind-shades",
+    name: "Tailwind Shade Generator",
+    tagline: "Generate Tailwind CSS colour shades with OKLCH-based colour science",
+    category: "Images & Videos",
+    icon: Palette,
+    keywords: ["tailwind", "shade", "color", "colour", "css", "oklch", "generator", "palette", "theme"],
   },
 
   // ===================== Development =====================

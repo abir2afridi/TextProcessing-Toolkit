@@ -591,6 +591,10 @@
       "name": "Selector de Píxeles",
       "tagline": "Seleccione colores de píxeles de imágenes con lupa y vista previa en vivo"
     },
+    "tailwind-shades": {
+      "name": "Generador de Tonos Tailwind",
+      "tagline": "Genere tonos de color Tailwind CSS con ciencia del color basada en OKLCH"
+    },
     "selective-text-replacer": {
       "name": "Reemplazador Selectivo de Texto",
       "tagline": "Bloquee las palabras seleccionadas y edite libremente el resto del texto"
