@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
-import { Copy, Check } from "lucide-react";
+import { useState, useEffect, useCallback, useMemo } from "react";
+import { Copy, Check, Download, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -98,23 +98,50 @@ interface ShadeParams {
   adjustedH: number;
 }
 
+function getLuminance(r: number, g: number, b: number): number {
+  const rs = srgbToLinear(r), gs = srgbToLinear(g), bs = srgbToLinear(b);
+  return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+}
+
+function getContrastRatio(l1: number, l2: number): number {
+  const lighter = Math.max(l1, l2);
+  const darker = Math.min(l1, l2);
+  return (lighter + 0.05) / (darker + 0.05);
+}
+
+function getContrastInfo(hex: string) {
+  const rgb = hexToRgb(hex);
+  if (!rgb) return null;
+  const lum = getLuminance(...rgb);
+  const whiteLum = 1;
+  const blackLum = 0;
+  const onWhite = getContrastRatio(lum, whiteLum);
+  const onBlack = getContrastRatio(lum, blackLum);
+  return {
+    onWhite: { ratio: onWhite, aa: onWhite >= 4.5, aaa: onWhite >= 7, aaLarge: onWhite >= 3 },
+    onBlack: { ratio: onBlack, aa: onBlack >= 4.5, aaa: onBlack >= 7, aaLarge: onBlack >= 3 },
+    bestText: onWhite >= 4.5 ? "white" : "black",
+  };
+}
+
 function getShadeParams(
   level: number,
   baseL: number,
   baseC: number,
   baseH: number,
-  mode: GenerationMode
+  mode: GenerationMode,
+  saturationMultiplier: number
 ): ShadeParams {
   const targetL = TARGET_LIGHTNESS[level];
 
   switch (mode) {
     case "classic": {
-      const chromaScale = level <= 100 ? 0.3 : level >= 900 ? 0.6 : 1;
+      const chromaScale = (level <= 100 ? 0.3 : level >= 900 ? 0.6 : 1) * saturationMultiplier;
       return { targetL, adjustedC: baseC * chromaScale, adjustedH: baseH };
     }
 
     case "hue-shift": {
-      const chromaScale = level <= 100 ? 0.4 : level >= 900 ? 0.7 : 1;
+      const chromaScale = (level <= 100 ? 0.4 : level >= 900 ? 0.7 : 1) * saturationMultiplier;
       const lightnessFactor = (targetL - 0.5) * 2;
       let hueShift = lightnessFactor * 15;
       let adjustedH = baseH + hueShift;
@@ -130,34 +157,34 @@ function getShadeParams(
       } else if (level >= 900) {
         adjustedL = targetL * 0.8;
       }
-      const chromaScale = level <= 100 ? 0.15 : level >= 900 ? 0.4 : 1;
+      const chromaScale = (level <= 100 ? 0.15 : level >= 900 ? 0.4 : 1) * saturationMultiplier;
       return { targetL: adjustedL, adjustedC: baseC * chromaScale, adjustedH: baseH };
     }
 
     case "vivid": {
-      const chromaScale = level <= 100 ? 0.6 : level >= 950 ? 0.8 : 1.1;
+      const chromaScale = (level <= 100 ? 0.6 : level >= 950 ? 0.8 : 1.1) * saturationMultiplier;
       const boostedC = Math.min(baseC * chromaScale, 0.4);
       return { targetL, adjustedC: boostedC, adjustedH: baseH };
     }
 
     case "muted": {
-      const chromaScale = level <= 100 ? 0.15 : level >= 900 ? 0.3 : 0.5;
+      const chromaScale = (level <= 100 ? 0.15 : level >= 900 ? 0.3 : 0.5) * saturationMultiplier;
       return { targetL, adjustedC: baseC * chromaScale, adjustedH: baseH };
     }
 
     default:
-      return { targetL, adjustedC: baseC, adjustedH: baseH };
+      return { targetL, adjustedC: baseC * saturationMultiplier, adjustedH: baseH };
   }
 }
 
-function generateShades(baseHex: string, mode: GenerationMode = "classic"): Shade[] | null {
+function generateShades(baseHex: string, mode: GenerationMode, saturationMultiplier: number): Shade[] | null {
   const rgb = hexToRgb(baseHex);
   if (!rgb) return null;
 
   const [baseL, baseC, baseH] = rgbToOklch(...rgb);
 
   return SHADE_LEVELS.map(level => {
-    const { targetL, adjustedC, adjustedH } = getShadeParams(level, baseL, baseC, baseH, mode);
+    const { targetL, adjustedC, adjustedH } = getShadeParams(level, baseL, baseC, baseH, mode, saturationMultiplier);
 
     const newRgb = oklchToRgb(targetL, adjustedC, adjustedH);
     const clampedRgb: [number, number, number] = [
@@ -175,24 +202,47 @@ function generateShades(baseHex: string, mode: GenerationMode = "classic"): Shad
   });
 }
 
+const WCAG_BADGE = (pass: boolean) =>
+  pass ? "text-green-600 dark:text-green-400" : "text-red-500 dark:text-red-400";
+
 export default function TailwindShades() {
   const [baseColour, setBaseColour] = useState("#3b82f6");
   const [colourName, setColourName] = useState("primary");
   const [mode, setMode] = useState<GenerationMode>("classic");
+  const [saturation, setSaturation] = useState(1);
   const [shades, setShades] = useState<Shade[] | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<"cards" | "contrast">("cards");
   const { notation } = useColourNotation();
 
   useEffect(() => {
-    const result = generateShades(baseColour, mode);
+    const result = generateShades(baseColour, mode, saturation);
     setShades(result);
-  }, [baseColour, mode]);
+  }, [baseColour, mode, saturation]);
 
   const copyValue = useCallback(async (value: string, label: string) => {
     await navigator.clipboard.writeText(value);
     setCopied(label);
     setTimeout(() => setCopied(null), 1500);
   }, []);
+
+  const copyAllFormats = useCallback(async () => {
+    if (!shades) return;
+    const parts = [
+      "/* CSS Variables */",
+      `:root {\n${generateCssVariables()}\n}`,
+      "",
+      "/* OKLCH Variables */",
+      `:root {\n${generateOklchVariables()}\n}`,
+      "",
+      "/* Tailwind Config */",
+      generateTailwindConfig(),
+      "",
+      "/* JSON */",
+      generateJson(),
+    ].join("\n");
+    await copyValue(parts, "all");
+  }, [shades, colourName, notation]);
 
   const generateCssVariables = () => {
     if (!shades) return "";
@@ -212,9 +262,26 @@ export default function TailwindShades() {
     ).join("\n");
   };
 
+  const generateJson = () => {
+    if (!shades) return "";
+    return JSON.stringify(
+      Object.fromEntries(shades.map(s => [s.level, formatColour(s.hex, notation)])),
+      null,
+      2
+    );
+  };
+
+  const contrastInfo = useMemo(() => {
+    if (!shades) return null;
+    return shades.map(s => ({ shade: s, contrast: getContrastInfo(s.hex) }));
+  }, [shades]);
+
+  const previewBg = shades?.[4]?.hex ?? baseColour;
+  const previewFg = contrastInfo?.[4]?.contrast?.bestText ?? "white";
+
   return (
     <div className="space-y-6">
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div className="space-y-2">
           <label className="font-bold">Base Colour</label>
           <div className="flex gap-2">
@@ -234,14 +301,37 @@ export default function TailwindShades() {
         </div>
         <div className="space-y-2">
           <label className="font-bold">Colour Name</label>
-          <Input
-            value={colourName}
-            onChange={(e) => setColourName(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ""))}
-            placeholder="primary"
-            className="font-mono"
-          />
+          <div className="flex gap-2 items-center">
+            <Input
+              value={colourName}
+              onChange={(e) => setColourName(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ""))}
+              placeholder="primary"
+              className="font-mono flex-1"
+            />
+            <div
+              className="w-8 h-8 rounded border shrink-0"
+              style={{ backgroundColor: baseColour }}
+            />
+          </div>
         </div>
-        <div className="space-y-2 sm:col-span-2 lg:col-span-1">
+        <div className="space-y-2">
+          <label className="font-bold">Saturation</label>
+          <input
+            type="range"
+            min={0}
+            max={2}
+            step={0.05}
+            value={saturation}
+            onChange={(e) => setSaturation(Number(e.target.value))}
+            className="w-full"
+          />
+          <div className="flex justify-between text-xs text-muted-foreground">
+            <span>Desaturated</span>
+            <span className="font-mono">{(saturation * 100).toFixed(0)}%</span>
+            <span>Vivid</span>
+          </div>
+        </div>
+        <div className="space-y-2">
           <label className="font-bold">Generation Mode</label>
           <Select value={mode} onValueChange={(v) => setMode(v as GenerationMode)}>
             <SelectTrigger className="w-full">
@@ -263,7 +353,15 @@ export default function TailwindShades() {
 
       {shades && (
         <div className="space-y-3">
-          <label className="font-bold">Generated Shades</label>
+          <div className="flex items-center justify-between">
+            <label className="font-bold">Generated Shades</label>
+            {shades && (
+              <Button size="sm" variant="ghost" onClick={copyAllFormats}>
+                {copied === "all" ? <Check className="size-4 mr-1" /> : <Download className="size-4 mr-1" />}
+                Copy All Formats
+              </Button>
+            )}
+          </div>
           <div className="grid grid-cols-11 gap-1 h-24 rounded-lg overflow-hidden">
             {shades.map((shade) => (
               <button
@@ -282,24 +380,168 @@ export default function TailwindShades() {
             ))}
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
-            {shades.map((shade) => (
-              <button
-                key={shade.level}
-                onClick={() => copyValue(formatColour(shade.hex, notation), shade.hex)}
-                className="p-3 rounded-lg border bg-card hover:border-primary/50 transition-colors text-left"
-              >
-                <div
-                  className="w-full h-8 rounded mb-2"
-                  style={{ backgroundColor: shade.hex }}
-                />
-                <div className="font-bold text-sm">{shade.level}</div>
-                <div className="font-mono text-xs text-muted-foreground">
-                  {formatColour(shade.hex, notation)}
-                </div>
-              </button>
-            ))}
+          <div className="flex gap-1 border-b">
+            <button
+              onClick={() => setActiveTab("cards")}
+              className={`px-3 py-1.5 text-sm font-medium border-b-2 transition-colors ${
+                activeTab === "cards"
+                  ? "border-primary text-primary"
+                  : "border-transparent text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Colour Cards
+            </button>
+            <button
+              onClick={() => setActiveTab("contrast")}
+              className={`px-3 py-1.5 text-sm font-medium border-b-2 transition-colors ${
+                activeTab === "contrast"
+                  ? "border-primary text-primary"
+                  : "border-transparent text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              WCAG Contrast
+            </button>
+            <button
+              onClick={() => setActiveTab("preview")}
+              className={`px-3 py-1.5 text-sm font-medium border-b-2 transition-colors ${
+                activeTab === "preview"
+                  ? "border-primary text-primary"
+                  : "border-transparent text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Preview
+            </button>
           </div>
+
+          {activeTab === "cards" && (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
+              {shades.map((shade) => (
+                <button
+                  key={shade.level}
+                  onClick={() => copyValue(formatColour(shade.hex, notation), shade.hex)}
+                  className="p-3 rounded-lg border bg-card hover:border-primary/50 transition-colors text-left"
+                >
+                  <div
+                    className="w-full h-8 rounded mb-2"
+                    style={{ backgroundColor: shade.hex }}
+                  />
+                  <div className="font-bold text-sm">{shade.level}</div>
+                  <div className="font-mono text-xs text-muted-foreground">
+                    {formatColour(shade.hex, notation)}
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
+
+          {activeTab === "contrast" && contrastInfo && (
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b text-muted-foreground text-xs">
+                    <th className="text-left py-2 pr-4">Level</th>
+                    <th className="text-left py-2 pr-4">Sample</th>
+                    <th className="text-left py-2 pr-4">Hex</th>
+                    <th className="text-center py-2 pr-4" colSpan={2}>On White</th>
+                    <th className="text-center py-2 pr-4" colSpan={2}>On Black</th>
+                    <th className="text-center py-2">Best Text</th>
+                  </tr>
+                  <tr className="border-b text-muted-foreground text-[10px]">
+                    <th />
+                    <th />
+                    <th />
+                    <th className="text-center py-1 pr-4">AA</th>
+                    <th className="text-center py-1 pr-4">AAA</th>
+                    <th className="text-center py-1 pr-4">AA</th>
+                    <th className="text-center py-1 pr-4">AAA</th>
+                    <th />
+                  </tr>
+                </thead>
+                <tbody>
+                  {contrastInfo.map(({ shade, contrast }) => contrast && (
+                    <tr key={shade.level} className="border-b last:border-0 hover:bg-muted/30">
+                      <td className="py-2 pr-4 font-bold">{shade.level}</td>
+                      <td className="py-2 pr-4">
+                        <div className="w-8 h-8 rounded border" style={{ backgroundColor: shade.hex }} />
+                      </td>
+                      <td className="py-2 pr-4 font-mono text-xs">{shade.hex}</td>
+                      <td className={`text-center py-2 pr-4 font-bold ${WCAG_BADGE(contrast.onWhite.aa)}`}>
+                        {contrast.onWhite.aa ? "AA" : "—"}
+                      </td>
+                      <td className={`text-center py-2 pr-4 font-bold ${WCAG_BADGE(contrast.onWhite.aaa)}`}>
+                        {contrast.onWhite.aaa ? "AAA" : "—"}
+                      </td>
+                      <td className={`text-center py-2 pr-4 font-bold ${WCAG_BADGE(contrast.onBlack.aa)}`}>
+                        {contrast.onBlack.aa ? "AA" : "—"}
+                      </td>
+                      <td className={`text-center py-2 pr-4 font-bold ${WCAG_BADGE(contrast.onBlack.aaa)}`}>
+                        {contrast.onBlack.aaa ? "AAA" : "—"}
+                      </td>
+                      <td className="text-center py-2">
+                        <span
+                          className="px-2 py-0.5 rounded text-[10px] font-bold uppercase"
+                          style={{
+                            backgroundColor: contrast.bestText === "white" ? "#fff" : "#000",
+                            color: contrast.bestText === "white" ? "#000" : "#fff",
+                          }}
+                        >
+                          {contrast.bestText}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {activeTab === "preview" && (
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="p-4 rounded-lg border bg-card space-y-3">
+                <p className="text-xs text-muted-foreground font-medium">Button Preview (500 shade)</p>
+                <div className="flex gap-2 flex-wrap">
+                  <button
+                    className="px-4 py-2 rounded-lg font-medium text-sm transition-colors"
+                    style={{ backgroundColor: previewBg, color: previewFg }}
+                  >
+                    Primary
+                  </button>
+                  <button
+                    className="px-4 py-2 rounded-lg font-medium text-sm border transition-colors"
+                    style={{ borderColor: previewBg, color: previewBg }}
+                  >
+                    Outline
+                  </button>
+                  <button
+                    className="px-4 py-2 rounded-lg font-medium text-sm transition-colors"
+                    style={{ backgroundColor: previewBg, color: previewFg, opacity: 0.7 }}
+                  >
+                    Disabled
+                  </button>
+                </div>
+              </div>
+              <div className="p-4 rounded-lg border bg-card space-y-3">
+                <p className="text-xs text-muted-foreground font-medium">Card Preview (100 / 800 shades)</p>
+                <div
+                  className="rounded-lg p-4 space-y-2"
+                  style={{ backgroundColor: shades[1]?.hex ?? "#f0f0f0" }}
+                >
+                  <p
+                    className="font-bold text-sm"
+                    style={{ color: shades[7]?.hex ?? "#000" }}
+                  >
+                    Card Title
+                  </p>
+                  <p
+                    className="text-xs"
+                    style={{ color: shades[6]?.hex ?? "#333" }}
+                  >
+                    This is a preview of how your Tailwind shades would look on a real UI card component.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
@@ -357,6 +599,23 @@ ${generateOklchVariables()}
             </div>
             <pre className="p-4 rounded-lg border bg-muted/50 text-sm font-mono overflow-x-auto">
 {generateTailwindConfig()}
+            </pre>
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <label className="font-bold">JSON</label>
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() => copyValue(generateJson(), "json")}
+              >
+                {copied === "json" ? <Check className="size-4 mr-1" /> : <Copy className="size-4 mr-1" />}
+                Copy
+              </Button>
+            </div>
+            <pre className="p-4 rounded-lg border bg-muted/50 text-sm font-mono overflow-x-auto">
+{generateJson()}
             </pre>
           </div>
         </div>
