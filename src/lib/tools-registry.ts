@@ -80,6 +80,7 @@ import {
   Droplets,
   Contrast,
   EyeOff,
+  Grid3X3,
 } from "lucide-react";
 
 export type ToolCategory =
@@ -204,6 +205,8 @@ export const toolComponents: Record<string, ComponentType> = {
   "tailwind-shades": lazyTool(() => import("@/components/tools/TailwindShades")),
   "favicon-genny": lazyTool(() => import("@/components/tools/FaviconGenny")),
   "image-clipper": lazyTool(() => import("@/components/tools/ImageClipper")),
+  "image-converter": lazyTool(() => import("@/components/tools/ImageConverter")),
+  "image-splitter": lazyTool(() => import("@/components/tools/ImageSplitter")),
 
   // Development
   "benchmark-builder": lazyTool(() => import("@/components/tools/BenchmarkBuilder")),
@@ -983,6 +986,22 @@ export const tools: ToolMeta[] = [
     category: "Images & Videos",
     icon: Crop,
     keywords: ["clip", "trim", "crop", "transparent", "png", "alpha", "bounding box", "edge"],
+  },
+  {
+    slug: "image-converter",
+    name: "Image Converter",
+    tagline: "Convert images between PNG, JPEG, WebP, AVIF, GIF, BMP, TIFF, ICO, and ICNS",
+    category: "Images & Videos",
+    icon: Repeat,
+    keywords: ["convert", "image", "png", "jpeg", "webp", "avif", "gif", "bmp", "tiff", "ico", "icns", "format", "batch", "resize"],
+  },
+  {
+    slug: "image-splitter",
+    name: "Image Splitter",
+    tagline: "Split panoramic images into tiles for Instagram carousel scrolls",
+    category: "Images & Videos",
+    icon: Grid3X3,
+    keywords: ["split", "grid", "tile", "image", "carousel", "instagram", "panorama", "rows", "cols"],
   },
 
   // ===================== Development =====================

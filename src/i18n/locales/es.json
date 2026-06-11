@@ -603,6 +603,14 @@
       "name": "Recortador de Imagen",
       "tagline": "Recorta automáticamente bordes transparentes de imágenes PNG"
     },
+    "image-converter": {
+      "name": "Conversor de Imágenes",
+      "tagline": "Convierta imágenes entre PNG, JPEG, WebP, AVIF, GIF, BMP, TIFF, ICO y ICNS"
+    },
+    "image-splitter": {
+      "name": "Divisor de Imágenes",
+      "tagline": "Divida imágenes panorámicas en mosaicos para carruseles de Instagram"
+    },
     "tailwind-shades": {
       "name": "Generador de Tonos Tailwind",
       "tagline": "Genere tonos de color Tailwind CSS con ciencia del color basada en OKLCH"

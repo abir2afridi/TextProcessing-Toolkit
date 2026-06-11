@@ -603,6 +603,14 @@
       "name": "ইমেজ ক্লিপার",
       "tagline": "PNG ইমেজ থেকে স্বচ্ছ প্রান্ত অটো-ট্রিম করুন"
     },
+    "image-converter": {
+      "name": "ইমেজ কনভার্টার",
+      "tagline": "PNG, JPEG, WebP, AVIF, GIF, BMP, TIFF, ICO ও ICNS-এ ইমেজ কনভার্ট করুন"
+    },
+    "image-splitter": {
+      "name": "ইমেজ স্প্লিটার",
+      "tagline": "ইনস্টাগ্রাম ক্যারোসেল স্ক্রলের জন্য প্যানোরামিক ইমেজ টাইলসে বিভক্ত করুন"
+    },
     "tailwind-shades": {
       "name": "টেইলউইন্ড শেড জেনারেটর",
       "tagline": "OKLCH-ভিত্তিক কালার সায়েন্স সহ Tailwind CSS কালার শেড তৈরি করুন"

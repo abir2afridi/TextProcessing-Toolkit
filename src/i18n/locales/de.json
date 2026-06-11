@@ -603,6 +603,14 @@
       "name": "Bild-Clipper",
       "tagline": "Transparente Ränder von PNG-Bildern automatisch abschneiden"
     },
+    "image-converter": {
+      "name": "Bildkonverter",
+      "tagline": "Bilder zwischen PNG, JPEG, WebP, AVIF, GIF, BMP, TIFF, ICO und ICNS konvertieren"
+    },
+    "image-splitter": {
+      "name": "Bildteiler",
+      "tagline": "Panoramabilder für Instagram-Karussell-Scrolls in Kacheln aufteilen"
+    },
     "tailwind-shades": {
       "name": "Tailwind-Farbabstufungs-Generator",
       "tagline": "Erzeugen Sie Tailwind CSS-Farbabstufungen mit OKLCH-basierter Farbwissenschaft"

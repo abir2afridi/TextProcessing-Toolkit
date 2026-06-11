@@ -603,6 +603,14 @@
       "name": "图像裁剪器",
       "tagline": "自动裁剪 PNG 图像的透明边缘"
     },
+    "image-converter": {
+      "name": "图像转换器",
+      "tagline": "在 PNG、JPEG、WebP、AVIF、GIF、BMP、TIFF、ICO 和 ICNS 之间转换图像"
+    },
+    "image-splitter": {
+      "name": "图像分割器",
+      "tagline": "将全景图像分割为适用于 Instagram 轮播滚动条的拼贴图块"
+    },
     "tailwind-shades": {
       "name": "Tailwind 色阶生成器",
       "tagline": "使用基于 OKLCH 的色彩科学生成 Tailwind CSS 颜色色阶"

@@ -603,6 +603,14 @@
       "name": "Image Clipper",
       "tagline": "Auto-trim transparent edges from PNG images"
     },
+    "image-converter": {
+      "name": "Image Converter",
+      "tagline": "Convert images between PNG, JPEG, WebP, AVIF, GIF, BMP, TIFF, ICO, and ICNS"
+    },
+    "image-splitter": {
+      "name": "Image Splitter",
+      "tagline": "Split panoramic images into tiles for Instagram carousel scrolls"
+    },
     "tailwind-shades": {
       "name": "Tailwind Shade Generator",
       "tagline": "Generate Tailwind CSS colour shades with OKLCH-based colour science"
