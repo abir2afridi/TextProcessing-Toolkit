@@ -587,6 +587,10 @@
       "name": "调色板提取器",
       "tagline": "使用 k-means 聚类和 8 种策略从图像中提取调色板"
     },
+    "pixel-picker": {
+      "name": "像素取色器",
+      "tagline": "使用放大镜和实时预览从图像中拾取像素颜色"
+    },
     "selective-text-replacer": {
       "name": "选择性文本替换器",
       "tagline": "锁定选定单词，自由编辑文本的其余部分"

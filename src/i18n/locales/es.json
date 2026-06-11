@@ -587,6 +587,10 @@
       "name": "Extractor de Paletas",
       "tagline": "Extraiga paletas de colores de imágenes usando agrupamiento k-means con 8 estrategias"
     },
+    "pixel-picker": {
+      "name": "Selector de Píxeles",
+      "tagline": "Seleccione colores de píxeles de imágenes con lupa y vista previa en vivo"
+    },
     "selective-text-replacer": {
       "name": "Reemplazador Selectivo de Texto",
       "tagline": "Bloquee las palabras seleccionadas y edite libremente el resto del texto"

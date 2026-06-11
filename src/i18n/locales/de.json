@@ -587,6 +587,10 @@
       "name": "Palettenextraktor",
       "tagline": "Farbpaletten aus Bildern mit k-means-Clustering und 8 Strategien extrahieren"
     },
+    "pixel-picker": {
+      "name": "Pixel-Picker",
+      "tagline": "Pixel-Farben aus Bildern mit Lupe und Live-Vorschau entnehmen"
+    },
     "selective-text-replacer": {
       "name": "Selektiver Text-Ersetzer",
       "tagline": "Ausgewählte Wörter sperren und den Rest des Textes frei bearbeiten"

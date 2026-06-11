@@ -71,6 +71,7 @@ import {
   Code2,
   Mail,
   Camera,
+  Pipette,
   Container,
   Eraser as EraserIcon,
   Square,
@@ -198,6 +199,7 @@ export const toolComponents: Record<string, ComponentType> = {
   "harmony-genny": lazyTool(() => import("@/components/tools/HarmonyGenny")),
   "palette-collection": lazyTool(() => import("@/components/tools/PaletteCollection")),
   "palette-extractor": lazyTool(() => import("@/components/tools/PaletteExtractor")),
+  "pixel-picker": lazyTool(() => import("@/components/tools/PixelPicker")),
 
   // Development
   "benchmark-builder": lazyTool(() => import("@/components/tools/BenchmarkBuilder")),
@@ -937,6 +939,14 @@ export const tools: ToolMeta[] = [
     category: "Images & Videos",
     icon: Palette,
     keywords: ["palette", "extract", "colour", "image", "k-means", "cluster", "dominant", "vibrant"],
+  },
+  {
+    slug: "pixel-picker",
+    name: "Pixel Picker",
+    tagline: "Pick pixel colours from images with a magnifier and real-time preview",
+    category: "Images & Videos",
+    icon: Pipette,
+    keywords: ["pixel", "picker", "colour", "color", "eyedropper", "image", "magnifier", "hex"],
   },
 
   // ===================== Development =====================
