@@ -634,6 +634,26 @@
     "svg-optimiser": {
       "name": "SVG 优化器",
       "tagline": "使用 SVGO 优化 SVG 文件"
+    },
+    "doc-converter": {
+      "name": "文档转换器",
+      "tagline": "在 Markdown、HTML、Word、EPUB、LaTeX 等格式之间转换文档"
+    },
+    "text-editor": {
+      "name": "文本编辑器",
+      "tagline": "支持表格、脚注、任务列表和导出的无干扰 Markdown WYSIWYG 编辑器"
+    },
+    "font-explorer": {
+      "name": "字体文件浏览器",
+      "tagline": "探索字体文件内容"
+    },
+    "glyph-browser": {
+      "name": "字形浏览器",
+      "tagline": "浏览 Unicode 字形"
+    },
+    "line-height-calc": {
+      "name": "行高计算器",
+      "tagline": "计算最佳行高"
     }
   }
 }

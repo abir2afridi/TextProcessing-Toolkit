@@ -245,3 +245,41 @@
   transition: all 0.4s ease;
 }
 .scrollbar-premium:hover::-webkit-scrollbar-thumb { background: hsl(var(--sidebar-foreground) / 0.2); }
+
+/* ── Text Editor (ProseMirror) ── */
+.dt-editor { outline: none; min-height: 70vh; line-height: 1.75; font-size: 0.9375rem; padding: 1.5rem 2rem; }
+.dt-editor p { margin: 0.6em 0; }
+.dt-editor h1, .dt-editor h2, .dt-editor h3, .dt-editor h4 { margin: 1.2em 0 0.4em; line-height: 1.3; }
+.dt-editor h1 { font-size: 1.8em; } .dt-editor h2 { font-size: 1.5em; } .dt-editor h3 { font-size: 1.25em; }
+.dt-editor pre { background: var(--color-surface); border-radius: 6px; padding: 0.75em 1em; overflow-x: auto; }
+.dt-editor code { font-family: var(--font-mono); font-size: 0.85em; }
+.dt-editor blockquote { margin: 0; padding-left: 1em; border-left: 3px solid var(--color-border); color: var(--color-muted-foreground); }
+.dt-editor ul, .dt-editor ol { padding-left: 1.5em; }
+.dt-editor li { margin: 0.2em 0; }
+.dt-editor s { text-decoration: line-through; }
+.dt-editor img { max-width: 100%; }
+.dt-editor a { color: var(--color-primary); text-decoration: underline; cursor: pointer; }
+.dt-editor table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+.dt-editor th, .dt-editor td { border: 1px solid var(--color-border); padding: 0.4em 0.6em; text-align: left; min-width: 2em; }
+.dt-editor th { font-weight: 600; background: var(--color-surface); }
+.dt-editor .ProseMirror-gapcursor { display: none; pointer-events: none; position: relative; }
+.dt-editor .ProseMirror-gapcursor:after { content: ""; display: block; position: absolute; top: -2px; width: 20px; border-top: 1px solid var(--color-foreground); }
+.dt-editor .pm-dropcursor { border-color: var(--color-primary); }
+
+/* Focus decorations */
+.dt-editor .pm-para-active { background: color-mix(in oklab, var(--color-primary) 6%, transparent); border-radius: 4px; }
+.dt-editor .pm-dim { opacity: 0.35; transition: opacity 0.25s; }
+.dt-editor .pm-sentence-active { background: color-mix(in oklab, var(--color-primary) 12%, transparent); border-radius: 2px; }
+
+/* Placeholder */
+.dt-empty:first-child::before { content: attr(data-placeholder); color: var(--color-muted-foreground); opacity: 0.4; pointer-events: none; height: 0; display: block; }
+
+/* Task list items */
+.dt-editor .task-list-item { display: flex; align-items: flex-start; gap: 0.3em; list-style: none; margin-left: -1.2em; }
+.dt-editor .task-checkbox { cursor: pointer; user-select: none; font-size: 1.1em; line-height: 1.4; }
+.dt-editor .task-content { flex: 1; }
+
+/* Footnote tooltip */
+.footnote-tooltip { position: absolute; z-index: 40; top: 1.6em; left: -1em; width: 320px; background: var(--color-popover); border: 1px solid var(--color-border); border-radius: 6px; padding: 0.75em; box-shadow: 0 4px 16px rgba(0,0,0,0.12); font-size: 0.875rem; }
+.dt-editor footnote { background: color-mix(in oklab, var(--color-primary) 10%, transparent); border-radius: 3px; padding: 0.1em 0.3em; cursor: pointer; font-size: 0.85em; vertical-align: super; }
+.dt-editor footnote.ProseMirror-selectednode { outline: 2px solid var(--color-primary); }

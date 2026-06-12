@@ -141,6 +141,10 @@ export const toolComponents: Record<string, ComponentType> = {
   "numeronym-generator": lazyTool(() => import("@/components/tools/NumeronymGen")),
   "regex-cheatsheet": lazyTool(() => import("@/components/tools/RegexCheatsheet")),
   "selective-text-replacer": lazyTool(() => import("@/components/tools/SelectiveTextReplacer")),
+  "text-editor": lazyTool(() => import("@/components/tools/TextEditor")),
+  "font-explorer": lazyTool(() => import("@/components/tools/FontExplorer")),
+  "glyph-browser": lazyTool(() => import("@/components/tools/GlyphBrowser")),
+  "line-height-calc": lazyTool(() => import("@/components/tools/LineHeightCalc")),
 
   // Extractors
   "url-extractor": lazyTool(() => import("@/components/tools/UrlExtractor")),
@@ -173,6 +177,7 @@ export const toolComponents: Record<string, ComponentType> = {
   "list-converter": lazyTool(() => import("@/components/tools/ListConverter")),
   "yaml-toml": lazyTool(() => import("@/components/tools/YamlToml")),
   "mime-types": lazyTool(() => import("@/components/tools/MimeTypes")),
+  "doc-converter": lazyTool(() => import("@/components/tools/DocConverter")),
 
   // Web
   "device-info": lazyTool(() => import("@/components/tools/DeviceInfo")),
@@ -500,6 +505,38 @@ export const tools: ToolMeta[] = [
     icon: Lock,
     keywords: ["select", "lock", "edit", "replace", "partial", "segment", "word"],
   },
+  {
+    slug: "text-editor",
+    name: "Text Editor",
+    tagline: "Distraction-free Markdown WYSIWYG writer with tables, footnotes, task lists, and export",
+    category: "Text Utilities",
+    icon: FileText,
+    keywords: ["editor", "markdown", "wysiwyg", "write", "prosemirror", "document", "export"],
+  },
+  {
+    slug: "font-explorer",
+    name: "Font File Explorer",
+    tagline: "Explore font file contents",
+    category: "Text Utilities",
+    icon: Type,
+    keywords: ["font", "typeface", "preview", "ttf", "otf", "woff", "woff2", "typography"],
+  },
+  {
+    slug: "glyph-browser",
+    name: "Glyph Browser",
+    tagline: "Browse unicode glyphs",
+    category: "Text Utilities",
+    icon: Type,
+    keywords: ["glyph", "unicode", "character", "code point", "hex", "symbol", "emoji"],
+  },
+  {
+    slug: "line-height-calc",
+    name: "Line Height Calculator",
+    tagline: "Calculate optimal line heights",
+    category: "Text Utilities",
+    icon: Type,
+    keywords: ["line height", "leading", "typography", "ratio", "golden ratio", "font size", "readability"],
+  },
 
   // ===================== Extractors =====================
   {
@@ -713,6 +750,14 @@ export const tools: ToolMeta[] = [
     category: "Converters",
     icon: FileJson,
     keywords: ["yaml", "json", "convert", "config"],
+  },
+  {
+    slug: "doc-converter",
+    name: "Document Converter",
+    tagline: "Convert documents between Markdown, HTML, Word, EPUB, LaTeX, and more",
+    category: "Converters",
+    icon: FileText,
+    keywords: ["document", "convert", "pandoc", "markdown", "html", "docx", "epub", "latex", "pdf"],
   },
 
   // ===================== Web =====================

@@ -634,6 +634,26 @@
     "svg-optimiser": {
       "name": "Optimiseur SVG",
       "tagline": "Optimisez les fichiers SVG avec SVGO"
+    },
+    "doc-converter": {
+      "name": "Convertisseur de documents",
+      "tagline": "Convertir des documents entre Markdown, HTML, Word, EPUB, LaTeX et plus"
+    },
+    "text-editor": {
+      "name": "\u00c9diteur de texte",
+      "tagline": "\u00c9diteur WYSIWYG Markdown sans distraction avec tableaux, notes de bas de page, listes de t\u00e2ches et exportation"
+    },
+    "font-explorer": {
+      "name": "Explorateur de polices",
+      "tagline": "Explorer le contenu des fichiers de police"
+    },
+    "glyph-browser": {
+      "name": "Navigateur de glyphes",
+      "tagline": "Parcourir les glyphes Unicode"
+    },
+    "line-height-calc": {
+      "name": "Calculatrice d'interlignage",
+      "tagline": "Calculer les hauteurs de ligne optimales"
     }
   }
 }

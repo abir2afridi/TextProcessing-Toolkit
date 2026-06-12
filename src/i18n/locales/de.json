@@ -634,6 +634,26 @@
     "svg-optimiser": {
       "name": "SVG-Optimierer",
       "tagline": "SVG-Dateien mit SVGO optimieren"
+    },
+    "doc-converter": {
+      "name": "Dokumentenkonverter",
+      "tagline": "Dokumente konvertieren zwischen Markdown, HTML, Word, EPUB, LaTeX uvm."
+    },
+    "text-editor": {
+      "name": "Texteditor",
+      "tagline": "Ablenkungsfreier Markdown-WYSIWYG-Editor mit Tabellen, Fu\u00dfnoten, Aufgabenlisten und Export"
+    },
+    "font-explorer": {
+      "name": "Schriftarten-Explorer",
+      "tagline": "Schriftartdateien erkunden"
+    },
+    "glyph-browser": {
+      "name": "Glyphen-Browser",
+      "tagline": "Unicode-Glyphen durchsuchen"
+    },
+    "line-height-calc": {
+      "name": "Zeilenhöhen-Rechner",
+      "tagline": "Optimale Zeilenhöhen berechnen"
     }
   }
 }
