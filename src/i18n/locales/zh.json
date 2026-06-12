@@ -223,6 +223,18 @@
       "name": "PDF签名检查器",
       "tagline": "验证PDF文件中的数字签名"
     },
+    "pdf-preflight": {
+      "name": "PDF印前检查",
+      "tagline": "分析PDF文件的打印就绪性问题"
+    },
+    "imposer": {
+      "name": "打印拼版",
+      "tagline": "将PDF页面拼版到打印纸张上"
+    },
+    "zine-imposer": {
+      "name": "小册子拼版",
+      "tagline": "从图片创建单页小册子 — 迷你小册子和手风琴折"
+    },
     "roman-numeral": {
       "name": "罗马数字",
       "tagline": "在数字和罗马数字之间转换"
@@ -654,6 +666,18 @@
     "line-height-calc": {
       "name": "行高计算器",
       "tagline": "计算最佳行高"
+    },
+    "paper-sizes": {
+      "name": "纸张尺寸",
+      "tagline": "比较和搜索 ISO、美国等标准的纸张尺寸"
+    },
+    "px-to-rem": {
+      "name": "PX 转 REM",
+      "tagline": "将像素转换为 rem 或将 rem 转换为像素，支持自定义基础字号"
+    },
+    "typography-calc": {
+      "name": "排版计算器",
+      "tagline": "在 px、pt、pc、em、rem、英寸、mm、cm、agate 和 cicero 之间转换"
     }
   }
 }

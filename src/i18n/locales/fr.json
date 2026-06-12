@@ -223,6 +223,18 @@
       "name": "Vérificateur de Signature PDF",
       "tagline": "Vérifier les signatures numériques dans les fichiers PDF"
     },
+    "pdf-preflight": {
+      "name": "PDF Preflight",
+      "tagline": "Analyser les PDF pour vérifier leur conformité d'impression"
+    },
+    "imposer": {
+      "name": "Imposeur d'Impression",
+      "tagline": "Imposer des pages PDF sur des feuilles d'impression"
+    },
+    "zine-imposer": {
+      "name": "Imposeur de Zine",
+      "tagline": "Cr\u00e9er des zines d'une seule feuille \u00e0 partir d'images — mini-zine et pli accord\u00e9on"
+    },
     "roman-numeral": {
       "name": "Chiffre Romain",
       "tagline": "Convertir entre nombres et chiffres romains"
@@ -654,6 +666,18 @@
     "line-height-calc": {
       "name": "Calculatrice d'interlignage",
       "tagline": "Calculer les hauteurs de ligne optimales"
+    },
+    "paper-sizes": {
+      "name": "Formats de papier",
+      "tagline": "Comparer et rechercher des formats de papier selon les normes ISO, US et autres"
+    },
+    "px-to-rem": {
+      "name": "PX en REM",
+      "tagline": "Convertir des pixels en rem et rem en pixels avec une taille de base personnalisée"
+    },
+    "typography-calc": {
+      "name": "Calculateur Typographique",
+      "tagline": "Convertissez entre px, pt, pc, em, rem, pouces, mm, cm, agates et cicéros"
     }
   }
 }

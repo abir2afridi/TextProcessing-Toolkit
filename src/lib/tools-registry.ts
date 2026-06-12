@@ -70,6 +70,7 @@ import {
   Scan,
   ScanLine,
   FileCheck,
+  FileSearch,
   Code2,
   Mail,
   Camera,
@@ -145,6 +146,9 @@ export const toolComponents: Record<string, ComponentType> = {
   "font-explorer": lazyTool(() => import("@/components/tools/FontExplorer")),
   "glyph-browser": lazyTool(() => import("@/components/tools/GlyphBrowser")),
   "line-height-calc": lazyTool(() => import("@/components/tools/LineHeightCalc")),
+  "paper-sizes": lazyTool(() => import("@/components/tools/PaperSizes")),
+  "px-to-rem": lazyTool(() => import("@/components/tools/PxToRem")),
+  "typography-calc": lazyTool(() => import("@/components/tools/TypographyCalc")),
 
   // Extractors
   "url-extractor": lazyTool(() => import("@/components/tools/UrlExtractor")),
@@ -261,6 +265,9 @@ export const toolComponents: Record<string, ComponentType> = {
   "base64-encode": lazyTool(() => import("@/components/tools/Base64Tool")),
   "hash-generator": lazyTool(() => import("@/components/tools/HashGenerator")),
   "pdf-signature-checker": lazyTool(() => import("@/components/tools/PDFSignatureChecker")),
+  "pdf-preflight": lazyTool(() => import("@/components/tools/PDFPreflight")),
+  "imposer": lazyTool(() => import("@/components/tools/Imposer")),
+  "zine-imposer": lazyTool(() => import("@/components/tools/ZineImposer")),
   "hex-binary": lazyTool(() => import("@/components/tools/HexBinary")),
   "html-entities": lazyTool(() => import("@/components/tools/HtmlEntities")),
   "jwt-decoder": lazyTool(() => import("@/components/tools/JwtDecoder")),
@@ -537,6 +544,30 @@ export const tools: ToolMeta[] = [
     icon: Type,
     keywords: ["line height", "leading", "typography", "ratio", "golden ratio", "font size", "readability"],
   },
+  {
+    slug: "paper-sizes",
+    name: "Paper Sizes",
+    tagline: "Compare and search paper sizes across ISO, US, and more standards",
+    category: "Text Utilities",
+    icon: Ruler,
+    keywords: ["paper", "size", "a4", "letter", "legal", "dimensions", "mm", "inch", "print", "sheet", "comparison"],
+  },
+  {
+    slug: "px-to-rem",
+    name: "PX to REM",
+    tagline: "Convert pixels to rem and rem to pixels with custom base size",
+    category: "Text Utilities",
+    icon: Ruler,
+    keywords: ["px", "rem", "convert", "pixel", "root em", "css", "font size", "unit", "responsive"],
+  },
+  {
+    slug: "typography-calc",
+    name: "Typography Calculator",
+    tagline: "Convert between px, pt, pc, em, rem, inches, mm, cm, agates, and ciceros",
+    category: "Text Utilities",
+    icon: Ruler,
+    keywords: ["typography", "unit", "convert", "px", "pt", "em", "rem", "pixel", "point", "pica", "inch", "mm", "cm", "cicero", "agate", "font"],
+  },
 
   // ===================== Extractors =====================
   {
@@ -668,6 +699,30 @@ export const tools: ToolMeta[] = [
     category: "Crypto & Security",
     icon: FileCheck,
     keywords: ["pdf", "signature", "verify", "digital", "certificate"],
+  },
+  {
+    slug: "pdf-preflight",
+    name: "PDF Preflight",
+    tagline: "Analyse PDFs for print-readiness issues",
+    category: "Dev Tools",
+    icon: FileSearch,
+    keywords: ["pdf", "preflight", "print", "bleed", "trim", "fonts", "colour", "dpi", "resolution", "prepress"],
+  },
+  {
+    slug: "imposer",
+    name: "Print Imposer",
+    tagline: "Impose PDF pages onto print sheets for saddle stitch, perfect bind, gang run, and more",
+    category: "Dev Tools",
+    icon: Grid3X3,
+    keywords: ["imposition", "impose", "print", "booklet", "saddle stitch", "perfect bind", "gang run", "n-up", "pdf", "prepress", "signature", "sheet", "duplex"],
+  },
+  {
+    slug: "zine-imposer",
+    name: "Zine Imposer",
+    tagline: "Make single-sheet zines from images — mini-zine and accordion folds",
+    category: "Dev Tools",
+    icon: BookOpen,
+    keywords: ["zine", "mini-zine", "accordion", "fold", "concertina", "folding", "pamphlet", "self-publish", "small press", "image", "print"],
   },
 
   // ===================== Converters =====================

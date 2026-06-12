@@ -1,0 +1,1702 @@
+import { useState, useCallback, useRef, useEffect } from "react";
+import {
+  Upload,
+  X,
+  FileText,
+  ChevronLeft,
+  ChevronRight,
+  CircleCheck,
+  CircleX,
+  TriangleAlert,
+  Info,
+  Loader2,
+  Download,
+  ExternalLink,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
+import {
+  PDFDocument,
+  PDFName,
+  PDFDict,
+  PDFArray,
+  PDFNumber,
+  PDFRef,
+  PDFHexString,
+  PDFString,
+  PDFRawStream,
+  PDFStream,
+  decodePDFRawStream,
+} from "pdf-lib";
+import { useFilePaste } from "@/hooks/use-file-paste";
+
+type PDFDocumentProxy = import("pdfjs-dist").PDFDocumentProxy;
+
+let pdfjsPromise: Promise<typeof import("pdfjs-dist")> | null = null;
+function getPdfJs() {
+  if (!pdfjsPromise) {
+    pdfjsPromise = import("pdfjs-dist").then((mod) => {
+      mod.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${mod.version}/pdf.worker.min.mjs`;
+      return mod;
+    });
+  }
+  return pdfjsPromise;
+}
+
+type Severity = "error" | "warning" | "info";
+type CheckCategory =
+  | "document"
+  | "geometry"
+  | "fonts"
+  | "colour"
+  | "images"
+  | "transparency";
+
+interface PreflightIssue {
+  severity: Severity;
+  category: CheckCategory;
+  message: string;
+  page?: number;
+  details?: string;
+}
+
+interface PageBox {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+interface PageInfo {
+  number: number;
+  width: number;
+  height: number;
+  mediaBox: PageBox;
+  trimBox?: PageBox;
+  bleedBox?: PageBox;
+  cropBox?: PageBox;
+}
+
+interface FontInfo {
+  name: string;
+  embedded: boolean;
+  type?: string;
+  data?: Uint8Array;
+  extension?: string;
+}
+
+interface ImageInfo {
+  name: string;
+  page: number;
+  width: number;
+  height: number;
+  dpi: number;
+}
+
+interface PreflightReport {
+  fileName: string;
+  fileSize: number;
+  pdfVersion: string;
+  pageCount: number;
+  encrypted: boolean;
+  title?: string;
+  author?: string;
+  subject?: string;
+  keywords?: string;
+  pages: PageInfo[];
+  fonts: FontInfo[];
+  issues: PreflightIssue[];
+  images: ImageInfo[];
+}
+
+interface PdfFile {
+  name: string;
+  size: number;
+  buffer: ArrayBuffer;
+}
+
+function formatSize(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+function arrayToBox(arr: PDFArray): PageBox {
+  const nums: number[] = [];
+  for (let i = 0; i < arr.size(); i++) {
+    const val = arr.get(i);
+    if (val instanceof PDFNumber) {
+      nums.push(val.asNumber());
+    } else if (val instanceof PDFRef) {
+      nums.push(0);
+    }
+  }
+  if (nums.length < 4) return { x: 0, y: 0, width: 612, height: 792 };
+  const [llx, lly, urx, ury] = nums;
+  return {
+    x: Math.min(llx, urx),
+    y: Math.min(lly, ury),
+    width: Math.abs(urx - llx),
+    height: Math.abs(ury - lly),
+  };
+}
+
+function ptsToMm(pts: number): number {
+  return pts * 0.352778;
+}
+
+const STANDARD_14_FONTS = new Set([
+  "Courier", "Courier-Bold", "Courier-BoldOblique", "Courier-Oblique",
+  "Helvetica", "Helvetica-Bold", "Helvetica-BoldOblique", "Helvetica-Oblique",
+  "Symbol", "Times-Bold", "Times-BoldItalic", "Times-Italic",
+  "Times-Roman", "ZapfDingbats",
+]);
+
+const CATEGORY_LABELS: Record<CheckCategory, string> = {
+  document: "Document",
+  geometry: "Geometry",
+  fonts: "Fonts",
+  colour: "Colour",
+  images: "Images",
+  transparency: "Transparency",
+};
+
+function extractFontData(
+  descriptor: PDFDict,
+  context: { lookup: (ref: PDFRef) => unknown }
+): { data: Uint8Array; extension: string } | null {
+  const entries: [string, string][] = [
+    ["FontFile", ".pfb"],
+    ["FontFile2", ".ttf"],
+    ["FontFile3", ".otf"],
+  ];
+
+  for (const [key, ext] of entries) {
+    let streamObj = descriptor.get(PDFName.of(key));
+    if (streamObj instanceof PDFRef) {
+      streamObj = context.lookup(streamObj);
+    }
+    if (streamObj instanceof PDFRawStream) {
+      try {
+        const decoded = decodePDFRawStream(streamObj);
+        return { data: decoded.decode() as Uint8Array, extension: ext };
+      } catch {
+        try {
+          return { data: streamObj.getContents(), extension: ext };
+        } catch {
+          return null;
+        }
+      }
+    }
+    if (streamObj instanceof PDFStream) {
+      try {
+        return { data: streamObj.getContents(), extension: ext };
+      } catch {
+        return null;
+      }
+    }
+  }
+  return null;
+}
+
+async function analyseWithPdfLib(
+  buffer: ArrayBuffer,
+  fileName: string,
+  fileSize: number
+): Promise<PreflightReport> {
+  const issues: PreflightIssue[] = [];
+  const pages: PageInfo[] = [];
+  const fontsMap = new Map<string, FontInfo>();
+
+  let doc: PDFDocument;
+  try {
+    doc = await PDFDocument.load(buffer, { ignoreEncryption: true });
+  } catch {
+    throw new Error("PARSE_ERROR");
+  }
+
+  const context = doc.context;
+  const headerBytes = new Uint8Array(buffer.slice(0, 20));
+  const headerStr = String.fromCharCode(...headerBytes);
+  const versionMatch = headerStr.match(/%PDF-(\d+\.\d+)/);
+  const pdfVersion = versionMatch ? versionMatch[1] : "unknown";
+
+  const trailer = context.trailerInfo;
+  const encrypted = !!trailer.Encrypt;
+  if (encrypted) {
+    issues.push({
+      severity: "error",
+      category: "document",
+      message: "PDF is encrypted or has security restrictions",
+      details:
+        "Encrypted PDFs cannot be reliably processed by most print workflows. Remove encryption before sending to print.",
+    });
+  }
+
+  const pdfPages = doc.getPages();
+  const pageCount = pdfPages.length;
+
+  if (pageCount === 0) {
+    issues.push({
+      severity: "error",
+      category: "document",
+      message: "PDF contains no pages",
+    });
+  }
+
+  let firstWidth = 0;
+  let firstHeight = 0;
+
+  for (let i = 0; i < pdfPages.length; i++) {
+    const page = pdfPages[i];
+    const pageNum = i + 1;
+
+    const mediaBoxRaw = page.node.get(PDFName.of("MediaBox"));
+    let mediaBox: PageBox;
+    if (mediaBoxRaw instanceof PDFArray) {
+      mediaBox = arrayToBox(mediaBoxRaw);
+    } else {
+      mediaBox = {
+        x: 0,
+        y: 0,
+        width: page.getWidth(),
+        height: page.getHeight(),
+      };
+    }
+
+    let trimBox: PageBox | undefined;
+    const trimBoxRaw = page.node.get(PDFName.of("TrimBox"));
+    if (trimBoxRaw instanceof PDFArray) {
+      trimBox = arrayToBox(trimBoxRaw);
+    }
+
+    let bleedBox: PageBox | undefined;
+    const bleedBoxRaw = page.node.get(PDFName.of("BleedBox"));
+    if (bleedBoxRaw instanceof PDFArray) {
+      bleedBox = arrayToBox(bleedBoxRaw);
+    }
+
+    let cropBox: PageBox | undefined;
+    const cropBoxRaw = page.node.get(PDFName.of("CropBox"));
+    if (cropBoxRaw instanceof PDFArray) {
+      cropBox = arrayToBox(cropBoxRaw);
+    }
+
+    pages.push({
+      number: pageNum,
+      width: mediaBox.width,
+      height: mediaBox.height,
+      mediaBox,
+      trimBox,
+      bleedBox,
+      cropBox,
+    });
+
+    if (!bleedBox) {
+      issues.push({
+        severity: "warning",
+        category: "geometry",
+        message: "No BleedBox defined",
+        page: pageNum,
+        details:
+          "Without a bleed area, content may be cut off at the page edge. Most printers require at least 3mm bleed.",
+      });
+    } else if (trimBox) {
+      const bleedLeft = trimBox.x - bleedBox.x;
+      const bleedBottom = trimBox.y - bleedBox.y;
+      const bleedRight =
+        bleedBox.x + bleedBox.width - (trimBox.x + trimBox.width);
+      const bleedTop =
+        bleedBox.y + bleedBox.height - (trimBox.y + trimBox.height);
+      const minBleed = Math.min(bleedLeft, bleedBottom, bleedRight, bleedTop);
+      if (minBleed < 8.5) {
+        issues.push({
+          severity: "warning",
+          category: "geometry",
+          message: `Bleed margin is only ${ptsToMm(minBleed).toFixed(1)}mm (minimum 3mm recommended)`,
+          page: pageNum,
+          details: `Smallest bleed margin found: ${minBleed.toFixed(1)}pt (${ptsToMm(minBleed).toFixed(1)}mm). Printers typically require at least 3mm.`,
+        });
+      }
+    }
+
+    if (!trimBox) {
+      issues.push({
+        severity: "info",
+        category: "geometry",
+        message: "No TrimBox defined",
+        page: pageNum,
+        details:
+          "The TrimBox defines the finished page size after cutting. Without it, the MediaBox is used as the trim size.",
+      });
+    }
+
+    if (i === 0) {
+      firstWidth = mediaBox.width;
+      firstHeight = mediaBox.height;
+    } else {
+      if (
+        Math.abs(mediaBox.width - firstWidth) > 1 ||
+        Math.abs(mediaBox.height - firstHeight) > 1
+      ) {
+        issues.push({
+          severity: "warning",
+          category: "geometry",
+          message: "Page size differs from page 1",
+          page: pageNum,
+          details: `Page ${pageNum}: ${mediaBox.width.toFixed(0)} x ${mediaBox.height.toFixed(0)}pt vs page 1: ${firstWidth.toFixed(0)} x ${firstHeight.toFixed(0)}pt`,
+        });
+      }
+    }
+
+    const resourcesRaw = page.node.get(PDFName.of("Resources"));
+    let resources: PDFDict | undefined;
+    if (resourcesRaw instanceof PDFDict) {
+      resources = resourcesRaw;
+    } else if (resourcesRaw instanceof PDFRef) {
+      const resolved = context.lookup(resourcesRaw);
+      if (resolved instanceof PDFDict) resources = resolved;
+    }
+
+    if (resources) {
+      const fontsRaw = resources.get(PDFName.of("Font"));
+      let fontsDict: PDFDict | undefined;
+      if (fontsRaw instanceof PDFDict) {
+        fontsDict = fontsRaw;
+      } else if (fontsRaw instanceof PDFRef) {
+        const resolved = context.lookup(fontsRaw);
+        if (resolved instanceof PDFDict) fontsDict = resolved;
+      }
+
+      if (fontsDict) {
+        const fontEntries = fontsDict.entries();
+        for (const [, fontValue] of fontEntries) {
+          let fontDict: PDFDict | undefined;
+          if (fontValue instanceof PDFDict) {
+            fontDict = fontValue;
+          } else if (fontValue instanceof PDFRef) {
+            const resolved = context.lookup(fontValue);
+            if (resolved instanceof PDFDict) fontDict = resolved;
+          }
+
+          if (!fontDict) continue;
+
+          const baseFontRaw = fontDict.get(PDFName.of("BaseFont"));
+          let fontName = "Unknown";
+          if (baseFontRaw instanceof PDFName) {
+            fontName = baseFontRaw.decodeText();
+          } else if (
+            baseFontRaw instanceof PDFHexString ||
+            baseFontRaw instanceof PDFString
+          ) {
+            fontName = baseFontRaw.decodeText();
+          }
+
+          fontName = fontName.replace(/^[A-Z]{6}\+/, "");
+
+          const subtypeRaw = fontDict.get(PDFName.of("Subtype"));
+          let fontType: string | undefined;
+          if (subtypeRaw instanceof PDFName) {
+            fontType = subtypeRaw.decodeText();
+          }
+
+          let embedded = false;
+          let fontData: { data: Uint8Array; extension: string } | null = null;
+          const descriptorRaw = fontDict.get(PDFName.of("FontDescriptor"));
+          let descriptor: PDFDict | undefined;
+          if (descriptorRaw instanceof PDFDict) {
+            descriptor = descriptorRaw;
+          } else if (descriptorRaw instanceof PDFRef) {
+            const resolved = context.lookup(descriptorRaw);
+            if (resolved instanceof PDFDict) descriptor = resolved;
+          }
+
+          if (descriptor) {
+            const ff1 = descriptor.get(PDFName.of("FontFile"));
+            const ff2 = descriptor.get(PDFName.of("FontFile2"));
+            const ff3 = descriptor.get(PDFName.of("FontFile3"));
+            embedded = !!(ff1 || ff2 || ff3);
+            if (embedded) {
+              fontData = extractFontData(descriptor, context);
+            }
+          }
+
+          if (!embedded && STANDARD_14_FONTS.has(fontName)) {
+            embedded = true;
+          }
+
+          if (!embedded && fontType === "Type0") {
+            const descendants = fontDict.get(PDFName.of("DescendantFonts"));
+            if (descendants instanceof PDFArray) {
+              for (let d = 0; d < descendants.size(); d++) {
+                let cidFont: PDFDict | undefined;
+                const desc = descendants.get(d);
+                if (desc instanceof PDFDict) cidFont = desc;
+                else if (desc instanceof PDFRef) {
+                  const resolved = context.lookup(desc);
+                  if (resolved instanceof PDFDict) cidFont = resolved;
+                }
+                if (cidFont) {
+                  const cidDesc = cidFont.get(PDFName.of("FontDescriptor"));
+                  let cidDescriptor: PDFDict | undefined;
+                  if (cidDesc instanceof PDFDict) cidDescriptor = cidDesc;
+                  else if (cidDesc instanceof PDFRef) {
+                    const resolved = context.lookup(cidDesc);
+                    if (resolved instanceof PDFDict) cidDescriptor = resolved;
+                  }
+                  if (cidDescriptor) {
+                    const ff1 = cidDescriptor.get(PDFName.of("FontFile"));
+                    const ff2 = cidDescriptor.get(PDFName.of("FontFile2"));
+                    const ff3 = cidDescriptor.get(PDFName.of("FontFile3"));
+                    if (ff1 || ff2 || ff3) {
+                      embedded = true;
+                      if (!fontData) {
+                        fontData = extractFontData(cidDescriptor, context);
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          const key = `${fontName}:${fontType ?? ""}`;
+          if (!fontsMap.has(key)) {
+            fontsMap.set(key, {
+              name: fontName,
+              embedded,
+              type: fontType,
+              data: fontData?.data,
+              extension: fontData?.extension,
+            });
+          }
+        }
+      }
+
+      const groupRaw = page.node.get(PDFName.of("Group"));
+      let groupDict: PDFDict | undefined;
+      if (groupRaw instanceof PDFDict) groupDict = groupRaw;
+      else if (groupRaw instanceof PDFRef) {
+        const resolved = context.lookup(groupRaw);
+        if (resolved instanceof PDFDict) groupDict = resolved;
+      }
+      if (groupDict) {
+        const sRaw = groupDict.get(PDFName.of("S"));
+        if (sRaw instanceof PDFName && sRaw.decodeText() === "Transparency") {
+          if (parseFloat(pdfVersion) < 1.4) {
+            issues.push({
+              severity: "error",
+              category: "transparency",
+              message: "Transparency used in a PDF older than 1.4",
+              page: pageNum,
+              details:
+                "PDF versions before 1.4 do not support transparency. This may cause rendering issues.",
+            });
+          } else {
+            issues.push({
+              severity: "info",
+              category: "transparency",
+              message: "Page uses transparency group",
+              page: pageNum,
+              details:
+                "This page has a transparency group. Ensure your printer/RIP supports transparency or flatten before printing.",
+            });
+          }
+        }
+      }
+
+      const extGStateRaw = resources.get(PDFName.of("ExtGState"));
+      let extGStateDict: PDFDict | undefined;
+      if (extGStateRaw instanceof PDFDict) extGStateDict = extGStateRaw;
+      else if (extGStateRaw instanceof PDFRef) {
+        const resolved = context.lookup(extGStateRaw);
+        if (resolved instanceof PDFDict) extGStateDict = resolved;
+      }
+
+      if (extGStateDict) {
+        const gsEntries = extGStateDict.entries();
+        let hasTransparency = false;
+        for (const [, gsValue] of gsEntries) {
+          let gsDict: PDFDict | undefined;
+          if (gsValue instanceof PDFDict) gsDict = gsValue;
+          else if (gsValue instanceof PDFRef) {
+            const resolved = context.lookup(gsValue);
+            if (resolved instanceof PDFDict) gsDict = resolved;
+          }
+          if (!gsDict) continue;
+
+          const caRaw = gsDict.get(PDFName.of("ca"));
+          if (caRaw instanceof PDFNumber && caRaw.asNumber() < 1) {
+            hasTransparency = true;
+          }
+
+          const caStrokeRaw = gsDict.get(PDFName.of("CA"));
+          if (caStrokeRaw instanceof PDFNumber && caStrokeRaw.asNumber() < 1) {
+            hasTransparency = true;
+          }
+
+          const smaskRaw = gsDict.get(PDFName.of("SMask"));
+          if (
+            smaskRaw &&
+            !(smaskRaw instanceof PDFName && smaskRaw.decodeText() === "None")
+          ) {
+            hasTransparency = true;
+          }
+        }
+
+        if (hasTransparency) {
+          if (parseFloat(pdfVersion) < 1.4) {
+            issues.push({
+              severity: "error",
+              category: "transparency",
+              message: "Transparency effects used in a PDF older than 1.4",
+              page: pageNum,
+              details:
+                "Opacity or soft mask settings require PDF 1.4+. This may not render correctly.",
+            });
+          } else {
+            issues.push({
+              severity: "info",
+              category: "transparency",
+              message:
+                "Page uses transparency effects (opacity or soft mask)",
+              page: pageNum,
+              details:
+                "Elements with reduced opacity or soft masks were detected. Consider flattening transparency for older RIPs.",
+            });
+          }
+        }
+      }
+    }
+  }
+
+  const fonts = Array.from(fontsMap.values());
+  for (const font of fonts) {
+    if (!font.embedded) {
+      issues.push({
+        severity: "error",
+        category: "fonts",
+        message: `Font "${font.name}" is not embedded`,
+        details:
+          "Non-embedded fonts may render incorrectly or cause missing text at the printer. Embed all fonts before sending to print.",
+      });
+    }
+    if (font.type === "Type3") {
+      issues.push({
+        severity: "warning",
+        category: "fonts",
+        message: `Font "${font.name}" is a Type 3 font`,
+        details:
+          "Type 3 fonts are bitmap-based and may not scale well. Consider replacing with an outline font.",
+      });
+    }
+  }
+
+  if (parseFloat(pdfVersion) < 1.4) {
+    issues.push({
+      severity: "warning",
+      category: "document",
+      message: `PDF version ${pdfVersion} is below 1.4`,
+      details:
+        "PDF 1.4+ is recommended for modern print workflows. Older versions lack support for transparency and other features.",
+    });
+  }
+
+  for (const pageInfo of pages) {
+    const orientation =
+      pageInfo.width > pageInfo.height ? "Landscape" : "Portrait";
+    issues.push({
+      severity: "info",
+      category: "geometry",
+      message: `${orientation} orientation`,
+      page: pageInfo.number,
+      details: `${pageInfo.width.toFixed(0)} x ${pageInfo.height.toFixed(0)}pt (${ptsToMm(pageInfo.width).toFixed(0)} x ${ptsToMm(pageInfo.height).toFixed(0)}mm)`,
+    });
+  }
+
+  if (pages.length > 1) {
+    const orientations = pages.map((p) =>
+      p.width > p.height ? "landscape" : "portrait"
+    );
+    const hasMixed = new Set(orientations).size > 1;
+    if (hasMixed) {
+      issues.push({
+        severity: "warning",
+        category: "geometry",
+        message: "Mixed page orientations detected",
+        details:
+          "Some pages are portrait and others are landscape. This may cause issues with imposition and binding.",
+      });
+    }
+  }
+
+  let title: string | undefined;
+  let author: string | undefined;
+  let subject: string | undefined;
+  let keywords: string | undefined;
+  try {
+    title = doc.getTitle() ?? undefined;
+    author = doc.getAuthor() ?? undefined;
+    subject = doc.getSubject() ?? undefined;
+    keywords = doc.getKeywords() ?? undefined;
+  } catch {
+    // metadata extraction may fail for some PDFs
+  }
+
+  return {
+    fileName,
+    fileSize,
+    pdfVersion,
+    pageCount,
+    encrypted,
+    title,
+    author,
+    subject,
+    keywords,
+    pages,
+    fonts,
+    issues,
+    images: [],
+  };
+}
+
+async function analyseWithPdfJs(
+  buffer: ArrayBuffer
+): Promise<{ pdfDoc: PDFDocumentProxy; issues: PreflightIssue[]; images: ImageInfo[] }> {
+  const pdfjsLib = await getPdfJs();
+  const issues: PreflightIssue[] = [];
+
+  const loadingTask = pdfjsLib.getDocument({ data: buffer.slice(0) });
+  const pdfDoc = await loadingTask.promise;
+
+  const images: ImageInfo[] = [];
+
+  for (let i = 1; i <= pdfDoc.numPages; i++) {
+    const page = await pdfDoc.getPage(i);
+    const opList = await page.getOperatorList();
+
+    let imageCount = 0;
+    const colourSpaces = new Set<string>();
+
+    const OPS = pdfjsLib.OPS;
+    for (let j = 0; j < opList.fnArray.length; j++) {
+      const fn = opList.fnArray[j];
+
+      if (fn === OPS.paintImageXObject || fn === OPS.paintXObject || fn === OPS.paintImageXObjectRepeat) {
+        imageCount++;
+      }
+
+      if (fn === OPS.setFillColorSpace || fn === OPS.setStrokeColorSpace) {
+        const args = opList.argsArray[j];
+        if (args && args[0]) {
+          const csName =
+            typeof args[0] === "string" ? args[0] : String(args[0]);
+          colourSpaces.add(csName);
+        }
+      }
+    }
+
+    const csArray = Array.from(colourSpaces);
+    const hasRGB = csArray.some(
+      (cs) => cs.includes("RGB") || cs.includes("DeviceRGB") || cs === "rgb"
+    );
+    const hasCMYK = csArray.some(
+      (cs) =>
+        cs.includes("CMYK") || cs.includes("DeviceCMYK") || cs === "cmyk"
+    );
+    const hasGray = csArray.some(
+      (cs) =>
+        cs.includes("Gray") || cs.includes("DeviceGray") || cs === "gray"
+    );
+    const hasSpot = csArray.some(
+      (cs) =>
+        cs.includes("Separation") || cs.includes("DeviceN") || cs === "spot"
+    );
+
+    if (hasRGB) {
+      issues.push({
+        severity: "warning",
+        category: "colour",
+        message: "RGB colour space detected",
+        page: i,
+        details:
+          "RGB colours may shift when converted to CMYK for print. Consider converting to CMYK before sending to a commercial printer.",
+      });
+    }
+
+    if (hasGray) {
+      issues.push({
+        severity: "info",
+        category: "colour",
+        message: "Grayscale colour space detected",
+        page: i,
+        details:
+          "Grayscale content found. This is generally fine for print but ensure it meets your colour requirements.",
+      });
+    }
+
+    if (hasSpot) {
+      issues.push({
+        severity: "info",
+        category: "colour",
+        message: "Spot colour or DeviceN colour space detected",
+        page: i,
+        details:
+          "Spot colours were found. Verify your printer supports the spot colour inks used, or convert to CMYK process colours.",
+      });
+    }
+
+    const activeSpaces = [hasRGB && "RGB", hasCMYK && "CMYK", hasGray && "Gray", hasSpot && "Spot"].filter(Boolean);
+    if (activeSpaces.length > 1) {
+      issues.push({
+        severity: "warning",
+        category: "colour",
+        message: `Mixed colour spaces (${activeSpaces.join(", ")})`,
+        page: i,
+        details:
+          "Multiple colour spaces on this page can cause inconsistent colour output. Consider converting to a single colour space.",
+      });
+    }
+
+    if (imageCount > 0) {
+      issues.push({
+        severity: "info",
+        category: "images",
+        message: `${imageCount} image${imageCount > 1 ? "s" : ""} found`,
+        page: i,
+        details:
+          "Ensure images are at least 300 DPI for print. Low-resolution images may appear pixelated.",
+      });
+    }
+
+    const pageViewport = page.getViewport({ scale: 1 });
+    const pageWidthInches = pageViewport.width / 72;
+    const pageHeightInches = pageViewport.height / 72;
+
+    const seenImages = new Set<string>();
+    for (let j = 0; j < opList.fnArray.length; j++) {
+      const fn = opList.fnArray[j];
+      if (fn === OPS.paintImageXObject || fn === OPS.paintXObject) {
+        const args = opList.argsArray[j];
+        if (args && args[0]) {
+          try {
+            const imgName = typeof args[0] === "string" ? args[0] : String(args[0]);
+            if (seenImages.has(imgName)) continue;
+            seenImages.add(imgName);
+
+            const imgObj = await new Promise<{ width: number; height: number } | null>((resolve) => {
+              let resolved = false;
+              const timer = setTimeout(() => {
+                if (!resolved) { resolved = true; resolve(null); }
+              }, 500);
+              try {
+                (page as unknown as { objs: { get: (name: string, cb: (obj: unknown) => void) => void } }).objs.get(imgName, (obj: unknown) => {
+                  if (resolved) return;
+                  resolved = true;
+                  clearTimeout(timer);
+                  if (obj && typeof obj === "object" && "width" in obj && "height" in obj) {
+                    resolve(obj as { width: number; height: number });
+                  } else {
+                    resolve(null);
+                  }
+                });
+              } catch {
+                resolved = true;
+                clearTimeout(timer);
+                resolve(null);
+              }
+            });
+
+            if (imgObj && imgObj.width > 0 && imgObj.height > 0) {
+              const dpiX = imgObj.width / pageWidthInches;
+              const dpiY = imgObj.height / pageHeightInches;
+              const effectiveDpi = Math.min(dpiX, dpiY);
+
+              images.push({ name: imgName, page: i, width: imgObj.width, height: imgObj.height, dpi: Math.round(effectiveDpi) });
+
+              if (effectiveDpi < 72) {
+                issues.push({
+                  severity: "error",
+                  category: "images",
+                  message: `Very low resolution image (~${Math.round(effectiveDpi)} DPI at full page)`,
+                  page: i,
+                  details: `Image "${imgName}" is ${imgObj.width}x${imgObj.height}px (~${Math.round(effectiveDpi)} DPI if filling the page). This will appear pixelated in print.`,
+                });
+              } else if (effectiveDpi < 150) {
+                issues.push({
+                  severity: "warning",
+                  category: "images",
+                  message: `Low resolution image (~${Math.round(effectiveDpi)} DPI at full page)`,
+                  page: i,
+                  details: `Image "${imgName}" is ${imgObj.width}x${imgObj.height}px (~${Math.round(effectiveDpi)} DPI if filling the page). For best quality, use 300 DPI or higher.`,
+                });
+              }
+            }
+          } catch {
+            // Skip DPI estimation for this image
+          }
+        }
+      }
+    }
+
+    page.cleanup();
+  }
+
+  return { pdfDoc, issues, images };
+}
+
+export default function PDFPreflight() {
+  const [file, setFile] = useState<PdfFile | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [isDragActive, setIsDragActive] = useState(false);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const [report, setReport] = useState<PreflightReport | null>(null);
+  const [analysing, setAnalysing] = useState(false);
+  const [pdfDoc, setPdfDoc] = useState<PDFDocumentProxy | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  const validateAndLoadFile = useCallback((candidate: File) => {
+    setError(null);
+
+    if (candidate.type && candidate.type !== "application/pdf") {
+      setError("Please upload a PDF file.");
+      return;
+    }
+
+    if (!candidate.name.toLowerCase().endsWith(".pdf")) {
+      setError("Please upload a file with a .pdf extension.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const buffer = reader.result as ArrayBuffer;
+
+      const header = new Uint8Array(buffer.slice(0, 5));
+      const magic = String.fromCharCode(...header);
+      if (!magic.startsWith("%PDF")) {
+        setError("The file does not appear to be a valid PDF.");
+        return;
+      }
+
+      setFile({ name: candidate.name, size: candidate.size, buffer });
+    };
+    reader.onerror = () => {
+      setError("Failed to read the file. Please try again.");
+    };
+    reader.readAsArrayBuffer(candidate);
+  }, []);
+
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      setIsDragActive(false);
+      const dropped = e.dataTransfer.files[0];
+      if (dropped) validateAndLoadFile(dropped);
+    },
+    [validateAndLoadFile]
+  );
+
+  const handleDragOver = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragActive(true);
+  }, []);
+
+  const handleDragLeave = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragActive(false);
+  }, []);
+
+  const handleFileSelect = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const selected = e.target.files?.[0];
+      if (selected) validateAndLoadFile(selected);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    },
+    [validateAndLoadFile]
+  );
+
+  useFilePaste(validateAndLoadFile, ".pdf,application/pdf");
+
+  const handleClear = useCallback(() => {
+    if (pdfDoc) pdfDoc.destroy();
+    setFile(null);
+    setError(null);
+    setReport(null);
+    setAnalysing(false);
+    setPdfDoc(null);
+    setCurrentPage(1);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  }, [pdfDoc]);
+
+  useEffect(() => {
+    return () => {
+      pdfDoc?.destroy();
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (!file) {
+      setReport(null);
+      setPdfDoc(null);
+      return;
+    }
+
+    let cancelled = false;
+
+    async function runAnalysis(f: PdfFile) {
+      setAnalysing(true);
+      setError(null);
+      setReport(null);
+      setPdfDoc(null);
+      setCurrentPage(1);
+
+      try {
+        const structReport = await analyseWithPdfLib(f.buffer, f.name, f.size);
+        if (cancelled) return;
+
+        try {
+          const { pdfDoc: doc, issues: pdjsIssues, images: imgInfos } = await analyseWithPdfJs(
+            f.buffer
+          );
+          if (cancelled) {
+            doc.destroy();
+            return;
+          }
+          structReport.issues.push(...pdjsIssues);
+          structReport.images = imgInfos;
+          setPdfDoc(doc);
+        } catch (pdfJsErr) {
+          console.warn("pdf.js analysis failed:", pdfJsErr);
+          structReport.issues.push({
+            severity: "warning",
+            category: "document",
+            message: "Could not render page previews",
+            details:
+              "The page preview and image analysis could not be loaded. Structural analysis is still available.",
+          });
+        }
+
+        if (!cancelled) {
+          setReport(structReport);
+        }
+      } catch (e) {
+        if (cancelled) return;
+        const msg = e instanceof Error ? e.message : "";
+        if (msg === "PARSE_ERROR") {
+          setError("Could not parse this PDF file.");
+        } else if (msg.includes("encrypted") || msg.includes("password")) {
+          setError(
+            "This PDF is encrypted or password-protected and cannot be analysed."
+          );
+        } else {
+          setError("Could not parse this PDF file.");
+        }
+      } finally {
+        if (!cancelled) setAnalysing(false);
+      }
+    }
+
+    runAnalysis(file);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [file]);
+
+  useEffect(() => {
+    if (!pdfDoc || !canvasRef.current || !report) return;
+
+    let cancelled = false;
+
+    async function renderPage() {
+      if (!pdfDoc || !canvasRef.current || !report) return;
+
+      const page = await pdfDoc.getPage(currentPage);
+      const viewport = page.getViewport({ scale: 1 });
+
+      const desiredWidth = 600;
+      const scale = desiredWidth / viewport.width;
+      const scaledViewport = page.getViewport({ scale });
+
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+
+      canvas.width = scaledViewport.width;
+      canvas.height = scaledViewport.height;
+
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+
+      await page.render({
+        canvas,
+        viewport: scaledViewport,
+      }).promise;
+
+      if (cancelled) return;
+
+      const pageInfo = report.pages[currentPage - 1];
+      if (!pageInfo) return;
+
+      const mediaBox = pageInfo.mediaBox;
+
+      function drawBox(box: PageBox | undefined, colour: string) {
+        if (!box || !ctx || !canvas) return;
+
+        const x1 = (box.x - mediaBox.x) * scale;
+        const y1 =
+          canvas.height - (box.y + box.height - mediaBox.y) * scale;
+        const w = box.width * scale;
+        const h = box.height * scale;
+
+        ctx.save();
+        ctx.strokeStyle = colour;
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([6, 4]);
+        ctx.strokeRect(x1, y1, w, h);
+        ctx.restore();
+      }
+
+      drawBox(pageInfo.trimBox, "#3b82f6");
+      drawBox(pageInfo.bleedBox, "#ef4444");
+      drawBox(pageInfo.cropBox, "#22c55e");
+    }
+
+    renderPage();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [pdfDoc, currentPage, report]);
+
+  const errorCount =
+    report?.issues.filter((i) => i.severity === "error").length ?? 0;
+  const warningCount =
+    report?.issues.filter((i) => i.severity === "warning").length ?? 0;
+  const infoCount =
+    report?.issues.filter((i) => i.severity === "info").length ?? 0;
+
+  const issuesByCategory = report
+    ? (Object.keys(CATEGORY_LABELS) as CheckCategory[]).reduce(
+        (acc, cat) => {
+          const catIssues = report.issues.filter((i) => i.category === cat);
+          if (catIssues.length > 0) acc[cat] = catIssues;
+          return acc;
+        },
+        {} as Record<CheckCategory, PreflightIssue[]>
+      )
+    : {};
+
+  const issuesByPage = report
+    ? Array.from({ length: report.pageCount }, (_, i) => {
+        const pageNum = i + 1;
+        return {
+          page: pageNum,
+          issues: report.issues.filter((iss) => iss.page === pageNum),
+        };
+      }).filter((p) => p.issues.length > 0)
+    : [];
+
+  return (
+    <div className="space-y-6">
+      {!file ? (
+        <div
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onClick={() => fileInputRef.current?.click()}
+          className={cn(
+            "border-2 border-dashed rounded-xl p-8 text-center transition-colors cursor-pointer",
+            isDragActive
+              ? "border-primary bg-primary/5"
+              : "hover:border-primary/50"
+          )}
+        >
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".pdf,application/pdf"
+            onChange={handleFileSelect}
+            className="hidden"
+          />
+          <Upload className="size-12 mx-auto text-muted-foreground mb-4" />
+          <p className="text-lg font-medium">Drop a PDF here</p>
+          <p className="text-sm text-muted-foreground mt-1">
+            or click to select a file, or paste
+          </p>
+        </div>
+      ) : (
+        <div className="border rounded-xl p-6">
+          <div className="flex items-center gap-4">
+            <FileText className="size-10 text-muted-foreground shrink-0" />
+            <div className="min-w-0 flex-1">
+              <p className="font-medium truncate">{file.name}</p>
+              <p className="text-sm text-muted-foreground">
+                {formatSize(file.size)}
+              </p>
+            </div>
+            <Button variant="ghost" size="icon" onClick={handleClear}>
+              <X className="size-4" />
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {error && <p className="text-sm text-destructive">{error}</p>}
+
+      {analysing && (
+        <div className="flex items-center justify-center gap-3 py-12">
+          <Loader2 className="size-5 animate-spin text-muted-foreground" />
+          <span className="text-muted-foreground">Analysing PDF...</span>
+        </div>
+      )}
+
+      {report && !analysing && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="space-y-4">
+            <h3 className="font-semibold text-sm">Page Preview</h3>
+
+            {pdfDoc ? (
+              <>
+                <div className="border rounded-lg overflow-hidden bg-muted/30">
+                  <canvas
+                    ref={canvasRef}
+                    className="w-full h-auto"
+                    style={{ display: "block" }}
+                  />
+                </div>
+
+                <div className="flex items-center justify-center gap-3">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    disabled={currentPage <= 1}
+                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                  >
+                    <ChevronLeft className="size-4" />
+                  </Button>
+                  <span className="text-sm text-muted-foreground tabular-nums">
+                    Page {currentPage} of {report.pageCount}
+                  </span>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    disabled={currentPage >= report.pageCount}
+                    onClick={() =>
+                      setCurrentPage((p) =>
+                        Math.min(report.pageCount, p + 1)
+                      )
+                    }
+                  >
+                    <ChevronRight className="size-4" />
+                  </Button>
+                </div>
+
+                <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-4 h-0 border-t-2 border-dashed border-blue-500" />
+                    Trim
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-4 h-0 border-t-2 border-dashed border-red-500" />
+                    Bleed
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-4 h-0 border-t-2 border-dashed border-green-500" />
+                    Crop
+                  </span>
+                </div>
+              </>
+            ) : (
+              <div className="border rounded-lg p-8 text-center text-muted-foreground text-sm">
+                Page preview unavailable
+              </div>
+            )}
+
+            {report.pages[currentPage - 1] && (
+              <div className="text-xs text-muted-foreground space-y-1">
+                <p>
+                  <span className="font-medium">Page size:</span>{" "}
+                  {report.pages[currentPage - 1].width.toFixed(0)} x{" "}
+                  {report.pages[currentPage - 1].height.toFixed(0)}pt (
+                  {ptsToMm(report.pages[currentPage - 1].width).toFixed(0)} x{" "}
+                  {ptsToMm(report.pages[currentPage - 1].height).toFixed(0)}
+                  mm)
+                </p>
+                {report.pages[currentPage - 1].trimBox && (
+                  <p>
+                    <span className="font-medium">Trim:</span>{" "}
+                    {report.pages[currentPage - 1].trimBox!.width.toFixed(0)} x{" "}
+                    {report.pages[currentPage - 1].trimBox!.height.toFixed(0)}pt
+                  </p>
+                )}
+                {report.pages[currentPage - 1].bleedBox && (
+                  <p>
+                    <span className="font-medium">Bleed:</span>{" "}
+                    {report.pages[currentPage - 1].bleedBox!.width.toFixed(0)}{" "}
+                    x{" "}
+                    {report.pages[currentPage - 1].bleedBox!.height.toFixed(0)}
+                    pt
+                  </p>
+                )}
+              </div>
+            )}
+
+            {(() => {
+              const pageIssues = report.issues.filter(
+                (i) => i.page === currentPage
+              );
+              if (pageIssues.length === 0) return null;
+              return (
+                <div className="space-y-1.5">
+                  <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                    Page {currentPage} issues
+                  </h4>
+                  {pageIssues.map((issue) => (
+                    <div
+                      key={`${issue.category}-${issue.severity}-${issue.message}`}
+                      className="flex items-start gap-2 rounded-md border px-3 py-2"
+                    >
+                      {issue.severity === "error" && (
+                        <CircleX className="size-3.5 shrink-0 mt-0.5 text-red-500" />
+                      )}
+                      {issue.severity === "warning" && (
+                        <TriangleAlert className="size-3.5 shrink-0 mt-0.5 text-amber-500" />
+                      )}
+                      {issue.severity === "info" && (
+                        <Info className="size-3.5 shrink-0 mt-0.5 text-blue-500" />
+                      )}
+                      <div className="min-w-0">
+                        <p className="text-xs font-medium">{issue.message}</p>
+                        {issue.details && (
+                          <p className="text-xs text-muted-foreground mt-0.5">
+                            {issue.details}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              );
+            })()}
+          </div>
+
+          <div className="space-y-4">
+            <div
+              className={cn(
+                "flex items-center gap-3 rounded-lg p-4",
+                errorCount === 0
+                  ? "bg-green-500/10 text-green-700 dark:text-green-400"
+                  : "bg-red-500/10 text-red-700 dark:text-red-400"
+              )}
+            >
+              {errorCount === 0 ? (
+                <>
+                  <CircleCheck className="size-6 shrink-0" />
+                  <div>
+                    <p className="font-semibold">Ready for print</p>
+                    <p className="text-sm opacity-80">
+                      No critical issues found
+                    </p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <CircleX className="size-6 shrink-0" />
+                  <div>
+                    <p className="font-semibold">Issues found</p>
+                    <p className="text-sm opacity-80">
+                      {errorCount} error{errorCount !== 1 ? "s" : ""} must be
+                      resolved before printing
+                    </p>
+                  </div>
+                </>
+              )}
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              {errorCount > 0 && (
+                <span className="rounded-full px-2.5 py-0.5 text-xs font-medium bg-red-500/10 text-red-700 dark:text-red-400">
+                  {errorCount} error{errorCount !== 1 ? "s" : ""}
+                </span>
+              )}
+              {warningCount > 0 && (
+                <span className="rounded-full px-2.5 py-0.5 text-xs font-medium bg-amber-500/10 text-amber-700 dark:text-amber-400">
+                  {warningCount} warning{warningCount !== 1 ? "s" : ""}
+                </span>
+              )}
+              {infoCount > 0 && (
+                <span className="rounded-full px-2.5 py-0.5 text-xs font-medium bg-blue-500/10 text-blue-700 dark:text-blue-400">
+                  {infoCount} info
+                </span>
+              )}
+              {report.issues.length === 0 && (
+                <span className="rounded-full px-2.5 py-0.5 text-xs font-medium bg-green-500/10 text-green-700 dark:text-green-400">
+                  All checks passed
+                </span>
+              )}
+            </div>
+
+            {/* Summary bar */}
+            {report.issues.length > 0 && (
+              <div className="flex h-2 overflow-hidden rounded-full bg-muted">
+                {errorCount > 0 && (
+                  <div
+                    className="bg-red-500 transition-all"
+                    style={{ width: `${(errorCount / report.issues.length) * 100}%` }}
+                  />
+                )}
+                {warningCount > 0 && (
+                  <div
+                    className="bg-amber-500 transition-all"
+                    style={{ width: `${(warningCount / report.issues.length) * 100}%` }}
+                  />
+                )}
+                {infoCount > 0 && (
+                  <div
+                    className="bg-blue-500 transition-all"
+                    style={{ width: `${(infoCount / report.issues.length) * 100}%` }}
+                  />
+                )}
+              </div>
+            )}
+
+            <Separator />
+
+            {/* Metadata section */}
+            {(report.title || report.author || report.subject || report.keywords) && (
+              <>
+                <div className="space-y-1.5">
+                  <h4 className="text-sm font-semibold">Document Info</h4>
+                  {report.title && (
+                    <div className="flex items-start gap-2 text-sm">
+                      <span className="text-muted-foreground shrink-0 w-16">Title</span>
+                      <span className="truncate">{report.title}</span>
+                    </div>
+                  )}
+                  {report.author && (
+                    <div className="flex items-start gap-2 text-sm">
+                      <span className="text-muted-foreground shrink-0 w-16">Author</span>
+                      <span className="truncate">{report.author}</span>
+                    </div>
+                  )}
+                  {report.subject && (
+                    <div className="flex items-start gap-2 text-sm">
+                      <span className="text-muted-foreground shrink-0 w-16">Subject</span>
+                      <span className="truncate">{report.subject}</span>
+                    </div>
+                  )}
+                  {report.keywords && (
+                    <div className="flex items-start gap-2 text-sm">
+                      <span className="text-muted-foreground shrink-0 w-16">Keywords</span>
+                      <span className="truncate">{report.keywords}</span>
+                    </div>
+                  )}
+                </div>
+                <Separator />
+              </>
+            )}
+
+            {/* Page size summary */}
+            <div>
+              <button
+                type="button"
+                onClick={() => {
+                  const el = document.getElementById("pdf-page-summary");
+                  if (el) el.classList.toggle("hidden");
+                }}
+                className="text-sm font-semibold mb-2 hover:text-foreground/80 transition-colors cursor-pointer"
+              >
+                Page Sizes ({report.pages.length})
+              </button>
+              <div id="pdf-page-summary" className="hidden space-y-0.5">
+                <div className="grid grid-cols-4 gap-2 text-[10px] font-medium text-muted-foreground uppercase tracking-wide pb-1">
+                  <span>Page</span>
+                  <span>Width</span>
+                  <span>Height</span>
+                  <span>Orientation</span>
+                </div>
+                {report.pages.map((p) => (
+                  <div
+                    key={p.number}
+                    className="grid grid-cols-4 gap-2 text-xs tabular-nums hover:bg-muted/50 rounded-sm px-1 py-0.5 cursor-pointer"
+                    onClick={() => setCurrentPage(p.number)}
+                  >
+                    <span>{p.number}</span>
+                    <span>{p.width.toFixed(0)}pt</span>
+                    <span>{p.height.toFixed(0)}pt</span>
+                    <span>{p.width > p.height ? "Landscape" : "Portrait"}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {report.images.length > 0 && (
+              <>
+                <Separator />
+                <div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const el = document.getElementById("pdf-image-summary");
+                      if (el) el.classList.toggle("hidden");
+                    }}
+                    className="text-sm font-semibold mb-2 hover:text-foreground/80 transition-colors cursor-pointer"
+                  >
+                    Images ({report.images.length})
+                  </button>
+                  <div id="pdf-image-summary" className="hidden space-y-0.5">
+                    <div className="grid grid-cols-4 gap-2 text-[10px] font-medium text-muted-foreground uppercase tracking-wide pb-1">
+                      <span>Page</span>
+                      <span>Size</span>
+                      <span>DPI</span>
+                      <span>Status</span>
+                    </div>
+                    {report.images.map((img, idx) => (
+                      <div
+                        key={`${img.page}-${img.name}-${idx}`}
+                        className="grid grid-cols-4 gap-2 text-xs tabular-nums px-1 py-0.5"
+                      >
+                        <span>p.{img.page}</span>
+                        <span>{img.width}×{img.height}</span>
+                        <span>{img.dpi}</span>
+                        <span className={img.dpi >= 300 ? "text-green-600" : img.dpi >= 150 ? "text-amber-600" : "text-red-600"}>
+                          {img.dpi >= 300 ? "OK" : img.dpi >= 150 ? "Low" : "Bad"}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
+
+            {/* Export button */}
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                className="text-xs"
+                onClick={() => {
+                  const blob = new Blob([JSON.stringify(report, null, 2)], { type: "application/json" });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement("a");
+                  a.href = url;
+                  a.download = `${report.fileName.replace(/\.pdf$/i, "")}-preflight.json`;
+                  a.click();
+                  URL.revokeObjectURL(url);
+                }}
+              >
+                <Download className="size-3.5 mr-1.5" />
+                Export JSON
+              </Button>
+            </div>
+
+            <Separator />
+
+            <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm">
+              <span className="text-muted-foreground">PDF Version</span>
+              <span>{report.pdfVersion}</span>
+              <span className="text-muted-foreground">Pages</span>
+              <span>{report.pageCount}</span>
+              <span className="text-muted-foreground">File Size</span>
+              <span>{formatSize(report.fileSize)}</span>
+              <span className="text-muted-foreground">Encrypted</span>
+              <span>{report.encrypted ? "Yes" : "No"}</span>
+              <span className="text-muted-foreground">Fonts</span>
+              <span>
+                {report.fonts.length} (
+                {report.fonts.filter((f) => f.embedded).length} embedded)
+              </span>
+            </div>
+
+            {report.fonts.length > 0 && (
+              <>
+                <Separator />
+                <div>
+                  <h4 className="text-sm font-semibold mb-2">Fonts</h4>
+                  <div className="space-y-1">
+                    {report.fonts.map((font) => (
+                      <div
+                        key={`${font.name}-${font.type ?? ""}-${font.embedded}`}
+                        className="flex items-center justify-between text-sm gap-2"
+                      >
+                        <span className="truncate">
+                          {font.name}
+                          {font.type && (
+                            <span className="text-xs text-muted-foreground ml-1">
+                              ({font.type})
+                            </span>
+                          )}
+                        </span>
+                        <div className="flex items-center gap-1.5 shrink-0">
+                          <span
+                            className={cn(
+                              "text-xs",
+                              font.embedded
+                                ? "text-green-600 dark:text-green-400"
+                                : "text-red-600 dark:text-red-400"
+                            )}
+                          >
+                            {font.embedded ? "Embedded" : "Not embedded"}
+                          </span>
+                          {font.data && (
+                            <button
+                              type="button"
+                              title={`Download ${font.name}${font.extension}`}
+                              className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                              onClick={() => {
+                                const bytes = font.data!;
+                                const buf = bytes.buffer.slice(
+                                  bytes.byteOffset,
+                                  bytes.byteOffset + bytes.byteLength
+                                ) as ArrayBuffer;
+                                const blob = new Blob([buf], {
+                                  type: "application/octet-stream",
+                                });
+                                const url = URL.createObjectURL(blob);
+                                const a = document.createElement("a");
+                                a.href = url;
+                                a.download = `${font.name}${font.extension}`;
+                                a.click();
+                                URL.revokeObjectURL(url);
+                              }}
+                            >
+                              <Download className="size-3.5" />
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
+
+            {Object.keys(issuesByCategory).length > 0 && (
+              <>
+                <Separator />
+                <div className="space-y-4">
+                  <h4 className="text-sm font-semibold">Issues by Category</h4>
+                  {(
+                    Object.entries(issuesByCategory) as [
+                      CheckCategory,
+                      PreflightIssue[],
+                    ][]
+                  ).map(([category, catIssues]) => (
+                    <div key={category}>
+                      <h5 className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2">
+                        {CATEGORY_LABELS[category]}
+                      </h5>
+                      <div className="space-y-2">
+                        {catIssues.map((issue) => (
+                          <button
+                            key={`${issue.page ?? "x"}-${issue.severity}-${issue.message}`}
+                            type="button"
+                            className={cn(
+                              "w-full text-left rounded-lg border p-3 transition-colors",
+                              issue.page
+                                ? "hover:bg-muted/50 cursor-pointer"
+                                : "cursor-default"
+                            )}
+                            onClick={() => {
+                              if (issue.page) setCurrentPage(issue.page);
+                            }}
+                          >
+                            <div className="flex items-start gap-2">
+                              {issue.severity === "error" && (
+                                <CircleX className="size-4 shrink-0 mt-0.5 text-red-500" />
+                              )}
+                              {issue.severity === "warning" && (
+                                <TriangleAlert className="size-4 shrink-0 mt-0.5 text-amber-500" />
+                              )}
+                              {issue.severity === "info" && (
+                                <Info className="size-4 shrink-0 mt-0.5 text-blue-500" />
+                              )}
+                              <div className="min-w-0 flex-1">
+                                <p className="text-sm font-medium">
+                                  {issue.message}
+                                  {issue.page && (
+                                    <span className="text-xs text-muted-foreground font-normal ml-1.5">
+                                      p.{issue.page}
+                                    </span>
+                                  )}
+                                </p>
+                                {issue.details && (
+                                  <p className="text-xs text-muted-foreground mt-1">
+                                    {issue.details}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {issuesByPage.length > 0 && (
+              <>
+                <Separator />
+                <div className="space-y-4">
+                  <h4 className="text-sm font-semibold">Issues by Page</h4>
+                  {issuesByPage.map(({ page, issues: pageIssues }) => (
+                    <div key={page}>
+                      <button
+                        type="button"
+                        className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2 hover:text-foreground transition-colors cursor-pointer"
+                        onClick={() => setCurrentPage(page)}
+                      >
+                        Page {page}
+                      </button>
+                      <div className="space-y-1.5">
+                        {pageIssues.map((issue) => (
+                          <button
+                            key={`${issue.severity}-${issue.category}-${issue.message}`}
+                            type="button"
+                            className="w-full text-left flex items-start gap-2 rounded-md px-2 py-1.5 hover:bg-muted/50 cursor-pointer transition-colors"
+                            onClick={() => setCurrentPage(page)}
+                          >
+                            {issue.severity === "error" && (
+                              <CircleX className="size-3.5 shrink-0 mt-0.5 text-red-500" />
+                            )}
+                            {issue.severity === "warning" && (
+                              <TriangleAlert className="size-3.5 shrink-0 mt-0.5 text-amber-500" />
+                            )}
+                            {issue.severity === "info" && (
+                              <Info className="size-3.5 shrink-0 mt-0.5 text-blue-500" />
+                            )}
+                            <span className="text-xs">{issue.message}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+
+          <a
+            href="https://rmv.fyi/projects/taxiway"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="col-span-full mt-2 group flex items-center gap-3 rounded-lg border border-amber-500/10 bg-amber-500/[0.03] px-4 py-3 transition-all hover:border-amber-500/25 hover:bg-amber-500/[0.06]"
+          >
+            <span className="text-xs font-medium tracking-wide text-amber-700/70 dark:text-amber-400/70 group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-colors">
+              Need more? <span className="font-semibold">Taxiway</span> is a free native macOS app with 55 checks, automated fixes, and full PDF inspection.
+            </span>
+            <ExternalLink className="size-3.5 shrink-0 text-amber-500/40 group-hover:text-amber-500/70 transition-colors" />
+          </a>
+        </div>
+      )}
+    </div>
+  );
+}

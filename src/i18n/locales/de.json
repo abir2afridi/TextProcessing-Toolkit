@@ -223,6 +223,18 @@
       "name": "PDF-Signaturprüfer",
       "tagline": "Digitale Signaturen in PDF-Dateien verifizieren"
     },
+    "pdf-preflight": {
+      "name": "PDF Preflight",
+      "tagline": "PDFs auf Drucktauglichkeit prüfen"
+    },
+    "imposer": {
+      "name": "Druck-Imposer",
+      "tagline": "PDF-Seiten auf Druckbögen anordnen"
+    },
+    "zine-imposer": {
+      "name": "Zine-Imposer",
+      "tagline": "Einseitige Zines aus Bildern erstellen — Mini-Zine und Ziehharmonikafalz"
+    },
     "roman-numeral": {
       "name": "Römische Zahl",
       "tagline": "Zwischen Zahlen und römischen Ziffern konvertieren"
@@ -654,6 +666,18 @@
     "line-height-calc": {
       "name": "Zeilenhöhen-Rechner",
       "tagline": "Optimale Zeilenhöhen berechnen"
+    },
+    "paper-sizes": {
+      "name": "Papierformate",
+      "tagline": "Papierformate nach ISO, US und anderen Standards vergleichen und suchen"
+    },
+    "px-to-rem": {
+      "name": "PX in REM",
+      "tagline": "Pixel in rem und rem in Pixel mit benutzerdefinierter Basisgröße umrechnen"
+    },
+    "typography-calc": {
+      "name": "Typografie-Rechner",
+      "tagline": "Umrechnung zwischen px, pt, pc, em, rem, Zoll, mm, cm, Agaten und Ciceros"
     }
   }
 }
