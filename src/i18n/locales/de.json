@@ -407,6 +407,14 @@
       "name": "Algebra-Rechner",
       "tagline": "Symbolische Ausdrücke vereinfachen, erweitern, faktorisieren, lösen, ableiten und integrieren"
     },
+    "sci-calc": {
+      "name": "Wissenschaftlicher Taschenrechner",
+      "tagline": "Grad/Bogenmaß Trigonometrie, log, ln, Fakultät, Konstanten und Ausdrucksverlauf"
+    },
+    "shavian-transliterator": {
+      "name": "Shavian-Transliterator",
+      "tagline": "Englischen Text mit Glosse, IPA und Phonem-Editor in das Shavian-Alphabet umwandeln"
+    },
     "chronometer": {
       "name": "Chronometer",
       "tagline": "Präzisionsstoppuhr mit Rundenzeitmessung"
@@ -494,6 +502,14 @@
     "string-escape": {
       "name": "String-Escape",
       "tagline": "JSON-, JS-, SQL- und Unicode-Zeichenfolgen escapen und unescapen"
+    },
+    "time-calc": {
+      "name": "Zeitrechner",
+      "tagline": "Unix-Timestamps, Datumsarithmetik, Zeitzonenkonvertierung und Live-Uhren"
+    },
+    "unit-converter": {
+      "name": "Einheitenumrechner",
+      "tagline": "Einheiten umrechnen: Länge, Gewicht, Daten, Temperatur, Geschwindigkeit, Fläche und Volumen"
     },
     "timestamp-converter": {
       "name": "Timestamp-Konverter",

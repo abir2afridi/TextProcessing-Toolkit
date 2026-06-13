@@ -407,6 +407,14 @@
       "name": "代数计算器",
       "tagline": "简化、展开、因式分解、求解、微分和积分符号表达式"
     },
+    "sci-calc": {
+      "name": "科学计算器",
+      "tagline": "度/弧度三角函数、对数、阶乘、常数和表达式历史"
+    },
+    "shavian-transliterator": {
+      "name": "肖维安转写器",
+      "tagline": "将英文文本转换为肖维安字母表，包含注释、IPA和音素编辑"
+    },
     "chronometer": {
       "name": "计时器",
       "tagline": "带分圈计时功能的高精度秒表"
@@ -494,6 +502,14 @@
     "string-escape": {
       "name": "字符串转义",
       "tagline": "转义和反转义JSON、JS、SQL和Unicode字符串"
+    },
+    "time-calc": {
+      "name": "时间计算器",
+      "tagline": "Unix时间戳、日期运算、时区转换和实时时钟"
+    },
+    "unit-converter": {
+      "name": "单位转换器",
+      "tagline": "在长度、重量、数据、温度、速度、面积和体积单位之间转换"
     },
     "timestamp-converter": {
       "name": "时间戳转换器",

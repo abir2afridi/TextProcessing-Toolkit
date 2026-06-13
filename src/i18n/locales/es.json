@@ -407,6 +407,14 @@
       "name": "Calculadora de Álgebra",
       "tagline": "Simplifica, expande, factoriza, resuelve, deriva e integra expresiones simbólicas"
     },
+    "sci-calc": {
+      "name": "Calculadora Científica",
+      "tagline": "Trig. en grados/radianes, log, ln, factorial, constantes e historial"
+    },
+    "shavian-transliterator": {
+      "name": "Transliterador Shaviano",
+      "tagline": "Convierte texto inglés al alfabeto shaviano con glosa, AFI y edición de fonemas"
+    },
     "chronometer": {
       "name": "Cronómetro",
       "tagline": "Cronómetro de precisión con temporización de vueltas"
@@ -494,6 +502,14 @@
     "string-escape": {
       "name": "Escape de Cadenas",
       "tagline": "Escapar y desescapar cadenas JSON, JS, SQL y Unicode"
+    },
+    "time-calc": {
+      "name": "Calculadora de Tiempo",
+      "tagline": "Timestamps Unix, aritmética de fechas, conversión de zona horaria y relojes en vivo"
+    },
+    "unit-converter": {
+      "name": "Convertidor de Unidades",
+      "tagline": "Convierte entre unidades de longitud, peso, datos, temperatura, velocidad, área y volumen"
     },
     "timestamp-converter": {
       "name": "Convertidor de Timestamp",

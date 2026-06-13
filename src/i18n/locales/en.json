@@ -407,6 +407,14 @@
       "name": "Algebra Calculator",
       "tagline": "Simplify, expand, factor, solve, differentiate and integrate symbolic expressions"
     },
+    "sci-calc": {
+      "name": "Scientific Calculator",
+      "tagline": "Deg/rad trig, log, ln, factorial, constants, and expression history"
+    },
+    "shavian-transliterator": {
+      "name": "Shavian Transliterator",
+      "tagline": "Convert English text to the Shavian alphabet with gloss, IPA, and phoneme editing"
+    },
     "chronometer": {
       "name": "Chronometer",
       "tagline": "Precision stopwatch with lap timing"
@@ -494,6 +502,14 @@
     "string-escape": {
       "name": "String Escape",
       "tagline": "Escape and unescape JSON, JS, SQL, and Unicode strings"
+    },
+    "time-calc": {
+      "name": "Time Calculator",
+      "tagline": "Unix timestamps, date arithmetic, timezone conversion, and live clocks"
+    },
+    "unit-converter": {
+      "name": "Unit Converter",
+      "tagline": "Convert between units of length, weight, data, temperature, speed, area, and volume"
     },
     "timestamp-converter": {
       "name": "Timestamp Converter",

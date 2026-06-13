@@ -254,10 +254,13 @@ export const toolComponents: Record<string, ComponentType> = {
   "percentage-calc": lazyTool(() => import("@/components/tools/PercentageCalc")),
   "eta-calculator": lazyTool(() => import("@/components/tools/ETACalculator")),
   "algebra-calc": lazyTool(() => import("@/components/tools/AlgebraCalc")),
+  "sci-calc": lazyTool(() => import("@/components/tools/SciCalc")),
 
   // Measurement
   chronometer: lazyTool(() => import("@/components/tools/Chronometer")),
   "temp-converter": lazyTool(() => import("@/components/tools/TempConverter")),
+  "time-calc": lazyTool(() => import("@/components/tools/TimeCalc")),
+  "unit-converter": lazyTool(() => import("@/components/tools/UnitConverter")),
 
   // Data
   "iban-validator": lazyTool(() => import("@/components/tools/IBANValidator")),
@@ -281,6 +284,7 @@ export const toolComponents: Record<string, ComponentType> = {
   "jwt-decoder": lazyTool(() => import("@/components/tools/JwtDecoder")),
   "morse-code": lazyTool(() => import("@/components/tools/MorseCode")),
   "nato-phonetic": lazyTool(() => import("@/components/tools/NatoPhonetic")),
+  "shavian-transliterator": lazyTool(() => import("@/components/tools/ShavianTransliterator")),
   "graph-calc": lazyTool(() => import("@/components/tools/GraphCalc")),
   "number-base": lazyTool(() => import("@/components/tools/NumberBase")),
   "password-generator": lazyTool(() => import("@/components/tools/PasswordGenerator")),
@@ -1316,6 +1320,14 @@ export const tools: ToolMeta[] = [
     icon: Sigma,
     keywords: ["algebra", "simplify", "expand", "factor", "solve", "derivative", "integral", "symbolic", "math"],
   },
+  {
+    slug: "sci-calc",
+    name: "Scientific Calculator",
+    tagline: "Deg/rad trig, log, ln, factorial, constants, and expression history",
+    category: "Math",
+    icon: Sigma,
+    keywords: ["scientific", "calculator", "trigonometry", "log", "ln", "factorial", "constants", "math", "deg", "rad"],
+  },
 
   // ===================== Measurement =====================
   {
@@ -1333,6 +1345,22 @@ export const tools: ToolMeta[] = [
     category: "Measurement",
     icon: Thermometer,
     keywords: ["temperature", "celsius", "fahrenheit", "kelvin", "convert"],
+  },
+  {
+    slug: "time-calc",
+    name: "Time Calculator",
+    tagline: "Unix timestamps, date arithmetic, timezone conversion, and live clocks",
+    category: "Measurement",
+    icon: Clock,
+    keywords: ["time", "date", "unix", "timestamp", "timezone", "clock", "arithmetic", "convert"],
+  },
+  {
+    slug: "unit-converter",
+    name: "Unit Converter",
+    tagline: "Convert between units of length, weight, data, temperature, speed, area, and volume",
+    category: "Measurement",
+    icon: Ruler,
+    keywords: ["unit", "convert", "length", "weight", "data", "temperature", "speed", "area", "volume", "measurement"],
   },
 
   // ===================== Data =====================
@@ -1457,6 +1485,14 @@ export const tools: ToolMeta[] = [
     category: "Dev Tools",
     icon: Ear,
     keywords: ["nato", "phonetic", "military", "spell"],
+  },
+  {
+    slug: "shavian-transliterator",
+    name: "Shavian Transliterator",
+    tagline: "Convert English text to the Shavian alphabet with gloss, IPA, and phoneme editing",
+    category: "Dev Tools",
+    icon: Languages,
+    keywords: ["shavian", "shavian alphabet", "transliterate", "phonemic", "shaw", "ipa", "gloss", "english", "phoneme"],
   },
   {
     slug: "graph-calc",
