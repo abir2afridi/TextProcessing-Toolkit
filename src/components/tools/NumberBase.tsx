@@ -1,12 +1,30 @@
-import { useState, useMemo } from "react";
-import { Input } from "@/components/ui/input";
+import { useState, useCallback, useMemo } from "react";
+import { Copy, Check, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { OptionRow } from "@/components/ToolShell";
-import { Copy, AlertCircle } from "lucide-react";
-import { toast } from "sonner";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-function convertBase({ value, fromBase, toBase }: { value: string; fromBase: number; toBase: number }) {
+type Base = "dec" | "hex" | "bin" | "oct";
+type BitwiseOp = "AND" | "OR" | "XOR" | "NOT" | "LSH" | "RSH";
+
+interface BaseValues {
+  dec: string;
+  hex: string;
+  bin: string;
+  oct: string;
+}
+
+const BASE_INFO: Record<Base, { name: string; prefix: string; radix: number; placeholder: string }> = {
+  dec: { name: "Decimal", prefix: "", radix: 10, placeholder: "255" },
+  hex: { name: "Hexadecimal", prefix: "0x", radix: 16, placeholder: "FF" },
+  bin: { name: "Binary", prefix: "0b", radix: 2, placeholder: "11111111" },
+  oct: { name: "Octal", prefix: "0o", radix: 8, placeholder: "377" },
+};
+
+const BASES: Base[] = ["dec", "hex", "bin", "oct"];
+
+function convertCustomBase(value: string, fromBase: number, toBase: number) {
   const range = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+/";
   const fromRange = range.slice(0, fromBase);
   const toRange = range.slice(0, toBase);
@@ -27,119 +45,433 @@ function convertBase({ value, fromBase, toBase }: { value: string; fromBase: num
   return newValue || "0";
 }
 
-function CopyRow({ label, value, placeholder }: { label: string; value: string; placeholder?: string }) {
-  return (
-    <div className="flex items-stretch rounded-sm border border-border bg-surface">
-      <div className="flex w-[170px] flex-shrink-0 items-center justify-end border-r border-border px-3 font-mono text-[11px] text-muted-foreground">
-        {label}
-      </div>
-      <input
-        value={value}
-        readOnly
-        placeholder={placeholder ?? ""}
-        className="h-10 flex-1 bg-transparent px-3 font-mono text-xs text-primary outline-none"
-      />
-      <Button
-        variant="ghost"
-        size="sm"
-        className="h-10 w-10 flex-shrink-0 rounded-none rounded-r-sm border-l border-border"
-        disabled={!value}
-        onClick={() => {
-          navigator.clipboard.writeText(value);
-          toast.success(`Copied ${label}`);
-        }}
-      >
-        <Copy className="h-3.5 w-3.5" />
-      </Button>
-    </div>
-  );
-}
-
 export default function NumberBase() {
-  const [input, setInput] = useState("42");
-  const [inputBase, setInputBase] = useState(10);
-  const [customBase, setCustomBase] = useState(42);
+  const [values, setValues] = useState<BaseValues>({ dec: "", hex: "", bin: "", oct: "" });
+  const [activeBase, setActiveBase] = useState<Base | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [copied, setCopied] = useState<Base | null>(null);
 
-  const fixedBases = [
-    { label: "Binary (2)", base: 2 },
-    { label: "Octal (8)", base: 8 },
-    { label: "Decimal (10)", base: 10 },
-    { label: "Hexadecimal (16)", base: 16 },
-    { label: "Base64 (64)", base: 64 },
-  ];
+  const [bitwiseA, setBitwiseA] = useState<BaseValues>({ dec: "", hex: "", bin: "", oct: "" });
+  const [bitwiseB, setBitwiseB] = useState<BaseValues>({ dec: "", hex: "", bin: "", oct: "" });
+  const [bitwiseOp, setBitwiseOp] = useState<BitwiseOp>("AND");
+  const [bitwiseResult, setBitwiseResult] = useState<BaseValues | null>(null);
+  const [shiftAmount, setShiftAmount] = useState("1");
 
-  const { results, error } = useMemo(() => {
-    const trimmed = input.trim();
-    if (!trimmed) return { results: null as Record<number, string> | null, error: null as string | null };
-    try {
-      const r: Record<number, string> = {};
-      for (const { base } of fixedBases) {
-        r[base] = convertBase({ value: trimmed, fromBase: inputBase, toBase: base });
+  const [customInput, setCustomInput] = useState("42");
+  const [customFromBase, setCustomFromBase] = useState(10);
+  const [customToBase, setCustomToBase] = useState(2);
+
+  const parseValue = useCallback((value: string, base: Base): number | null => {
+    const cleaned = value.trim().toLowerCase();
+    if (!cleaned) return null;
+    let toParse = cleaned;
+    if (base === "hex" && cleaned.startsWith("0x")) toParse = cleaned.slice(2);
+    if (base === "bin" && cleaned.startsWith("0b")) toParse = cleaned.slice(2);
+    if (base === "oct" && cleaned.startsWith("0o")) toParse = cleaned.slice(2);
+    const result = parseInt(toParse, BASE_INFO[base].radix);
+    return isNaN(result) ? null : result;
+  }, []);
+
+  const convertAll = useCallback((num: number): BaseValues => {
+    return {
+      dec: num.toString(10),
+      hex: num.toString(16).toUpperCase(),
+      bin: num.toString(2),
+      oct: num.toString(8),
+    };
+  }, []);
+
+  const handleBaseInput = useCallback(
+    (base: Base, value: string) => {
+      setActiveBase(base);
+      setError(null);
+      if (!value.trim()) {
+        setValues({ dec: "", hex: "", bin: "", oct: "" });
+        return;
       }
-      r[customBase] = convertBase({ value: trimmed, fromBase: inputBase, toBase: customBase });
-      return { results: r, error: null };
-    } catch (e) {
-      return { results: null, error: (e as Error).message };
+      const num = parseValue(value, base);
+      if (num === null || num < 0) {
+        setError("Invalid " + BASE_INFO[base].name.toLowerCase() + " number");
+        setValues((prev) => ({ ...prev, [base]: value }));
+        return;
+      }
+      setValues(convertAll(num));
+    },
+    [parseValue, convertAll]
+  );
+
+  const copyValue = async (base: Base, value: string) => {
+    if (!value) return;
+    await navigator.clipboard.writeText(BASE_INFO[base].prefix + value);
+    setCopied(base);
+    setTimeout(() => setCopied(null), 1500);
+  };
+
+  const handleBitwiseInput = useCallback(
+    (target: "a" | "b", base: Base, value: string) => {
+      const setter = target === "a" ? setBitwiseA : setBitwiseB;
+      if (!value.trim()) {
+        setter({ dec: "", hex: "", bin: "", oct: "" });
+        return;
+      }
+      const num = parseValue(value, base);
+      if (num === null || num < 0) {
+        setter((prev) => ({ ...prev, [base]: value }));
+        return;
+      }
+      setter(convertAll(num));
+    },
+    [parseValue, convertAll]
+  );
+
+  const calculateBitwise = useCallback(() => {
+    const a = parseValue(bitwiseA.dec, "dec");
+    const b = parseValue(bitwiseB.dec, "dec");
+    const shift = parseInt(shiftAmount) || 1;
+    if (a === null) {
+      setBitwiseResult(null);
+      return;
     }
-  }, [input, inputBase, customBase]);
+    let result: number;
+    switch (bitwiseOp) {
+      case "AND":
+        if (b === null) return;
+        result = a & b;
+        break;
+      case "OR":
+        if (b === null) return;
+        result = a | b;
+        break;
+      case "XOR":
+        if (b === null) return;
+        result = a ^ b;
+        break;
+      case "NOT":
+        result = ~a >>> 0;
+        result = result & 0xffffffff;
+        break;
+      case "LSH":
+        result = a << shift;
+        break;
+      case "RSH":
+        result = a >>> shift;
+        break;
+      default:
+        return;
+    }
+    setBitwiseResult(convertAll(result >>> 0));
+  }, [bitwiseA.dec, bitwiseB.dec, bitwiseOp, shiftAmount, parseValue, convertAll]);
+
+  const getBits = (value: string): boolean[] => {
+    const num = parseInt(value, 10);
+    if (isNaN(num) || num < 0) return Array(16).fill(false);
+    const bits: boolean[] = [];
+    for (let i = 15; i >= 0; i--) {
+      bits.push(((num >> i) & 1) === 1);
+    }
+    return bits;
+  };
+
+  const toggleBit = (bitIndex: number) => {
+    const num = parseInt(values.dec, 10) || 0;
+    const actualIndex = 15 - bitIndex;
+    const newNum = num ^ (1 << actualIndex);
+    setValues(convertAll(newNum));
+  };
+
+  const hasValue = values.dec !== "";
+  const decimalValue = parseInt(values.dec, 10);
+  const bitCells = getBits(values.dec).map((on, position) => ({ on, position }));
+
+  const customResult = useMemo(() => {
+    const trimmed = customInput.trim();
+    if (!trimmed) return null;
+    try {
+      return convertCustomBase(trimmed, customFromBase, customToBase);
+    } catch {
+      return null;
+    }
+  }, [customInput, customFromBase, customToBase]);
 
   return (
-    <div className="space-y-4">
-      <OptionRow>
-        <div className="flex flex-1 items-center gap-2">
-          <Label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">Input number</Label>
-          <Input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Put your number here (ex: 42)"
-            className="h-8 flex-1 rounded-sm font-mono text-xs"
-          />
-        </div>
-        <div className="flex items-center gap-2">
-          <Label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">Input base</Label>
-          <Input
-            type="number"
-            min={2}
-            max={64}
-            value={inputBase}
-            onChange={(e) => setInputBase(Math.max(2, Math.min(64, Number(e.target.value) || 10)))}
-            placeholder="ex: 10"
-            className="h-8 w-24 rounded-sm font-mono text-xs"
-          />
-        </div>
-      </OptionRow>
+    <div className="space-y-6">
+      <Tabs defaultValue="converter">
+        <TabsList className="grid grid-cols-3 w-full">
+          <TabsTrigger value="converter">Converter</TabsTrigger>
+          <TabsTrigger value="custom">Custom Base</TabsTrigger>
+          <TabsTrigger value="bitwise">Bitwise Ops</TabsTrigger>
+        </TabsList>
 
-      {error ? (
-        <div className="flex items-center gap-2 rounded-sm border border-destructive/40 bg-destructive/10 px-3 py-2 font-mono text-xs text-destructive">
-          <AlertCircle className="h-4 w-4" />
-          {error}
-        </div>
-      ) : (
-        <div className="space-y-2">
-          {fixedBases.map(({ label, base }) => (
-            <CopyRow key={base} label={label} value={results?.[base] ?? ""} />
-          ))}
-
-          <div className="flex items-center gap-2">
-            <div className="flex w-[170px] flex-shrink-0 items-center justify-end">
-              <span className="font-mono text-[11px] text-muted-foreground">Custom:</span>
-            </div>
-            <Input
-              type="number"
-              min={2}
-              max={64}
-              value={customBase}
-              onChange={(e) => setCustomBase(Math.max(2, Math.min(64, Number(e.target.value) || 42)))}
-              className="h-8 w-24 rounded-sm font-mono text-xs"
-            />
+        <TabsContent value="converter" className="space-y-6">
+          <div className="grid gap-3 sm:grid-cols-2">
+            {BASES.map((base) => (
+              <div
+                key={base}
+                className={"p-4 rounded-lg border bg-card transition-colors " + (activeBase === base && hasValue ? "ring-2 ring-primary" : "")}
+              >
+                <Label className="text-sm text-muted-foreground mb-2 block">
+                  {BASE_INFO[base].name}
+                </Label>
+                <div className="flex items-center gap-2">
+                  {BASE_INFO[base].prefix && (
+                    <span className="text-muted-foreground font-mono text-sm">
+                      {BASE_INFO[base].prefix}
+                    </span>
+                  )}
+                  <Input
+                    value={values[base]}
+                    onChange={(e) => handleBaseInput(base, e.target.value)}
+                    placeholder={BASE_INFO[base].placeholder}
+                    className="font-mono flex-1"
+                  />
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => copyValue(base, values[base])}
+                    disabled={!values[base]}
+                    className="shrink-0"
+                  >
+                    {copied === base ? (
+                      <Check className="size-4 text-green-500" />
+                    ) : (
+                      <Copy className="size-4" />
+                    )}
+                  </Button>
+                </div>
+              </div>
+            ))}
           </div>
-          <CopyRow
-            label={`Base ${customBase}`}
-            value={results?.[customBase] ?? ""}
-            placeholder={`Base ${customBase} will be here...`}
-          />
-        </div>
-      )}
+
+          {error && <p className="text-sm text-destructive">{error}</p>}
+
+          {(!hasValue || decimalValue <= 65535) && (
+            <div className="space-y-3">
+              <Label>Bit Toggle (16-bit)</Label>
+              <div className="flex gap-1 flex-wrap">
+                {bitCells.map((cell) => (
+                  <button
+                    key={"bit-" + cell.position}
+                    type="button"
+                    onClick={() => toggleBit(cell.position)}
+                    className={"w-8 h-10 text-sm font-mono rounded border transition-colors " + (cell.on ? "bg-primary text-primary-foreground" : "bg-muted hover:bg-accent")}
+                  >
+                    {cell.on ? "1" : "0"}
+                  </button>
+                ))}
+              </div>
+              <div className="flex gap-1 text-xs text-muted-foreground">
+                {Array.from({ length: 16 }, (_, i) => (
+                  <span key={i} className="w-8 text-center">
+                    {15 - i}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </TabsContent>
+
+        <TabsContent value="custom" className="space-y-4">
+          <div className="flex flex-wrap items-end gap-4">
+            <div className="space-y-2">
+              <Label>Input number</Label>
+              <Input
+                value={customInput}
+                onChange={(e) => setCustomInput(e.target.value)}
+                placeholder="42"
+                className="font-mono min-w-32"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>From base</Label>
+              <Input
+                type="number"
+                min={2}
+                max={64}
+                value={customFromBase}
+                onChange={(e) => setCustomFromBase(Math.max(2, Math.min(64, Number(e.target.value) || 10)))}
+                className="font-mono w-24"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>To base</Label>
+              <Input
+                type="number"
+                min={2}
+                max={64}
+                value={customToBase}
+                onChange={(e) => setCustomToBase(Math.max(2, Math.min(64, Number(e.target.value) || 2)))}
+                className="font-mono w-24"
+              />
+            </div>
+          </div>
+
+          {customResult !== null ? (
+            <div className="flex items-center gap-2 p-4 rounded-lg border bg-card">
+              <span className="text-sm text-muted-foreground">Result:</span>
+              <code className="font-mono text-lg flex-1">{customResult}</code>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={async () => {
+                  await navigator.clipboard.writeText(customResult);
+                }}
+              >
+                <Copy className="size-4" />
+              </Button>
+            </div>
+          ) : customInput.trim() ? (
+            <div className="flex items-center gap-2 text-destructive text-sm">
+              <AlertCircle className="size-4" />
+              Invalid input for base {customFromBase}
+            </div>
+          ) : null}
+        </TabsContent>
+
+        <TabsContent value="bitwise" className="space-y-6">
+          <div className="flex flex-wrap gap-2">
+            {(["AND", "OR", "XOR", "NOT", "LSH", "RSH"] as BitwiseOp[]).map(
+              (op) => (
+                <Button
+                  key={op}
+                  variant={bitwiseOp === op ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => {
+                    setBitwiseOp(op);
+                    setBitwiseResult(null);
+                  }}
+                >
+                  {op === "LSH" ? "<<" : op === "RSH" ? ">>" : op}
+                </Button>
+              )
+            )}
+          </div>
+
+          <div className="p-4 rounded-lg border bg-card">
+            <Label className="text-sm text-muted-foreground mb-3 block">Value A</Label>
+            <div className="grid gap-2 sm:grid-cols-2">
+              {BASES.map((base) => (
+                <div key={base} className="flex items-center gap-2">
+                  <span className="w-20 text-sm text-muted-foreground">
+                    {BASE_INFO[base].name}
+                  </span>
+                  {BASE_INFO[base].prefix && (
+                    <span className="text-muted-foreground font-mono text-sm">
+                      {BASE_INFO[base].prefix}
+                    </span>
+                  )}
+                  <Input
+                    value={bitwiseA[base]}
+                    onChange={(e) => handleBitwiseInput("a", base, e.target.value)}
+                    placeholder={BASE_INFO[base].placeholder}
+                    className="font-mono flex-1"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {bitwiseOp !== "NOT" && bitwiseOp !== "LSH" && bitwiseOp !== "RSH" && (
+            <div className="p-4 rounded-lg border bg-card">
+              <Label className="text-sm text-muted-foreground mb-3 block">Value B</Label>
+              <div className="grid gap-2 sm:grid-cols-2">
+                {BASES.map((base) => (
+                  <div key={base} className="flex items-center gap-2">
+                    <span className="w-20 text-sm text-muted-foreground">
+                      {BASE_INFO[base].name}
+                    </span>
+                    {BASE_INFO[base].prefix && (
+                      <span className="text-muted-foreground font-mono text-sm">
+                        {BASE_INFO[base].prefix}
+                      </span>
+                    )}
+                    <Input
+                      value={bitwiseB[base]}
+                      onChange={(e) => handleBitwiseInput("b", base, e.target.value)}
+                      placeholder={BASE_INFO[base].placeholder}
+                      className="font-mono flex-1"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {(bitwiseOp === "LSH" || bitwiseOp === "RSH") && (
+            <div className="p-4 rounded-lg border bg-card">
+              <Label className="text-sm text-muted-foreground mb-3 block">Shift Amount</Label>
+              <Input
+                type="number"
+                value={shiftAmount}
+                onChange={(e) => setShiftAmount(e.target.value)}
+                placeholder="1"
+                className="font-mono w-24"
+                min={0}
+                max={31}
+              />
+            </div>
+          )}
+
+          <Button onClick={calculateBitwise} className="w-full">
+            Calculate
+          </Button>
+
+          {bitwiseResult && (
+            <div className="p-4 rounded-lg border bg-card">
+              <Label className="text-sm text-muted-foreground mb-3 block">
+                Result: {bitwiseA.dec} {bitwiseOp === "NOT" ? "~" : bitwiseOp === "LSH" ? "<<" : bitwiseOp === "RSH" ? ">>" : bitwiseOp}{" "}
+                {bitwiseOp === "LSH" || bitwiseOp === "RSH"
+                  ? shiftAmount
+                  : bitwiseOp !== "NOT"
+                  ? bitwiseB.dec
+                  : ""}
+              </Label>
+              <div className="grid gap-2 sm:grid-cols-2">
+                {BASES.map((base) => (
+                  <div key={base} className="flex items-center gap-2">
+                    <span className="w-20 text-sm text-muted-foreground">
+                      {BASE_INFO[base].name}
+                    </span>
+                    <code className="font-mono">
+                      {BASE_INFO[base].prefix}
+                      {bitwiseResult[base]}
+                    </code>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="p-4 rounded-lg border bg-card">
+            <h3 className="font-medium mb-3 text-sm text-muted-foreground">Reference</h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm">
+              <div>
+                <span className="font-mono">AND (&amp;)</span>
+                <p className="text-muted-foreground text-xs">1 if both bits are 1</p>
+              </div>
+              <div>
+                <span className="font-mono">OR (|)</span>
+                <p className="text-muted-foreground text-xs">1 if either bit is 1</p>
+              </div>
+              <div>
+                <span className="font-mono">XOR (^)</span>
+                <p className="text-muted-foreground text-xs">1 if bits differ</p>
+              </div>
+              <div>
+                <span className="font-mono">NOT (~)</span>
+                <p className="text-muted-foreground text-xs">Flip all bits</p>
+              </div>
+              <div>
+                <span className="font-mono">&lt;&lt; (LSH)</span>
+                <p className="text-muted-foreground text-xs">Shift bits left</p>
+              </div>
+              <div>
+                <span className="font-mono">&gt;&gt; (RSH)</span>
+                <p className="text-muted-foreground text-xs">Shift bits right</p>
+              </div>
+            </div>
+          </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

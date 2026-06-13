@@ -403,6 +403,10 @@
       "name": "ETA Calculator",
       "tagline": "Calculate estimated time of arrival from distance and speed"
     },
+    "algebra-calc": {
+      "name": "Algebra Calculator",
+      "tagline": "Simplify, expand, factor, solve, differentiate and integrate symbolic expressions"
+    },
     "chronometer": {
       "name": "Chronometer",
       "tagline": "Precision stopwatch with lap timing"
@@ -467,13 +471,17 @@
       "name": "Morse Code",
       "tagline": "Convert text to and from Morse code"
     },
+    "graph-calc": {
+      "name": "Graph Calculator",
+      "tagline": "Plot multiple functions, inequalities, pan/zoom, trace points, and zoom presets"
+    },
     "nato-phonetic": {
       "name": "NATO Phonetic",
       "tagline": "Convert text to NATO phonetic alphabet"
     },
     "number-base": {
-      "name": "Number Base",
-      "tagline": "Convert numbers between binary, octal, decimal, hex"
+      "name": "Base Converter",
+      "tagline": "Convert between bases. Bitwise AND, OR, XOR, NOT, shift with 16-bit toggle"
     },
     "password-generator": {
       "name": "Password Generator",
@@ -690,6 +698,10 @@
     "typography-calc": {
       "name": "Typography Calculator",
       "tagline": "Convert between px, pt, pc, em, rem, inches, mm, cm, agates, and ciceros"
+    },
+    "text-scratchpad": {
+      "name": "Text Scratchpad",
+      "tagline": "A distraction-free text area that auto-saves to local storage"
     }
   }
 }

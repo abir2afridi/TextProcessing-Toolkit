@@ -86,6 +86,7 @@ import {
   Grid3X3,
   Barcode,
   Tag,
+  Axis3D,
 } from "lucide-react";
 
 export type ToolCategory =
@@ -151,6 +152,7 @@ export const toolComponents: Record<string, ComponentType> = {
   "paper-sizes": lazyTool(() => import("@/components/tools/PaperSizes")),
   "px-to-rem": lazyTool(() => import("@/components/tools/PxToRem")),
   "typography-calc": lazyTool(() => import("@/components/tools/TypographyCalc")),
+  "text-scratchpad": lazyTool(() => import("@/components/tools/TextScratchpad")),
 
   // Extractors
   "url-extractor": lazyTool(() => import("@/components/tools/UrlExtractor")),
@@ -251,6 +253,7 @@ export const toolComponents: Record<string, ComponentType> = {
   "math-evaluator": lazyTool(() => import("@/components/tools/MathEvaluator")),
   "percentage-calc": lazyTool(() => import("@/components/tools/PercentageCalc")),
   "eta-calculator": lazyTool(() => import("@/components/tools/ETACalculator")),
+  "algebra-calc": lazyTool(() => import("@/components/tools/AlgebraCalc")),
 
   // Measurement
   chronometer: lazyTool(() => import("@/components/tools/Chronometer")),
@@ -278,6 +281,7 @@ export const toolComponents: Record<string, ComponentType> = {
   "jwt-decoder": lazyTool(() => import("@/components/tools/JwtDecoder")),
   "morse-code": lazyTool(() => import("@/components/tools/MorseCode")),
   "nato-phonetic": lazyTool(() => import("@/components/tools/NatoPhonetic")),
+  "graph-calc": lazyTool(() => import("@/components/tools/GraphCalc")),
   "number-base": lazyTool(() => import("@/components/tools/NumberBase")),
   "password-generator": lazyTool(() => import("@/components/tools/PasswordGenerator")),
   "sql-formatter": lazyTool(() => import("@/components/tools/SqlFormatter")),
@@ -572,6 +576,14 @@ export const tools: ToolMeta[] = [
     category: "Text Utilities",
     icon: Ruler,
     keywords: ["typography", "unit", "convert", "px", "pt", "em", "rem", "pixel", "point", "pica", "inch", "mm", "cm", "cicero", "agate", "font"],
+  },
+  {
+    slug: "text-scratchpad",
+    name: "Text Scratchpad",
+    tagline: "A distraction-free text area that auto-saves to local storage",
+    category: "Text Utilities",
+    icon: FileText,
+    keywords: ["scratchpad", "notes", "text", "editor", "plain text", "auto-save", "local storage", "distraction-free"],
   },
 
   // ===================== Extractors =====================
@@ -1296,6 +1308,14 @@ export const tools: ToolMeta[] = [
     icon: Clock,
     keywords: ["eta", "time", "distance", "speed", "arrival"],
   },
+  {
+    slug: "algebra-calc",
+    name: "Algebra Calculator",
+    tagline: "Simplify, expand, factor, solve, differentiate and integrate symbolic expressions",
+    category: "Math",
+    icon: Sigma,
+    keywords: ["algebra", "simplify", "expand", "factor", "solve", "derivative", "integral", "symbolic", "math"],
+  },
 
   // ===================== Measurement =====================
   {
@@ -1439,12 +1459,20 @@ export const tools: ToolMeta[] = [
     keywords: ["nato", "phonetic", "military", "spell"],
   },
   {
+    slug: "graph-calc",
+    name: "Graph Calculator",
+    tagline: "Plot multiple functions, inequalities, pan/zoom, trace points, and zoom presets",
+    category: "Dev Tools",
+    icon: Axis3D,
+    keywords: ["graph", "plot", "function", "inequality", "math", "visualization", "trace", "zoom"],
+  },
+  {
     slug: "number-base",
-    name: "Number Base",
-    tagline: "Convert numbers between binary, octal, decimal, hex",
+    name: "Base Converter",
+    tagline: "Convert between bases. Bitwise AND, OR, XOR, NOT, shift operations with 16-bit toggle",
     category: "Dev Tools",
     icon: Sigma,
-    keywords: ["base", "binary", "octal", "decimal", "hexadecimal"],
+    keywords: ["base", "binary", "octal", "decimal", "hexadecimal", "bitwise", "converter"],
   },
   {
     slug: "password-generator",

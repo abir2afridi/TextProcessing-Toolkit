@@ -403,6 +403,10 @@
       "name": "ETA计算器",
       "tagline": "根据距离和速度计算预计到达时间"
     },
+    "algebra-calc": {
+      "name": "代数计算器",
+      "tagline": "简化、展开、因式分解、求解、微分和积分符号表达式"
+    },
     "chronometer": {
       "name": "计时器",
       "tagline": "带分圈计时功能的高精度秒表"
@@ -467,13 +471,17 @@
       "name": "摩斯电码",
       "tagline": "将文本转换为摩斯电码，以及反向转换"
     },
+    "graph-calc": {
+      "name": "图形计算器",
+      "tagline": "绘制多个函数、不等式，支持平移/缩放、追踪点及缩放预设"
+    },
     "nato-phonetic": {
       "name": "NATO音标字母",
       "tagline": "将文本转换为北约音标字母"
     },
     "number-base": {
-      "name": "数字进制转换",
-      "tagline": "在二进制、八进制、十进制和十六进制之间转换数字"
+      "name": "进制转换器",
+      "tagline": "进制间转换，支持按位与、或、异或、非、移位运算及16位切换"
     },
     "password-generator": {
       "name": "密码生成器",
@@ -690,6 +698,10 @@
     "typography-calc": {
       "name": "排版计算器",
       "tagline": "在 px、pt、pc、em、rem、英寸、mm、cm、agate 和 cicero 之间转换"
+    },
+    "text-scratchpad": {
+      "name": "文本便签",
+      "tagline": "一个无干扰的文本区域，自动保存到本地存储"
     }
   }
 }

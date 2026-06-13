@@ -403,6 +403,10 @@
       "name": "Calculatrice ETA",
       "tagline": "Calculer le temps d'arrivée estimé à partir de la distance et de la vitesse"
     },
+    "algebra-calc": {
+      "name": "Calculatrice d'Algèbre",
+      "tagline": "Simplifier, développer, factoriser, résoudre, dériver et intégrer des expressions symboliques"
+    },
     "chronometer": {
       "name": "Chronomètre",
       "tagline": "Chronomètre de précision avec mesure de tours"
@@ -467,13 +471,17 @@
       "name": "Code Morse",
       "tagline": "Convertir du texte en code Morse et inversement"
     },
+    "graph-calc": {
+      "name": "Calculatrice Graphique",
+      "tagline": "Tracer plusieurs fonctions, inégalités, panoramique/zoom, points de trace et préréglages de zoom"
+    },
     "nato-phonetic": {
       "name": "Alphabet Phonétique OTAN",
       "tagline": "Convertir du texte en alphabet phonétique de l'OTAN"
     },
     "number-base": {
-      "name": "Base Numérique",
-      "tagline": "Convertir des nombres entre binaire, octal, décimal, hex"
+      "name": "Convertisseur de Bases",
+      "tagline": "Convertir entre bases. Opérations bit à bit AND, OR, XOR, NOT, décalage avec bascule 16 bits"
     },
     "password-generator": {
       "name": "Générateur de Mots de Passe",
@@ -690,6 +698,10 @@
     "typography-calc": {
       "name": "Calculateur Typographique",
       "tagline": "Convertissez entre px, pt, pc, em, rem, pouces, mm, cm, agates et cicéros"
+    },
+    "text-scratchpad": {
+      "name": "Bloc-Notes",
+      "tagline": "Une zone de texte sans distraction qui s'enregistre automatiquement dans le stockage local"
     }
   }
 }
