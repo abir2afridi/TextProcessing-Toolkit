@@ -166,12 +166,33 @@
     border-color: var(--color-border);
   }
 
+  html {
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklab, var(--color-primary) 25%, transparent) transparent;
+  }
+  html::-webkit-scrollbar { width: 6px; height: 6px; }
+  html::-webkit-scrollbar-track { background: transparent; }
+  html::-webkit-scrollbar-thumb {
+    background: color-mix(in oklab, var(--color-primary) 15%, transparent);
+    border-radius: 20px;
+    border: 1px solid transparent;
+    transition: background 0.3s ease;
+  }
+  html::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in oklab, var(--color-primary) 35%, transparent);
+  }
+
   html,
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
     font-feature-settings: "ss01", "cv11";
+  }
+  /* Neutralise react-remove-scroll-bar's margin compensation — html has overflow-y:scroll so scrollbar never disappears */
+  html body[data-scroll-locked] {
+    margin-right: 0 !important;
   }
 
   ::selection {
@@ -234,17 +255,17 @@
 
 .scrollbar-premium {
   scrollbar-width: thin;
-  scrollbar-color: hsl(var(--sidebar-foreground) / 0.15) transparent;
+  scrollbar-color: color-mix(in oklab, var(--color-primary) 20%, transparent) transparent;
 }
 .scrollbar-premium::-webkit-scrollbar { width: 4px; }
 .scrollbar-premium::-webkit-scrollbar-track { background: transparent; }
 .scrollbar-premium::-webkit-scrollbar-thumb {
-  background: hsl(var(--sidebar-foreground) / 0.08);
+  background: color-mix(in oklab, var(--color-primary) 10%, transparent);
   border-radius: 20px;
   border: 1px solid transparent;
   transition: all 0.4s ease;
 }
-.scrollbar-premium:hover::-webkit-scrollbar-thumb { background: hsl(var(--sidebar-foreground) / 0.2); }
+.scrollbar-premium:hover::-webkit-scrollbar-thumb { background: color-mix(in oklab, var(--color-primary) 25%, transparent); }
 
 /* ── Text Editor (ProseMirror) ── */
 .dt-editor { outline: none; min-height: 70vh; line-height: 1.75; font-size: 0.9375rem; padding: 1.5rem 2rem; }
@@ -283,3 +304,4 @@
 .footnote-tooltip { position: absolute; z-index: 40; top: 1.6em; left: -1em; width: 320px; background: var(--color-popover); border: 1px solid var(--color-border); border-radius: 6px; padding: 0.75em; box-shadow: 0 4px 16px rgba(0,0,0,0.12); font-size: 0.875rem; }
 .dt-editor footnote { background: color-mix(in oklab, var(--color-primary) 10%, transparent); border-radius: 3px; padding: 0.1em 0.3em; cursor: pointer; font-size: 0.85em; vertical-align: super; }
 .dt-editor footnote.ProseMirror-selectednode { outline: 2px solid var(--color-primary); }
+

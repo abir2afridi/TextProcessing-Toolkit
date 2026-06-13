@@ -1,16 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { Delete, History, ChevronDown, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   Command,
   CommandEmpty,
@@ -86,21 +78,28 @@ export default function SciCalc() {
         setLastAnswer(parsed.lastAnswer ?? 0);
         setAngleMode(parsed.angleMode ?? "deg");
       }
-    } catch {}
+    } catch {
+      /* ignore parse errors on first load */
+    }
     loaded.current = true;
   }, []);
 
   useEffect(() => {
     if (!loaded.current) return;
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        history,
-        memory,
-        memorySet,
-        lastAnswer,
-        angleMode,
-      }));
-    } catch {}
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({
+          history,
+          memory,
+          memorySet,
+          lastAnswer,
+          angleMode,
+        }),
+      );
+    } catch {
+      /* ignore localStorage write errors */
+    }
   }, [history, memory, memorySet, lastAnswer, angleMode]);
 
   const prepareExpression = useCallback(
@@ -116,7 +115,7 @@ export default function SciCalc() {
         .replace(/(\d+)!/g, "factorial($1)")
         .replace(/\|([^|]+)\|/g, "abs($1)");
     },
-    [lastAnswer]
+    [lastAnswer],
   );
 
   const calculate = useCallback(() => {
@@ -137,18 +136,13 @@ export default function SciCalc() {
           : {};
       const evalResult = evaluate(prepared, scope);
       const resultStr =
-        typeof evalResult === "number"
-          ? formatScientific(evalResult)
-          : String(evalResult);
+        typeof evalResult === "number" ? formatScientific(evalResult) : String(evalResult);
 
       setResult(resultStr);
       setError(null);
       setLastAnswer(typeof evalResult === "number" ? evalResult : 0);
 
-      setHistory((prev) => [
-        { expression, result: resultStr },
-        ...prev.slice(0, 19),
-      ]);
+      setHistory((prev) => [{ expression, result: resultStr }, ...prev.slice(0, 19)]);
     } catch {
       setError("Error");
       setResult(null);
@@ -266,7 +260,7 @@ export default function SciCalc() {
           }
       }
     },
-    [calculate, result, expression, hypMode, memory]
+    [calculate, result, expression, hypMode, memory],
   );
 
   useEffect(() => {
@@ -322,11 +316,17 @@ export default function SciCalc() {
 
   const getButtonStyle = (btn: string) => {
     if (btn === "=") return "bg-primary text-primary-foreground hover:bg-primary/90 text-xl";
-    if (["C", "\u232B"].includes(btn)) return "bg-destructive/10 text-destructive hover:bg-destructive/20";
-    if (["+", "\u2212", "\u00D7", "\u00F7", "%"].includes(btn)) return "bg-accent hover:bg-accent/80";
+    if (["C", "\u232B"].includes(btn))
+      return "bg-destructive/10 text-destructive hover:bg-destructive/20";
+    if (["+", "\u2212", "\u00D7", "\u00F7", "%"].includes(btn))
+      return "bg-accent hover:bg-accent/80";
     if (/^[0-9.]$/.test(btn) || btn === "00") return "bg-muted hover:bg-muted/80 font-bold text-lg";
-    if ([ "Const", "MC", "MR", "M+", "M-"].includes(btn)) return "bg-accent hover:bg-accent/80 font-medium";
-    if (btn === "Hyp") return hypMode ? "bg-primary text-primary-foreground hover:bg-primary/90" : "bg-accent hover:bg-accent/80 font-medium";
+    if (["Const", "MC", "MR", "M+", "M-"].includes(btn))
+      return "bg-accent hover:bg-accent/80 font-medium";
+    if (btn === "Hyp")
+      return hypMode
+        ? "bg-primary text-primary-foreground hover:bg-primary/90"
+        : "bg-accent hover:bg-accent/80 font-medium";
     if (btn === "1/x") return "bg-card hover:bg-accent/50";
     return "bg-card hover:bg-accent/50";
   };
@@ -362,7 +362,7 @@ export default function SciCalc() {
               <CommandList>
                 <CommandEmpty>No constant found.</CommandEmpty>
                 <CommandGroup heading="Mathematical">
-                  {MATH_CONSTANTS.filter(c => c.category === "mathematical").map((c) => (
+                  {MATH_CONSTANTS.filter((c) => c.category === "mathematical").map((c) => (
                     <CommandItem
                       key={c.name}
                       value={`${c.name} ${c.symbol}`}
@@ -374,7 +374,7 @@ export default function SciCalc() {
                   ))}
                 </CommandGroup>
                 <CommandGroup heading="Physical">
-                  {MATH_CONSTANTS.filter(c => c.category === "physical").map((c) => (
+                  {MATH_CONSTANTS.filter((c) => c.category === "physical").map((c) => (
                     <CommandItem
                       key={c.name}
                       value={`${c.name} ${c.symbol}`}
@@ -386,7 +386,7 @@ export default function SciCalc() {
                   ))}
                 </CommandGroup>
                 <CommandGroup heading="Chemical">
-                  {MATH_CONSTANTS.filter(c => c.category === "chemical").map((c) => (
+                  {MATH_CONSTANTS.filter((c) => c.category === "chemical").map((c) => (
                     <CommandItem
                       key={c.name}
                       value={`${c.name} ${c.symbol}`}
@@ -430,9 +430,7 @@ export default function SciCalc() {
             <button
               onClick={() => setAngleMode("deg")}
               className={`px-3 py-1 text-sm rounded-md transition-colors ${
-                angleMode === "deg"
-                  ? "bg-primary text-primary-foreground"
-                  : "hover:bg-accent"
+                angleMode === "deg" ? "bg-primary text-primary-foreground" : "hover:bg-accent"
               }`}
             >
               DEG
@@ -440,9 +438,7 @@ export default function SciCalc() {
             <button
               onClick={() => setAngleMode("rad")}
               className={`px-3 py-1 text-sm rounded-md transition-colors ${
-                angleMode === "rad"
-                  ? "bg-primary text-primary-foreground"
-                  : "hover:bg-accent"
+                angleMode === "rad" ? "bg-primary text-primary-foreground" : "hover:bg-accent"
               }`}
             >
               RAD
@@ -461,18 +457,16 @@ export default function SciCalc() {
               <History className="size-4 mr-2" />
               History
               <ChevronDown
-                className={`size-4 ml-2 transition-transform ${
-                  historyOpen ? "rotate-180" : ""
-                }`}
+                className={`size-4 ml-2 transition-transform ${historyOpen ? "rotate-180" : ""}`}
               />
             </Button>
           </CollapsibleTrigger>
         </Collapsible>
       </div>
 
-      <div className="bg-card border rounded-lg p-4 min-h-[100px]">
+      <div className="bg-card border rounded-lg p-4 min-h-25">
         <div className="text-right space-y-1">
-          <div className="text-muted-foreground text-lg font-mono min-h-[28px] break-all">
+          <div className="text-muted-foreground text-lg font-mono min-h-7 break-all">
             {expression || "0"}
           </div>
           <div className="flex items-center justify-end gap-2">
@@ -485,19 +479,21 @@ export default function SciCalc() {
             </div>
             {result && !error && (
               <Button variant="ghost" size="icon" onClick={copyResult}>
-                {copied ? (
-                  <Check className="size-4 text-green-500" />
-                ) : (
-                  <Copy className="size-4" />
-                )}
+                {copied ? <Check className="size-4 text-green-500" /> : <Copy className="size-4" />}
               </Button>
             )}
           </div>
           {bases && !hasError && (
             <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-[10px] font-mono text-muted-foreground justify-end pt-1">
-              <span>HEX: <span className="text-foreground/70">{bases.hex}</span></span>
-              <span>BIN: <span className="text-foreground/70">{bases.bin}</span></span>
-              <span>OCT: <span className="text-foreground/70">{bases.oct}</span></span>
+              <span>
+                HEX: <span className="text-foreground/70">{bases.hex}</span>
+              </span>
+              <span>
+                BIN: <span className="text-foreground/70">{bases.bin}</span>
+              </span>
+              <span>
+                OCT: <span className="text-foreground/70">{bases.oct}</span>
+              </span>
             </div>
           )}
         </div>
@@ -507,9 +503,7 @@ export default function SciCalc() {
         <CollapsibleContent>
           <div className="bg-card border rounded-lg p-3 max-h-48 overflow-y-auto">
             {history.length === 0 ? (
-              <p className="text-muted-foreground text-sm text-center py-2">
-                No history yet
-              </p>
+              <p className="text-muted-foreground text-sm text-center py-2">No history yet</p>
             ) : (
               <div className="space-y-2">
                 {history.map((item, idx) => (
@@ -518,9 +512,7 @@ export default function SciCalc() {
                     onClick={() => loadFromHistory(item)}
                     className="w-full text-right p-2 rounded hover:bg-accent transition-colors"
                   >
-                    <div className="text-sm text-muted-foreground font-mono">
-                      {item.expression}
-                    </div>
+                    <div className="text-sm text-muted-foreground font-mono">{item.expression}</div>
                     <div className="font-bold font-mono">{item.result}</div>
                   </button>
                 ))}

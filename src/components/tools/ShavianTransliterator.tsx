@@ -1,7 +1,18 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Copy, Download, Check, Loader2, ChevronDown, ChevronUp, Eye, EyeOff, FileText, RotateCcw } from "lucide-react";
+import {
+  Copy,
+  Download,
+  Check,
+  Loader2,
+  ChevronDown,
+  ChevronUp,
+  Eye,
+  EyeOff,
+  FileText,
+  RotateCcw,
+} from "lucide-react";
 import {
   tokenise,
   reResolveTokens,
@@ -74,11 +85,16 @@ export default function ShavianTransliterator() {
 
   const [input, setInput] = useState(DEFAULT_TEXT);
   const [tokens, setTokens] = useState<GlossToken[]>([]);
-  const [dictStatus, setDictStatus] = useState<"loading-core" | "loading-full" | "ready">("loading-core");
+  const [dictStatus, setDictStatus] = useState<"loading-core" | "loading-full" | "ready">(
+    "loading-core",
+  );
   const [copiedShavian, setCopiedShavian] = useState(false);
   const [copiedIpa, setCopiedIpa] = useState(false);
   const [copiedLatin, setCopiedLatin] = useState(false);
-  const [activePopover, setActivePopover] = useState<{ tokenIdx: number; phonemeIdx: number } | null>(null);
+  const [activePopover, setActivePopover] = useState<{
+    tokenIdx: number;
+    phonemeIdx: number;
+  } | null>(null);
   const [showRefChart, setShowRefChart] = useState(false);
   const [showIpa, setShowIpa] = useState(true);
   const popoverRef = useRef<HTMLDivElement>(null);
@@ -89,7 +105,9 @@ export default function ShavianTransliterator() {
     const style = document.createElement("style");
     style.textContent = shavianFontFace;
     document.head.appendChild(style);
-    return () => { document.head.removeChild(style); };
+    return () => {
+      document.head.removeChild(style);
+    };
   }, []);
 
   useEffect(() => {
@@ -148,41 +166,38 @@ export default function ShavianTransliterator() {
             shavian: prefix + token.gloss.phonemes.map((p) => p.shavian).join(""),
           },
         };
-      })
+      }),
     );
   }, []);
 
-  const swapPhoneme = useCallback(
-    (tokenIdx: number, phonemeIdx: number, alt: Alternative) => {
-      setTokens((prev) =>
-        prev.map((token, i) => {
-          if (i !== tokenIdx || token.type !== "word" || !token.gloss) return token;
+  const swapPhoneme = useCallback((tokenIdx: number, phonemeIdx: number, alt: Alternative) => {
+    setTokens((prev) =>
+      prev.map((token, i) => {
+        if (i !== tokenIdx || token.type !== "word" || !token.gloss) return token;
 
-          const newPhonemes = [...token.gloss.phonemes];
-          newPhonemes[phonemeIdx] = {
-            shavian: alt.shavian,
-            ipa: alt.ipa,
-            alternatives: getAlternatives(alt.shavian),
-          };
+        const newPhonemes = [...token.gloss.phonemes];
+        newPhonemes[phonemeIdx] = {
+          shavian: alt.shavian,
+          ipa: alt.ipa,
+          alternatives: getAlternatives(alt.shavian),
+        };
 
-          const prefix = markerPrefix(token.gloss.marker);
+        const prefix = markerPrefix(token.gloss.marker);
 
-          return {
-            ...token,
-            gloss: {
-              ...token.gloss,
-              phonemes: newPhonemes,
-              shavian: prefix + newPhonemes.map((p) => p.shavian).join(""),
-              ipa: newPhonemes.map((p) => p.ipa).join(""),
-              userEdited: true,
-            },
-          };
-        })
-      );
-      setActivePopover(null);
-    },
-    []
-  );
+        return {
+          ...token,
+          gloss: {
+            ...token.gloss,
+            phonemes: newPhonemes,
+            shavian: prefix + newPhonemes.map((p) => p.shavian).join(""),
+            ipa: newPhonemes.map((p) => p.ipa).join(""),
+            userEdited: true,
+          },
+        };
+      }),
+    );
+    setActivePopover(null);
+  }, []);
 
   const copyToClipboard = useCallback((text: string, setter: (v: boolean) => void) => {
     navigator.clipboard.writeText(text).then(() => {
@@ -191,17 +206,17 @@ export default function ShavianTransliterator() {
     });
   }, []);
 
-  const getShavianText = useCallback(() =>
-    tokens.map((t) => (t.type === "word" && t.gloss ? t.gloss.shavian : t.value)).join(""),
-    [tokens]);
+  const getShavianText = useCallback(
+    () => tokens.map((t) => (t.type === "word" && t.gloss ? t.gloss.shavian : t.value)).join(""),
+    [tokens],
+  );
 
-  const getIpaText = useCallback(() =>
-    tokens.map((t) => (t.type === "word" && t.gloss ? t.gloss.ipa : t.value)).join(""),
-    [tokens]);
+  const getIpaText = useCallback(
+    () => tokens.map((t) => (t.type === "word" && t.gloss ? t.gloss.ipa : t.value)).join(""),
+    [tokens],
+  );
 
-  const getLatinText = useCallback(() =>
-    tokens.map((t) => t.value).join(""),
-    [tokens]);
+  const getLatinText = useCallback(() => tokens.map((t) => t.value).join(""), [tokens]);
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
@@ -216,16 +231,23 @@ export default function ShavianTransliterator() {
   const hasContent = tokens.some((t) => t.type === "word");
   const wordCount = tokens.filter((t) => t.type === "word").length;
   const charCount = input.length;
-  const heuristicCount = tokens.filter((t) => t.type === "word" && t.gloss?.source === "heuristic" && !t.gloss.userEdited).length;
+  const heuristicCount = tokens.filter(
+    (t) => t.type === "word" && t.gloss?.source === "heuristic" && !t.gloss.userEdited,
+  ).length;
 
   return (
     <div className="space-y-6">
       <div className="text-sm text-muted-foreground space-y-1">
         <p>
-          The <strong className="text-foreground">Shavian alphabet</strong> (𐑖𐑱𐑝𐑾𐑯) is a phonemic writing system designed for English by Kingsley Read, commissioned by the will of George Bernard Shaw. Each letter represents exactly one sound — no silent letters, no ambiguous spellings.
+          The <strong className="text-foreground">Shavian alphabet</strong> (𐑖𐑱𐑝𐑾𐑯) is a phonemic
+          writing system designed for English by Kingsley Read, commissioned by the will of George
+          Bernard Shaw. Each letter represents exactly one sound — no silent letters, no ambiguous
+          spellings.
         </p>
         <p>
-          Type or paste English text below. Click individual Shavian letters to swap phonemes. Click a Latin word to cycle through markers: namer dot · (proper noun), acroring ⸰ (initialism), acroarc ꤮ (pronounceable acronym).
+          Type or paste English text below. Click individual Shavian letters to swap phonemes. Click
+          a Latin word to cycle through markers: namer dot · (proper noun), acroring ⸰ (initialism),
+          acroarc ꤮ (pronounceable acronym).
         </p>
       </div>
 
@@ -250,13 +272,18 @@ export default function ShavianTransliterator() {
           placeholder="Type or paste English text here..."
           value={input}
           onChange={(e) => handleInput(e.target.value)}
-          className="min-h-[100px] text-base"
+          className="min-h-25 text-base"
         />
         <div className="flex items-center justify-between text-xs text-muted-foreground px-0.5">
-          <span>{wordCount} word{wordCount !== 1 ? "s" : ""}, {charCount} character{charCount !== 1 ? "s" : ""}</span>
+          <span>
+            {wordCount} word{wordCount !== 1 ? "s" : ""}, {charCount} character
+            {charCount !== 1 ? "s" : ""}
+          </span>
           <span className="flex items-center gap-2">
             {heuristicCount > 0 && (
-              <span className="text-destructive">{heuristicCount} heuristic word{heuristicCount !== 1 ? "s" : ""}</span>
+              <span className="text-destructive">
+                {heuristicCount} heuristic word{heuristicCount !== 1 ? "s" : ""}
+              </span>
             )}
             {input !== DEFAULT_TEXT && (
               <button
@@ -280,7 +307,10 @@ export default function ShavianTransliterator() {
               }
               if (token.type === "punctuation") {
                 return (
-                  <span key={`punct-${tokenIdx}-${token.value}`} className="text-muted-foreground text-lg self-end pb-5 -ml-1">
+                  <span
+                    key={`punct-${tokenIdx}-${token.value}`}
+                    className="text-muted-foreground text-lg self-end pb-5 -ml-1"
+                  >
                     {token.value}
                   </span>
                 );
@@ -290,31 +320,45 @@ export default function ShavianTransliterator() {
               const gloss = token.gloss;
 
               return (
-                <div key={`word-${tokenIdx}-${gloss.latin}`} className="flex flex-col items-start gap-0.5">
+                <div
+                  key={`word-${tokenIdx}-${gloss.latin}`}
+                  className="flex flex-col items-start gap-0.5"
+                >
                   {/* Latin row — click to cycle marker */}
                   <div className="flex items-center gap-1">
                     <button
                       onClick={() => cycleMarker(tokenIdx)}
                       className={`text-sm px-1 rounded transition-colors cursor-pointer hover:bg-accent ${
-                        gloss.marker !== "none" ? "text-orange-400 font-medium" : "text-muted-foreground"
+                        gloss.marker !== "none"
+                          ? "text-orange-400 font-medium"
+                          : "text-muted-foreground"
                       }`}
                       title={
-                        gloss.marker === "none" ? "Add namer dot · (proper noun)" :
-                        gloss.marker === "namer" ? "Switch to acroring ⸰ (initialism)" :
-                        gloss.marker === "acroring" ? "Switch to acroarc ꤮ (acronym)" :
-                        "Remove marker"
+                        gloss.marker === "none"
+                          ? "Add namer dot · (proper noun)"
+                          : gloss.marker === "namer"
+                            ? "Switch to acroring ⸰ (initialism)"
+                            : gloss.marker === "acroring"
+                              ? "Switch to acroarc ꤮ (acronym)"
+                              : "Remove marker"
                       }
                     >
                       {gloss.latin}
                     </button>
                     {gloss.userEdited && (
-                      <span className="text-[10px] text-orange-400 font-medium" title="User-edited">✎</span>
+                      <span className="text-[10px] text-orange-400 font-medium" title="User-edited">
+                        ✎
+                      </span>
                     )}
-                    <span className={`text-[10px] font-medium ${
-                      gloss.source === "core" ? "text-green-500" :
-                      gloss.source === "full" ? "text-blue-500" :
-                      "text-destructive"
-                    }`}>
+                    <span
+                      className={`text-[10px] font-medium ${
+                        gloss.source === "core"
+                          ? "text-green-500"
+                          : gloss.source === "full"
+                            ? "text-blue-500"
+                            : "text-destructive"
+                      }`}
+                    >
                       {gloss.source === "core" ? "C" : gloss.source === "full" ? "F" : "H"}
                     </span>
                   </div>
@@ -331,16 +375,13 @@ export default function ShavianTransliterator() {
                     )}
                     {gloss.phonemes.map((phoneme, pIdx) => {
                       const isActive =
-                        activePopover?.tokenIdx === tokenIdx &&
-                        activePopover?.phonemeIdx === pIdx;
+                        activePopover?.tokenIdx === tokenIdx && activePopover?.phonemeIdx === pIdx;
 
                       return (
                         <div key={`phoneme-${tokenIdx}-${pIdx}`} className="relative">
                           <button
                             onClick={() =>
-                              setActivePopover(
-                                isActive ? null : { tokenIdx, phonemeIdx: pIdx }
-                              )
+                              setActivePopover(isActive ? null : { tokenIdx, phonemeIdx: pIdx })
                             }
                             className={`
                               text-[22px] leading-tight px-1 py-0.5 rounded
@@ -357,7 +398,7 @@ export default function ShavianTransliterator() {
                           {isActive && (
                             <div
                               ref={popoverRef}
-                              className="absolute top-full left-0 z-50 mt-1 min-w-[180px] rounded-lg border bg-popover p-1.5 shadow-lg"
+                              className="absolute top-full left-0 z-50 mt-1 min-w-45 rounded-lg border bg-popover p-1.5 shadow-lg"
                             >
                               <div className="flex items-center gap-2.5 px-2.5 py-1.5 rounded bg-accent/50 border-l-2 border-primary mb-1">
                                 <span
@@ -375,7 +416,9 @@ export default function ShavianTransliterator() {
                               </div>
 
                               {phoneme.alternatives.length === 0 && (
-                                <div className="px-2.5 py-2 text-xs text-muted-foreground italic">No alternatives</div>
+                                <div className="px-2.5 py-2 text-xs text-muted-foreground italic">
+                                  No alternatives
+                                </div>
                               )}
                               {phoneme.alternatives.map((alt) => (
                                 <button
@@ -389,9 +432,7 @@ export default function ShavianTransliterator() {
                                   >
                                     {alt.shavian}
                                   </span>
-                                  <span className="text-xs text-muted-foreground">
-                                    {alt.name}
-                                  </span>
+                                  <span className="text-xs text-muted-foreground">{alt.name}</span>
                                   <span className="text-xs text-green-500 ml-auto">
                                     /{alt.ipa}/
                                   </span>
@@ -410,7 +451,7 @@ export default function ShavianTransliterator() {
                       {gloss.phonemes.map((phoneme, pIdx) => (
                         <span
                           key={`ipa-${tokenIdx}-${pIdx}`}
-                          className={`text-[13px] px-1 min-w-[20px] ${gloss.source === "heuristic" && !gloss.userEdited ? "text-destructive" : "text-green-500"}`}
+                          className={`text-[13px] px-1 min-w-5 ${gloss.source === "heuristic" && !gloss.userEdited ? "text-destructive" : "text-green-500"}`}
                         >
                           {phoneme.ipa}
                         </span>
@@ -462,9 +503,7 @@ export default function ShavianTransliterator() {
                 Loading full dictionary...
               </span>
             )}
-            {dictStatus === "ready" && (
-              <span className="text-green-500">Ready</span>
-            )}
+            {dictStatus === "ready" && <span className="text-green-500">Ready</span>}
           </div>
         </div>
       )}
@@ -472,15 +511,26 @@ export default function ShavianTransliterator() {
       {/* Copy and Export actions */}
       {hasContent && (
         <div className="flex flex-wrap gap-2">
-          <Button onClick={() => copyToClipboard(getShavianText(), setCopiedShavian)} className="gap-2">
+          <Button
+            onClick={() => copyToClipboard(getShavianText(), setCopiedShavian)}
+            className="gap-2"
+          >
             {copiedShavian ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
             {copiedShavian ? "Copied!" : "Copy Shavian"}
           </Button>
-          <Button variant="outline" onClick={() => copyToClipboard(getIpaText(), setCopiedIpa)} className="gap-2">
+          <Button
+            variant="outline"
+            onClick={() => copyToClipboard(getIpaText(), setCopiedIpa)}
+            className="gap-2"
+          >
             {copiedIpa ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
             {copiedIpa ? "Copied!" : "Copy IPA"}
           </Button>
-          <Button variant="outline" onClick={() => copyToClipboard(getLatinText(), setCopiedLatin)} className="gap-2">
+          <Button
+            variant="outline"
+            onClick={() => copyToClipboard(getLatinText(), setCopiedLatin)}
+            className="gap-2"
+          >
             {copiedLatin ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
             {copiedLatin ? "Copied!" : "Copy Latin"}
           </Button>
@@ -520,7 +570,9 @@ export default function ShavianTransliterator() {
                         {letter.shavian}
                       </span>
                       <span className="text-xs text-muted-foreground">{letter.name}</span>
-                      <span className="text-[11px] text-green-500 ml-auto font-mono">/{letter.ipa}/</span>
+                      <span className="text-[11px] text-green-500 ml-auto font-mono">
+                        /{letter.ipa}/
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -545,7 +597,8 @@ async function exportGloss(tokens: GlossToken[]) {
 
   await document.fonts.ready;
 
-  const isDark = document.documentElement.classList.contains("dark") ||
+  const isDark =
+    document.documentElement.classList.contains("dark") ||
     window.matchMedia("(prefers-color-scheme: dark)").matches;
   const BG_COLOR = isDark ? "#0a0a0a" : "#ffffff";
   const LATIN_COLOR = isDark ? "#8888aa" : "#666688";
@@ -573,7 +626,7 @@ async function exportGloss(tokens: GlossToken[]) {
     }
   }
 
-  const lines: typeof measurements[] = [];
+  const lines: (typeof measurements)[] = [];
   let currentLine: typeof measurements = [];
   let currentWidth = 0;
 

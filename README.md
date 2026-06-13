@@ -9,7 +9,7 @@
 [![Vercel](https://img.shields.io/badge/Vercel-000000?logo=vercel&logoColor=white)](https://vercel.com)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-A free, open-source collection of **146 high-performance text utilities** that run entirely in your browser. Nothing is uploaded — every operation happens locally on your machine.
+A free, open-source collection of **165 high-performance text utilities** that run entirely in your browser. Nothing is uploaded — every operation happens locally on your machine.
 
 > **Built for text. Powered by the browser.**
 
@@ -18,7 +18,7 @@ A free, open-source collection of **146 high-performance text utilities** that r
 ## Features
 
 - **100% private** — zero server uploads, no analytics, no tracking, data never leaves your device
-- **146 tools & growing** — 14 categories from Base64 to bcrypt, JSON to TOML, regex to QR
+- **165 tools & growing** — 14 categories from Base64 to bcrypt, JSON to TOML, regex to QR, algebra to Shavian
 - **Instant execution** — no reloads, no API calls, results appear as you type
 - **Consistent interface** — every tool follows the same input/output panel pattern with drag-and-drop file support
 - **Unicode-safe** — full support for CJK, Arabic, Cyrillic, emoji, and multi-byte characters
@@ -46,18 +46,18 @@ A free, open-source collection of **146 high-performance text utilities** that r
 | Category | Count | Tools |
 |----------|:-----:|-------|
 | **Core Tools** | 5 | Text Tracker & Remover, Text Repeater, Symbol Tracker & Multiplier, Symbol Filter & Bulk Remove, Global Text Formatter |
-| **Text Utilities** | 21 | Case Converter, Smart Replace, Whitespace Cleaner, Duplicate Remover, Line Tools, Text Compare, Find & Replace, Remove Duplicate Lines, Reverse Text, Sort Lines, Text Statistics, Word Frequency, Word Wrap, Line Numbering, Indent Tool, Prefix/Suffix, String Obfuscator, Numeronym Generator, Regex Cheatsheet, List Converter, Selective Text Replacer |
+| **Text Utilities** | 29 | Case Converter, Smart Replace, Whitespace Cleaner, Duplicate Remover, Line Tools, Text Compare, Find & Replace, Remove Duplicate Lines, Reverse Text, Sort Lines, Text Statistics, Word Frequency, Word Wrap, Line Numbering, Indent Tool, Prefix/Suffix, String Obfuscator, Numeronym Generator, Regex Cheatsheet, List Converter, Selective Text Replacer, Text Editor, Font File Explorer, Glyph Browser, Line Height Calculator, Paper Sizes, PX to REM, Typography Calculator, Text Scratchpad |
 | **Extractors** | 5 | URL Extractor, Email Extractor, Phone Extractor, Hashtag Extractor, Pattern Extractor |
 | **Crypto & Security** | 11 | Bcrypt Hash, Encrypt/Decrypt, Password Strength, HMAC Generator, RSA Key Generator, Token Generator, ULID Generator, BIP39 Passphrase, OTP Generator, Basic Auth Generator, PDF Signature Checker |
-| **Converters** | 10 | Roman Numeral, Base64 File, JSON ↔ XML, XML ↔ JSON, JSON ↔ CSV, TOML Converter, Text to ASCII Binary, Text to Unicode, YAML ↔ TOML, YAML ↔ JSON |
-| **Web** | 10 | Device Info, OG Meta Generator, Keycode Info, User-Agent Parser, HTTP Status Codes, JSON Diff Viewer, MIME Types, HTML WYSIWYG Editor, Outlook Safelink Decoder, Camera Recorder |
-| **Images & Videos** | 23 | QR Code Generator, WiFi QR Code, SVG Placeholder, Palette Generator, Background Remover *(AI-powered)*, Matte Generator, Seamless Scroll Generator, Social Media Cropper, Watermarker, Colour Blindness Simulator, Contrast Checker, Gradient Generator, Harmony Generator, Palette Collection, Palette Extractor, Pixel Picker, Tailwind Shade Generator, Artwork Enhancer, Favicon Generator, Image Clipper, Image Converter, Image Splitter, SVG Optimiser |
-| **Development** | 6 | Benchmark Builder, Git Cheatsheet, Port Generator, Crontab Generator, Chmod Calculator, Email Normalizer |
+| **Converters** | 11 | Roman Numeral, Base64 File, JSON ↔ XML, XML ↔ JSON, JSON ↔ CSV, TOML Converter, Text to ASCII Binary, Text to Unicode, YAML ↔ TOML, YAML ↔ JSON, Document Converter |
+| **Web** | 11 | Device Info, OG Meta Generator, Keycode Info, User-Agent Parser, HTTP Status Codes, JSON Diff Viewer, MIME Types, HTML WYSIWYG Editor, Outlook Safelink Decoder, Camera Recorder, Meta Tag Generator |
+| **Images & Videos** | 27 | QR Code Generator, WiFi QR Code, Barcode Genny, SVG Placeholder, Palette Generator, Background Remover *(AI-powered)*, Matte Generator, Seamless Scroll Generator, Social Media Cropper, Watermarker, Colour Blindness Simulator, Contrast Checker, Gradient Generator, Harmony Generator, Palette Collection, Palette Extractor, Pixel Picker, Artwork Enhancer, Tailwind Shade Generator, Favicon Generator, Image Clipper, Image Converter, Image Splitter, Image Tracer, Paste Image, Placeholder Generator, SVG Optimiser |
+| **Development** | 7 | Benchmark Builder, Git Cheatsheet, Port Generator, Crontab Generator, Chmod Calculator, Email Normalizer, Tailwind Cheat Sheet |
 | **Network** | 6 | IPv4 Range Expander, IPv4 Subnet Calculator, IPv4 Converter, IPv6 ULA Generator, MAC Address Lookup, MAC Generator |
-| **Math** | 3 | Math Evaluator, Percentage Calculator, ETA Calculator |
-| **Measurement** | 2 | Chronometer, Temperature Converter |
+| **Math** | 5 | Math Evaluator, Percentage Calculator, ETA Calculator, Algebra Calculator, Scientific Calculator |
+| **Measurement** | 4 | Chronometer, Temperature Converter, Time Calculator, Unit Converter |
 | **Data** | 2 | IBAN Validator, Phone Formatter |
-| **Dev Tools** | 27 | JSON Minify, Docker Run to Compose, Regex Playground, JSON Formatter, HTML Cleaner, Markdown Formatter, Slug Generator, Keyword Density, Base64 Encode/Decode, Hash Generator, Hex/Binary, HTML Entities, JWT Decoder, Morse Code, NATO Phonetic, Number Base, Password Generator, SQL Formatter, String Escape, Timestamp Converter, URL Encoder/Decoder, URL Parser, UUID Generator, Color Converter, CSV ↔ JSON, XML Formatter, YAML Prettify |
+| **Dev Tools** | 32 | PDF Preflight, Print Imposer, Zine Imposer, JSON Minify, Docker Run to Compose, Regex Playground, JSON Formatter, HTML Cleaner, Markdown Formatter, Slug Generator, Keyword Density, Base64 Encode/Decode, Hash Generator, Hex/Binary, HTML Entities, JWT Decoder, Morse Code, NATO Phonetic, Shavian Transliterator, Graph Calculator, Number Base, Password Generator, SQL Formatter, String Escape, Timestamp Converter, URL Encoder/Decoder, URL Parser, UUID Generator, Color Converter, CSV ↔ JSON, XML Formatter, YAML Prettify |
 | **Advanced** | 10 | Emoji Picker, Invisible Character Detector, Unicode Cleaner, Emoji Manager, ASCII Banner, Character Frequency, Cipher, Lorem Ipsum Generator, Random Picker, Unicode Inspector |
 
 ### Capabilities Overview
@@ -65,11 +65,12 @@ A free, open-source collection of **146 high-performance text utilities** that r
 - **Format & beautify** — JSON, XML, SQL, YAML, TOML, HTML, Markdown
 - **Extract & find** — URLs, emails, phones, hashtags, custom regex patterns
 - **Encode & encrypt** — Base64, URL, HTML entities, JWT, bcrypt, AES, RSA
-- **Convert formats** — JSON ↔ CSV, XML ↔ JSON, YAML ↔ TOML, Markdown ↔ HTML, number bases
+- **Convert formats** — JSON ↔ CSV, XML ↔ JSON, YAML ↔ TOML, Markdown ↔ HTML, number bases, document formats, time zones, measurement units
 - **Analyze & measure** — word frequency, character distribution, keyword density, reading time, text diff
 - **Clean & normalize** — deduplicate, trim whitespace, fix line endings, normalize Unicode, strip HTML tags
-- **Generate & create** — QR codes, WiFi QR codes, passwords, tokens, UUIDs, ULIDs, lorem ipsum, ASCII banners
-- **Network & dev tools** — IPv4 subnet calculator, MAC address lookup, port generator, crontab builder, chmod calculator
+- **Generate & create** — QR codes, WiFi QR codes, passwords, tokens, UUIDs, ULIDs, lorem ipsum, ASCII banners, barcodes
+- **Network & dev tools** — IPv4 subnet calculator, MAC address lookup, port generator, crontab builder, chmod calculator, Shavian transliterator
+- **Calculate & evaluate** — scientific calculator, algebra (simplify/expand/factor/solve/derivative/integral), graph plotting, percentage & ETA, time arithmetic, unit conversion
 - **Check & validate** — password strength, IBAN validation, phone formatting, email validation, MIME types, HTTP status codes
 
 ---
@@ -150,17 +151,22 @@ Vercel deployment uses a custom `vite.config.vercel.ts` with SSR via TanStack St
 TextProcessing-Toolkit/
 ├── api/                    # Vercel serverless function entry
 ├── docs/                   # Documentation and planning
-├── public/                 # Static assets (favicon, OG images)
+├── public/
+│   ├── data/               # Large JSON dictionaries (Shavian full dict)
+│   ├── fonts/              # Custom web fonts (Noto Sans Shavian)
+│   └── ...                 # Favicon, OG images
 ├── scripts/                # Build and utility scripts
 ├── src/
 │   ├── components/
-│   │   ├── tools/          # Individual tool components (120+)
+│   │   ├── tools/          # Individual tool components (165+)
 │   │   └── ...             # Shared UI (ToolShell, sidebar, etc.)
 │   ├── hooks/              # Custom React hooks
 │   ├── i18n/
 │   │   ├── locales/        # Translation files (en, bn, de, es, fr, zh)
 │   │   └── config.ts       # i18next configuration
-│   ├── lib/                # Shared code (tools registry, storage, utilities)
+│   ├── lib/
+│   │   ├── shavian/        # Shavian alphabet engine (phoneme map, transliteration, dictionary)
+│   │   └── ...             # Tools registry, storage, utilities, math constants
 │   ├── routes/             # Application pages (home, tools, about, dev)
 │   ├── styles.css          # Global styles / Tailwind CSS v4
 │   ├── router.tsx          # TanStack Router configuration
