@@ -283,6 +283,10 @@
       "name": "OG-Meta-Generator",
       "tagline": "Open-Graph-Meta-Tags für Social Sharing generieren"
     },
+    "meta-tag-genny": {
+      "name": "Meta-Tag-Generator",
+      "tagline": "HTML-Meta-Tags mit Social-Preview generieren"
+    },
     "keycode-info": {
       "name": "Tastencode-Info",
       "tagline": "Tastatur-Tastencode-Informationen erkennen und anzeigen"
@@ -330,6 +334,10 @@
     "wifi-qr-gen": {
       "name": "WiFi-QR-Code",
       "tagline": "QR-Codes für WLAN-Netzwerkzugriff generieren"
+    },
+    "barcode-genny": {
+      "name": "Barcode-Generator",
+      "tagline": "Data Matrix, Aztec, PDF417, Code 128, EAN-13, UPC-A und mehr generieren"
     },
     "svg-placeholder": {
       "name": "SVG-Platzhalter",
@@ -634,6 +642,10 @@
     "placeholder-genny": {
       "name": "Platzhalter Generator",
       "tagline": "Benutzerdefinierte Platzhalterbilder im PNG- oder SVG-Format erstellen"
+    },
+    "tailwind-cheatsheet": {
+      "name": "Tailwind Spickzettel",
+      "tagline": "Schnellreferenz für Tailwind CSS Utility-Klassen"
     },
     "tailwind-shades": {
       "name": "Tailwind-Farbabstufungs-Generator",

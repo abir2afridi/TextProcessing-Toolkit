@@ -84,6 +84,8 @@ import {
   Contrast,
   EyeOff,
   Grid3X3,
+  Barcode,
+  Tag,
 } from "lucide-react";
 
 export type ToolCategory =
@@ -193,12 +195,14 @@ export const toolComponents: Record<string, ComponentType> = {
   "html-wysiwyg-editor": lazyTool(() => import("@/components/tools/HtmlWysiwygEditor")),
   "safelink-decoder": lazyTool(() => import("@/components/tools/SafelinkDecoder")),
   "camera-recorder": lazyTool(() => import("@/components/tools/CameraRecorder")),
+  "meta-tag-genny": lazyTool(() => import("@/components/tools/MetaTagGenny")),
   "json-minify": lazyTool(() => import("@/components/tools/JsonMinify")),
   "docker-run-to-compose": lazyTool(() => import("@/components/tools/DockerRunToCompose")),
 
   // Images & Videos
   "qr-code-gen": lazyTool(() => import("@/components/tools/QRCodeGen")),
   "wifi-qr-gen": lazyTool(() => import("@/components/tools/WiFiQRGen")),
+  "barcode-genny": lazyTool(() => import("@/components/tools/BarcodeGenny")),
   "svg-placeholder": lazyTool(() => import("@/components/tools/SVGPlaceholder")),
   "background-remover": lazyTool(() => import("@/components/tools/BackgroundRemover")),
   "matte-generator": lazyTool(() => import("@/components/tools/MatteGenerator")),
@@ -230,6 +234,7 @@ export const toolComponents: Record<string, ComponentType> = {
   "crontab-gen": lazyTool(() => import("@/components/tools/CrontabGen")),
   "chmod-calc": lazyTool(() => import("@/components/tools/ChmodCalc")),
   "email-normalizer": lazyTool(() => import("@/components/tools/EmailNormalizer")),
+  "tailwind-cheatsheet": lazyTool(() => import("@/components/tools/TailwindCheatSheet")),
 
   // Network
   "ipv4-range-expander": lazyTool(() => import("@/components/tools/IPv4RangeExpander")),
@@ -833,6 +838,14 @@ export const tools: ToolMeta[] = [
     keywords: ["og", "meta", "open graph", "social", "share"],
   },
   {
+    slug: "meta-tag-genny",
+    name: "Meta Tag Generator",
+    tagline: "Generate HTML meta tags with social preview",
+    category: "Web",
+    icon: Tag,
+    keywords: ["meta", "tag", "og", "open graph", "twitter", "seo", "preview"],
+  },
+  {
     slug: "keycode-info",
     name: "Keycode Info",
     tagline: "Detect and display keyboard keycode information",
@@ -929,6 +942,14 @@ export const tools: ToolMeta[] = [
     category: "Images & Videos",
     icon: Wifi,
     keywords: ["wifi", "qr", "network", "password", "connect"],
+  },
+  {
+    slug: "barcode-genny",
+    name: "Barcode Genny",
+    tagline: "Generate Data Matrix, Aztec, PDF417, Code 128, EAN-13, UPC-A and more",
+    category: "Images & Videos",
+    icon: Barcode,
+    keywords: ["barcode", "code", "generate", "datamatrix", "aztec", "pdf417", "code128", "ean13", "upca", "code39", "microqr", "1d", "2d"],
   },
   {
     slug: "svg-placeholder",
@@ -1190,6 +1211,14 @@ export const tools: ToolMeta[] = [
     category: "Development",
     icon: AtSign,
     keywords: ["email", "normalize", "validate", "gmail", "clean"],
+  },
+  {
+    slug: "tailwind-cheatsheet",
+    name: "Tailwind Cheat Sheet",
+    tagline: "Quick reference for Tailwind CSS utility classes",
+    category: "Development",
+    icon: BookOpen,
+    keywords: ["tailwind", "cheatsheet", "css", "utility", "reference", "classes", "styles"],
   },
 
   // ===================== Network =====================

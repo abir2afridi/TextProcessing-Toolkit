@@ -283,6 +283,10 @@
       "name": "Generador de Meta OG",
       "tagline": "Generar etiquetas meta Open Graph para compartir en redes sociales"
     },
+    "meta-tag-genny": {
+      "name": "Generador de Meta Tags",
+      "tagline": "Generar etiquetas HTML meta con vista previa social"
+    },
     "keycode-info": {
       "name": "Información de Código de Tecla",
       "tagline": "Detectar y mostrar información del código de tecla del teclado"
@@ -330,6 +334,10 @@
     "wifi-qr-gen": {
       "name": "Código QR WiFi",
       "tagline": "Generar códigos QR para acceso a redes WiFi"
+    },
+    "barcode-genny": {
+      "name": "Generador de Códigos de Barras",
+      "tagline": "Genera Data Matrix, Aztec, PDF417, Code 128, EAN-13, UPC-A y más"
     },
     "svg-placeholder": {
       "name": "Placeholder SVG",
@@ -634,6 +642,10 @@
     "placeholder-genny": {
       "name": "Generador de Placeholder",
       "tagline": "Genere imágenes placeholder personalizadas en formato PNG o SVG"
+    },
+    "tailwind-cheatsheet": {
+      "name": "Hoja de Referencia de Tailwind",
+      "tagline": "Referencia rápida para clases de utilidad de Tailwind CSS"
     },
     "tailwind-shades": {
       "name": "Generador de Tonos Tailwind",

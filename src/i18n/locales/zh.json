@@ -283,6 +283,10 @@
       "name": "OG元标签生成器",
       "tagline": "生成用于社交分享的Open Graph元标签"
     },
+    "meta-tag-genny": {
+      "name": "元标签生成器",
+      "tagline": "生成HTML元标签并支持社交预览"
+    },
     "keycode-info": {
       "name": "按键代码信息",
       "tagline": "检测并显示键盘按键代码信息"
@@ -330,6 +334,10 @@
     "wifi-qr-gen": {
       "name": "WiFi QR码",
       "tagline": "生成用于WiFi网络访问的QR码"
+    },
+    "barcode-genny": {
+      "name": "条码生成器",
+      "tagline": "生成Data Matrix、Aztec、PDF417、Code 128、EAN-13、UPC-A等多种条码"
     },
     "svg-placeholder": {
       "name": "SVG占位图",
@@ -634,6 +642,10 @@
     "placeholder-genny": {
       "name": "占位图生成器",
       "tagline": "生成 PNG 或 SVG 格式的自定义占位图像"
+    },
+    "tailwind-cheatsheet": {
+      "name": "Tailwind 速查表",
+      "tagline": "Tailwind CSS 实用类快速参考"
     },
     "tailwind-shades": {
       "name": "Tailwind 色阶生成器",
