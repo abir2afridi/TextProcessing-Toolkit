@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Copy, Download, Check, Loader2 } from "lucide-react";
+import { Copy, Download, Check, Loader2, ChevronDown, ChevronUp, Eye, EyeOff, FileText, RotateCcw } from "lucide-react";
 import {
   tokenise,
   reResolveTokens,
@@ -13,7 +13,7 @@ import {
   type Dictionary,
 } from "@/lib/shavian/transliterate";
 import { getAlternatives, type Alternative } from "@/lib/shavian/alternatives";
-import { getShavianLetter } from "@/lib/shavian/phoneme-map";
+import { getShavianLetter, SHAVIAN_LETTERS } from "@/lib/shavian/phoneme-map";
 
 const shavianFontFace = `
 @font-face {
@@ -41,14 +41,46 @@ function loadFullDictionary(): Promise<Dictionary> {
   return fullDictPromise;
 }
 
+const CHART_GROUPS = [
+  { title: "Tall Consonants (unvoiced)", letters: SHAVIAN_LETTERS.slice(0, 8) },
+  { title: "Deep Consonants (voiced)", letters: SHAVIAN_LETTERS.slice(8, 16) },
+  { title: "Sonorants", letters: SHAVIAN_LETTERS.slice(16, 20) },
+  { title: "Nasals & Liquids", letters: SHAVIAN_LETTERS.slice(20, 24) },
+  { title: "Short Vowels", letters: SHAVIAN_LETTERS.slice(24, 31) },
+  { title: "Long Vowels & Diphthongs", letters: SHAVIAN_LETTERS.slice(31) },
+];
+
+const EXAMPLES = [
+  {
+    label: "Universal Declaration",
+    text: "All human beings are born free and equal in dignity and rights. They are endowed with reason and conscience and should act towards one another in a spirit of brotherhood.",
+  },
+  {
+    label: "Hamlet",
+    text: "To be, or not to be, that is the question: Whether 'tis nobler in the mind to suffer the slings and arrows of outrageous fortune, or to take arms against a sea of troubles.",
+  },
+  {
+    label: "Quick brown fox",
+    text: "The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs. How vexingly quick daft zebras jump!",
+  },
+  {
+    label: "Gettysburg Address",
+    text: "Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal.",
+  },
+];
+
 export default function ShavianTransliterator() {
   const DEFAULT_TEXT = "Mankind, be vigilant; we loved you.";
 
   const [input, setInput] = useState(DEFAULT_TEXT);
   const [tokens, setTokens] = useState<GlossToken[]>([]);
   const [dictStatus, setDictStatus] = useState<"loading-core" | "loading-full" | "ready">("loading-core");
-  const [copied, setCopied] = useState(false);
+  const [copiedShavian, setCopiedShavian] = useState(false);
+  const [copiedIpa, setCopiedIpa] = useState(false);
+  const [copiedLatin, setCopiedLatin] = useState(false);
   const [activePopover, setActivePopover] = useState<{ tokenIdx: number; phonemeIdx: number } | null>(null);
+  const [showRefChart, setShowRefChart] = useState(false);
+  const [showIpa, setShowIpa] = useState(true);
   const popoverRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef(input);
   inputRef.current = input;
@@ -152,19 +184,24 @@ export default function ShavianTransliterator() {
     []
   );
 
-  const copyShavian = useCallback(() => {
-    const shavianText = tokens
-      .map((t) => {
-        if (t.type === "word" && t.gloss) return t.gloss.shavian;
-        return t.value;
-      })
-      .join("");
-
-    navigator.clipboard.writeText(shavianText).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+  const copyToClipboard = useCallback((text: string, setter: (v: boolean) => void) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setter(true);
+      setTimeout(() => setter(false), 2000);
     });
-  }, [tokens]);
+  }, []);
+
+  const getShavianText = useCallback(() =>
+    tokens.map((t) => (t.type === "word" && t.gloss ? t.gloss.shavian : t.value)).join(""),
+    [tokens]);
+
+  const getIpaText = useCallback(() =>
+    tokens.map((t) => (t.type === "word" && t.gloss ? t.gloss.ipa : t.value)).join(""),
+    [tokens]);
+
+  const getLatinText = useCallback(() =>
+    tokens.map((t) => t.value).join(""),
+    [tokens]);
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
@@ -177,6 +214,9 @@ export default function ShavianTransliterator() {
   }, []);
 
   const hasContent = tokens.some((t) => t.type === "word");
+  const wordCount = tokens.filter((t) => t.type === "word").length;
+  const charCount = input.length;
+  const heuristicCount = tokens.filter((t) => t.type === "word" && t.gloss?.source === "heuristic" && !t.gloss.userEdited).length;
 
   return (
     <div className="space-y-6">
@@ -189,12 +229,47 @@ export default function ShavianTransliterator() {
         </p>
       </div>
 
-      <Textarea
-        placeholder="Type or paste English text here..."
-        value={input}
-        onChange={(e) => handleInput(e.target.value)}
-        className="min-h-[100px] text-base"
-      />
+      {/* Example presets */}
+      <div className="flex flex-wrap gap-2">
+        {EXAMPLES.map((ex) => (
+          <Button
+            key={ex.label}
+            variant="outline"
+            size="sm"
+            className="gap-1.5"
+            onClick={() => handleInput(ex.text)}
+          >
+            <FileText className="w-3.5 h-3.5" />
+            {ex.label}
+          </Button>
+        ))}
+      </div>
+
+      <div className="space-y-1.5">
+        <Textarea
+          placeholder="Type or paste English text here..."
+          value={input}
+          onChange={(e) => handleInput(e.target.value)}
+          className="min-h-[100px] text-base"
+        />
+        <div className="flex items-center justify-between text-xs text-muted-foreground px-0.5">
+          <span>{wordCount} word{wordCount !== 1 ? "s" : ""}, {charCount} character{charCount !== 1 ? "s" : ""}</span>
+          <span className="flex items-center gap-2">
+            {heuristicCount > 0 && (
+              <span className="text-destructive">{heuristicCount} heuristic word{heuristicCount !== 1 ? "s" : ""}</span>
+            )}
+            {input !== DEFAULT_TEXT && (
+              <button
+                onClick={() => handleInput(DEFAULT_TEXT)}
+                className="hover:text-foreground transition-colors inline-flex items-center gap-1"
+              >
+                <RotateCcw className="w-3 h-3" />
+                Reset
+              </button>
+            )}
+          </span>
+        </div>
+      </div>
 
       {hasContent && (
         <div className="rounded-lg border bg-card p-4">
@@ -216,21 +291,35 @@ export default function ShavianTransliterator() {
 
               return (
                 <div key={`word-${tokenIdx}-${gloss.latin}`} className="flex flex-col items-start gap-0.5">
-                  <button
-                    onClick={() => cycleMarker(tokenIdx)}
-                    className={`text-sm px-1 rounded transition-colors cursor-pointer hover:bg-accent ${
-                      gloss.marker !== "none" ? "text-orange-400 font-medium" : "text-muted-foreground"
-                    }`}
-                    title={
-                      gloss.marker === "none" ? "Add namer dot · (proper noun)" :
-                      gloss.marker === "namer" ? "Switch to acroring ⸰ (initialism)" :
-                      gloss.marker === "acroring" ? "Switch to acroarc ꤮ (acronym)" :
-                      "Remove marker"
-                    }
-                  >
-                    {gloss.latin}
-                  </button>
+                  {/* Latin row — click to cycle marker */}
+                  <div className="flex items-center gap-1">
+                    <button
+                      onClick={() => cycleMarker(tokenIdx)}
+                      className={`text-sm px-1 rounded transition-colors cursor-pointer hover:bg-accent ${
+                        gloss.marker !== "none" ? "text-orange-400 font-medium" : "text-muted-foreground"
+                      }`}
+                      title={
+                        gloss.marker === "none" ? "Add namer dot · (proper noun)" :
+                        gloss.marker === "namer" ? "Switch to acroring ⸰ (initialism)" :
+                        gloss.marker === "acroring" ? "Switch to acroarc ꤮ (acronym)" :
+                        "Remove marker"
+                      }
+                    >
+                      {gloss.latin}
+                    </button>
+                    {gloss.userEdited && (
+                      <span className="text-[10px] text-orange-400 font-medium" title="User-edited">✎</span>
+                    )}
+                    <span className={`text-[10px] font-medium ${
+                      gloss.source === "core" ? "text-green-500" :
+                      gloss.source === "full" ? "text-blue-500" :
+                      "text-destructive"
+                    }`}>
+                      {gloss.source === "core" ? "C" : gloss.source === "full" ? "F" : "H"}
+                    </span>
+                  </div>
 
+                  {/* Shavian row — per-letter clickable */}
                   <div className="flex gap-px items-center">
                     {gloss.marker !== "none" && (
                       <span
@@ -285,6 +374,9 @@ export default function ShavianTransliterator() {
                                 </span>
                               </div>
 
+                              {phoneme.alternatives.length === 0 && (
+                                <div className="px-2.5 py-2 text-xs text-muted-foreground italic">No alternatives</div>
+                              )}
                               {phoneme.alternatives.map((alt) => (
                                 <button
                                   key={alt.shavian}
@@ -312,65 +404,131 @@ export default function ShavianTransliterator() {
                     })}
                   </div>
 
-                  <div className="flex gap-px">
-                    {gloss.phonemes.map((phoneme, pIdx) => (
-                      <span
-                        key={`ipa-${tokenIdx}-${pIdx}`}
-                        className={`text-[13px] px-1 min-w-[20px] ${gloss.source === "heuristic" && !gloss.userEdited ? "text-destructive" : "text-green-500"}`}
-                      >
-                        {phoneme.ipa}
-                      </span>
-                    ))}
-                  </div>
+                  {/* IPA row — per-letter aligned */}
+                  {(showIpa || gloss.source === "heuristic") && (
+                    <div className="flex gap-px">
+                      {gloss.phonemes.map((phoneme, pIdx) => (
+                        <span
+                          key={`ipa-${tokenIdx}-${pIdx}`}
+                          className={`text-[13px] px-1 min-w-[20px] ${gloss.source === "heuristic" && !gloss.userEdited ? "text-destructive" : "text-green-500"}`}
+                        >
+                          {phoneme.ipa}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
               );
             })}
           </div>
 
+          {/* Status bar */}
           <div className="flex items-center gap-4 mt-4 pt-4 border-t text-xs text-muted-foreground">
             <span className="flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-green-500" />
-              Dictionary match
+              Core dict
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-blue-500" />
+              Full dict
             </span>
             <span className="flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-destructive" />
-              Heuristic guess
+              Heuristic
             </span>
             <span className="flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-orange-400" />
-              Marked (· namer, ⸰ initialism, ꤮ acronym)
+              Marked
             </span>
+            <button
+              onClick={() => setShowIpa(!showIpa)}
+              className={`flex items-center gap-1.5 ml-auto hover:text-foreground transition-colors ${
+                showIpa ? "" : "text-muted-foreground/50"
+              }`}
+              title={showIpa ? "Hide IPA" : "Show IPA"}
+            >
+              {showIpa ? <EyeOff className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
+              IPA
+            </button>
             {dictStatus === "loading-core" && (
-              <span className="flex items-center gap-1.5 ml-auto">
+              <span className="flex items-center gap-1.5">
                 <Loader2 className="w-3 h-3 animate-spin" />
                 Loading dictionary...
               </span>
             )}
             {dictStatus === "loading-full" && (
-              <span className="flex items-center gap-1.5 ml-auto">
+              <span className="flex items-center gap-1.5">
                 <Loader2 className="w-3 h-3 animate-spin" />
                 Loading full dictionary...
               </span>
             )}
             {dictStatus === "ready" && (
-              <span className="ml-auto text-green-500">Dictionary ready</span>
+              <span className="text-green-500">Ready</span>
             )}
           </div>
         </div>
       )}
 
+      {/* Copy and Export actions */}
       {hasContent && (
-        <div className="flex gap-2">
-          <Button onClick={copyShavian} className="gap-2">
-            {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-            {copied ? "Copied!" : "Copy Shavian"}
+        <div className="flex flex-wrap gap-2">
+          <Button onClick={() => copyToClipboard(getShavianText(), setCopiedShavian)} className="gap-2">
+            {copiedShavian ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+            {copiedShavian ? "Copied!" : "Copy Shavian"}
           </Button>
-          <Button variant="outline" className="gap-2" onClick={() => exportGloss(tokens)}>
+          <Button variant="outline" onClick={() => copyToClipboard(getIpaText(), setCopiedIpa)} className="gap-2">
+            {copiedIpa ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+            {copiedIpa ? "Copied!" : "Copy IPA"}
+          </Button>
+          <Button variant="outline" onClick={() => copyToClipboard(getLatinText(), setCopiedLatin)} className="gap-2">
+            {copiedLatin ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+            {copiedLatin ? "Copied!" : "Copy Latin"}
+          </Button>
+          <Button variant="outline" onClick={() => exportGloss(tokens)} className="gap-2">
             <Download className="w-4 h-4" />
-            Export Gloss
+            Export PNG
           </Button>
         </div>
       )}
+
+      {/* Alphabet Reference Chart */}
+      <div className="rounded-lg border bg-card">
+        <button
+          onClick={() => setShowRefChart(!showRefChart)}
+          className="flex items-center justify-between w-full px-4 py-3 text-sm font-medium hover:bg-accent transition-colors"
+        >
+          <span>Shavian Alphabet Reference ({SHAVIAN_LETTERS.length} letters)</span>
+          {showRefChart ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+        </button>
+        {showRefChart && (
+          <div className="px-4 pb-4 space-y-4">
+            {CHART_GROUPS.map((group) => (
+              <div key={group.title}>
+                <h4 className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-1.5">
+                  {group.title}
+                </h4>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-1">
+                  {group.letters.map((letter) => (
+                    <div
+                      key={letter.shavian}
+                      className="flex items-center gap-2 px-2 py-1 rounded hover:bg-accent transition-colors"
+                    >
+                      <span
+                        className="text-lg w-6 text-center"
+                        style={{ fontFamily: "'Noto Sans Shavian', sans-serif" }}
+                      >
+                        {letter.shavian}
+                      </span>
+                      <span className="text-xs text-muted-foreground">{letter.name}</span>
+                      <span className="text-[11px] text-green-500 ml-auto font-mono">/{letter.ipa}/</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
